@@ -11,9 +11,6 @@ export default function Layout({children}) {
                 />
                 <title>Quizzie - Live Quizz with your friends</title>
             </Head>
-            <header>
-                <h2 className={styles.title}>Quizzie</h2>
-            </header>
             <main>
                 {children}
             </main>

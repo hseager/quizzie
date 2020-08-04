@@ -1,16 +1,21 @@
-import Head from 'next/head'
 import styles from '../styles/home.module.css'
+import buttonStyles from '../styles/buttons.module.css'
 import Layout from '../components/layout'
-import Button from '../components/button'
+import Link from 'next/link'
 
 export default function Home() {
   return (
     <Layout>
+      <h1>Quizzie</h1>
       <div className={styles.content}>
-        <Button text="Create a new Quiz"/>
+        <Link href="/create-a-quiz">
+          <a className={buttonStyles.button}>Create a new Quiz</a>
+        </Link>
       </div>
       <div className={styles.content}>
-        <Button text="Join a Quiz"/>
+        <Link href="/join-a-quiz">
+          <a className={buttonStyles.button}>Join a Quiz</a>
+        </Link>
       </div>
     </Layout>
   )

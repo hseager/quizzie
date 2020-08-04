@@ -16,3 +16,8 @@ a {
 * {
   box-sizing: border-box;
 }
+
+h1{
+  font-size: 42px;
+  text-align: center;
+}
