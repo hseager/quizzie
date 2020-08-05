@@ -1,7 +1,7 @@
 const app = require('express')()
 const server = require('http').Server(app)
 const next = require('next')
-const WebSocket = require('ws')
+const io = require('socket.io')(server)
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -9,25 +9,24 @@ const nextApp = next({ dev })
 const nextHandler = nextApp.getRequestHandler()
 
 // fake DB
-const quizzes = {
-    quiz1: [],
+const lobbies = {
+    lobby1: [{ id: 1, name: 'John'}],
+    lobby2: [],
 }
 
-try{
-    const webSocketPort = 2022;
-    const wss = new WebSocket.Server({ port: webSocketPort })
-    wss.on('connection', function connection(ws) {
-        ws.on('message', function incoming(message) {
-            console.log('message received: %s', message)
-        })
-        ws.send('Client connected to websocket')
+io.on('connection', socket => {
+    socket.on('joinLobby', data => {
+        lobbies['lobby1'].push(data)
+        socket.broadcast.emit('joinedLobby', data)
     })
-    console.log(`> WebSocket Server Ready on ws://localhost:${webSocketPort}`);
-} catch(err) {
-    console.log(`Error with Websocket Server: ${err}`);
-}
+})
 
 nextApp.prepare().then(() => {
+
+    app.get('/lobbies/:lobby', (req, res) => {
+        res.json(lobbies[req.params.lobby])
+    })
+
     app.get('*', (req, res) => {
         return nextHandler(req, res)
     })

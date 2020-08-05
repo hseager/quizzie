@@ -1,0 +1,20 @@
+
+.quizList {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.quizListItem {
+    border: 1px solid #ffc3c3;
+    padding: 10px;
+    margin: 10px;
+    width: 40%;
+}
+
+.quizCategory {
+    margin: 0 0 4px;
+}
+
+.quizName {
+    margin: 0;
+}
