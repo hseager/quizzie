@@ -8,8 +8,8 @@ export default function Home() {
     <Layout>
       <h1>Quizzie</h1>
       <div className={styles.content}>
-        <Link href="/create-a-quiz">
-          <a className={buttonStyles.button}>Create a new Quiz</a>
+        <Link href="/quizzes">
+          <a className={buttonStyles.button}>Start a new Quiz</a>
         </Link>
       </div>
       <div className={styles.content}>

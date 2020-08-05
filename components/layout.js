@@ -7,9 +7,9 @@ export default function Layout({children}) {
             <Head>
                 <meta
                     name="description"
-                    content="Quizzie - Live Quizz with your friends"
+                    content="Quizzie - Live Quiz with your friends"
                 />
-                <title>Quizzie - Live Quizz with your friends</title>
+                <title>Quizzie - Live Quiz with your friends</title>
             </Head>
             <main>
                 {children}
