@@ -10,7 +10,7 @@ const nextHandler = nextApp.getRequestHandler()
 
 // fake DB
 const lobbies = {
-    lobby1: [{ id: 1, name: 'John'}],
+    lobby1: [],
     lobby2: [],
 }
 
