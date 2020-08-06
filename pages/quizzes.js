@@ -12,7 +12,7 @@ export default function Quizzes({ quizzes }) {
                     <div className={styles.quizListItem} key={quiz.id}>
                         <h6 className={styles.quizCategory}>{quiz.category}</h6>
                         <h4 className={styles.quizName}>
-                            <Link href="/quiz/[id]" as={`/quiz/${quiz.id}`}>
+                            <Link href="/quiz/[slug]" as={`/quiz/${quiz.slug}?id=${quiz.id}`}>
                                 <a>{quiz.name}</a>
                             </Link>
                         </h4>
