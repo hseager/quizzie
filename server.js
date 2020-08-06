@@ -9,22 +9,32 @@ const nextApp = next({ dev })
 const nextHandler = nextApp.getRequestHandler()
 
 // fake DB
-const lobbies = {
-    lobby1: [],
-    lobby2: [],
-}
+const lobbies = []
 
 io.on('connection', socket => {
-    socket.on('joinLobby', data => {
-        lobbies['lobby1'].push(data)
-        socket.broadcast.emit('joinedLobby', data)
+
+    socket.on('createLobby', lobby => {
+        // Check if lobby already created
+        if(lobbies.find(l => l.owner === lobby.owner)) return
+
+        lobbies.push(lobby)
+    })
+
+    socket.on('joinLobby', user => {
+        const lobby = lobbies.find(l => l.owner === user.lobbyId)
+
+        const newUser = { id: user.id, name: user.name }
+        lobby.players.push(newUser)
+
+        socket.broadcast.emit('joinedLobby', newUser)
     })
 })
 
 nextApp.prepare().then(() => {
 
-    app.get('/lobbies/:lobby', (req, res) => {
-        res.json(lobbies[req.params.lobby])
+    app.get('/lobbies/:owner', (req, res) => {
+        const lobby = lobbies.find(l => l.owner === req.params.owner)
+        res.json(lobby)
     })
 
     app.get('*', (req, res) => {

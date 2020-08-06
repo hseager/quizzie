@@ -5,26 +5,55 @@ import useSocket from '../../hooks/useSocket'
 import useLobby from '../../hooks/useLobby'
 import { useState, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
+import { useRouter } from 'next/router'
+
+
 
 export default function Quiz({ quizData }) {
 
-    const [nameField, setNameField] = useState('')
-    const [hasJoinedLobby, setHasJoinedLobby] = useState(false)
-    const [isLeader, setIsLeader] = useState(false)
+    const router = useRouter()
+    const lobbyId = router.query.lid
 
-    const { lobby, setLobby, isLoading: isLobbyLoading, isError: isErrorLobby } = useLobby('lobby1')
+    const [hasJoinedLobby, setHasJoinedLobby] = useState(false)
+    const [nameField, setNameField] = useState('')
+    const [userId, setUserId] = useState(uuid())
+
+    const { lobby, setLobby, isLoading: isLobbyLoading, isError: isErrorLobby } = useLobby(lobbyId)
+    
+
+    /*
+    Trying to check if user already joined: this might help:
+        https://github.com/vercel/swr#ssr-with-nextjs
+        
+    const hasJoined = lobby.players.some(p => p.id === userId)
+    console.log(hasJoined);
+    */
 
     const socket = useSocket('joinedLobby', user => {
-        setLobby([...lobby, user])
+        setLobby([...lobby.players, user])
     })
 
     const joinLobby = () => {
+        if(nameField == '') return
         if(lobby.length === 0) setIsLeader(true)
-        const newUser = { id: uuid(), name: nameField, isLeader: isLeader }
+        const newUser = { id: userId, name: nameField, lobbyId: userId }
+
         socket.emit('joinLobby', newUser)
-        setLobby([...lobby, newUser])
+        setLobby([...lobby.players, newUser])
         setHasJoinedLobby(true)
     }
+
+    useEffect(() => {
+        let localUserId = window.localStorage.getItem('userId');
+        if(!localUserId){
+            window.localStorage.setItem('userId', userId)
+            localUserId = userId
+        }
+        
+        socket.emit('createLobby', { id: uuid(), owner: localUserId, players: []})
+        setUserId(localUserId)
+
+    }, [])
 
     return (
         <Layout>
@@ -33,13 +62,15 @@ export default function Quiz({ quizData }) {
             { isLobbyLoading && <p>Loading lobby...</p>}
             { isErrorLobby && <p>Error loading lobby</p>}
             {
-                lobby.length > 0 &&
                 !isLobbyLoading &&
+                !isErrorLobby &&
+                typeof lobby.players !== 'undefined' &&
+                lobby.players.length > 0 &&
                 <>
                     <h2>Players</h2>
                     <ul>
-                        {lobby.map(user => (
-                            <li key={user.id}>{user.name}{user.isLeader ? '*' : ''}</li>
+                        {lobby.players.map(user => (
+                            <li key={user.id}>{user.name}</li>
                         ))}
                     </ul>
                 </>
@@ -47,6 +78,7 @@ export default function Quiz({ quizData }) {
             {
                 !hasJoinedLobby &&
                 !isLobbyLoading &&
+                !isErrorLobby &&
                 <>
                 <input placeholder={"Your name"} type="text" name="username" onChange={e => setNameField(e.target.value)} />
                 <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
