@@ -5,6 +5,7 @@ import buttonStyles from '../styles/buttons.module.css'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
+import { getUserId } from '../libs/localStorage'
 
 export default function Lobby() {
 
@@ -14,8 +15,8 @@ export default function Lobby() {
     const { lobby, setLobby, isLoading: isLobbyLoading, isError: isErrorLobby } = useLobby(lobbyId)
 
     const [nameField, setNameField] = useState('')
-    const [userId, setUserId] = useState(uuid())
-    const hasJoinedLobby = true
+    const [userId, setUserId] = useState()
+    const hasJoinedLobby = false
 
     const socket = useSocket('joinedLobby', user => {
         setLobby([...lobby.players, user])
@@ -25,26 +26,20 @@ export default function Lobby() {
         if(nameField == '') return
         const newUser = { id: userId, name: nameField, lobbyId: userId }
 
+        console.log(newUser)
+
         socket.emit('joinLobby', newUser)
         setLobby([...lobby.players, newUser])
         // setHasJoinedLobby(true)
     }
 
     useEffect(() => {
-        let localUserId = window.localStorage.getItem('userId');
-        if(!localUserId){
-            window.localStorage.setItem('userId', userId)
-            localUserId = userId
-        }
-        
-        socket.emit('createLobby', { id: uuid(), owner: localUserId, players: []})
-        setUserId(localUserId)
-
-    }, [])
+        socket.emit('createLobby', { id: uuid(), owner: getUserId(), players: []})
+        setUserId(getUserId())
+    },[userId])
 
     return (
         <div className={styles.lobby}>
-            <h2>This is the Lobby</h2>
 
             { isLobbyLoading && <p>Loading lobby...</p>}
             { isErrorLobby && <p>Error loading lobby</p>}
@@ -68,7 +63,7 @@ export default function Lobby() {
                 !isLobbyLoading &&
                 !isErrorLobby &&
                 <>
-                <input placeholder={"Your name"} type="text" name="username" onChange={e => setNameField(e.target.value)} />
+                <input placeholder="Your name" type="text" name="first-name" onChange={e => setNameField(e.target.value)} />
                 <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
                 </>
             }
