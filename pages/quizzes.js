@@ -5,7 +5,7 @@ import { getUserId } from '../libs/localStorage'
 import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
 
-const Quizzes = function({ quizzes }) {
+const Quizzes = function({ data }) {
 
     const [userId, setUserId] = useState()
     
@@ -17,7 +17,7 @@ const Quizzes = function({ quizzes }) {
         <Layout>
             <h1>Quizzes</h1>
             <div className={styles.quizList}>
-                {quizzes.map((quiz) => (
+                {data.map((quiz) => (
                     <div className={styles.quizListItem} key={quiz._id}>
                         <h6 className={styles.quizCategory}>{quiz.category}</h6>
                         <h4 className={styles.quizName}>
@@ -39,7 +39,7 @@ export async function getStaticProps() {
 
     return {
         props: {
-            quizzes: json
+            data: json
         }
     }
 }

@@ -1,12 +1,13 @@
 import nextConnect from 'next-connect'
-import middleware from '../../middleware/database'
+import middleware from '../../../middleware/database'
 
 const handler = nextConnect()
 
 handler.use(middleware)
 
 handler.get(async (req, res) => {
-    let doc = await req.db.collection('quizzes').find({}).toArray();
+    const { slug } = req.query;
+    const doc = await req.db.collection('quizzes').findOne({ slug: slug});
     res.json(doc)
 })
 
