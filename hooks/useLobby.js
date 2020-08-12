@@ -2,7 +2,7 @@ import useSWR from "swr";
 import fetcher from '../libs/fetcher'
 
 export default function useLobby(id) {
-    const { data, error, mutate } = useSWR(`/lobbies/${id}`, fetcher)
+    const { data, error, mutate } = useSWR(`/api/lobbies/${id}`, fetcher)
 
     const setLobby = mutate
 

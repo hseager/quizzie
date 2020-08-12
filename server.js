@@ -11,6 +11,7 @@ const nextHandler = nextApp.getRequestHandler()
 // fake DB
 const lobbies = []
 
+/*
 io.on('connection', socket => {
 
     socket.on('createLobby', lobby => {
@@ -29,17 +30,17 @@ io.on('connection', socket => {
         socket.broadcast.emit('joinedLobby', newUser)
     })
 })
+*/
 
 nextApp.prepare().then(() => {
-
-    app.get('/lobbies/:owner', (req, res) => {
-        const lobby = lobbies.find(l => l.owner === req.params.owner)
-        res.json(lobby)
-    })
 
     app.get('*', (req, res) => {
         return nextHandler(req, res)
     })
+
+    app.post('*', (req, res) => {
+        return nextHandler(req, res)
+    })    
 
     server.listen(port, err => {
         if(err) throw err

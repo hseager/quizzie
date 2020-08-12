@@ -10,42 +10,61 @@ import { getUserId } from '../libs/localStorage'
 export default function Lobby() {
 
     const router = useRouter()
-    const lobbyId = router.query.lid
+    const lobbyOwnerId = router.query.loid
 
-    const { lobby, setLobby, isLoading: isLobbyLoading, isError: isErrorLobby } = useLobby(lobbyId)
+    const { lobby, setLobby, isLoading, isError } = useLobby(lobbyOwnerId)
 
-    const [nameField, setNameField] = useState('')
+    const [name, setName] = useState('')
     const [userId, setUserId] = useState()
     const hasJoinedLobby = false
 
+    /*
     const socket = useSocket('joinedLobby', user => {
         setLobby([...lobby.players, user])
     })
+    */
 
-    const joinLobby = () => {
-        if(nameField == '') return
-        const newUser = { id: userId, name: nameField, lobbyId: userId }
+    const joinLobby = async () => {
+        if(name == '') return
 
-        console.log(newUser)
+        const player = { id: userId, name }
 
-        socket.emit('joinLobby', newUser)
-        setLobby([...lobby.players, newUser])
-        // setHasJoinedLobby(true)
+        const joinResult = await fetch('http://127.0.0.1:3000/api/lobbies/join',
+            {
+                method: 'post',
+                body: JSON.stringify({ lobbyOwnerId, player }),
+                headers: { 'Content-Type': 'application/json' }
+            }
+        )
+
+        console.log(joinResult)
+
+        //socket.emit('joinLobby', newUser)
+        setLobby([...lobby.players, player])
     }
 
     useEffect(() => {
-        socket.emit('createLobby', { id: uuid(), owner: getUserId(), players: []})
         setUserId(getUserId())
     },[userId])
+
+    useEffect(() => {
+        const players = lobby.players
+        console.log(players)
+    },[])
+
+    if(isLoading){
+        return <p>Loading lobby...</p>
+    }
+
+    if(isError){
+        return <p>Error loading lobby</p>
+    }
 
     return (
         <div className={styles.lobby}>
 
-            { isLobbyLoading && <p>Loading lobby...</p>}
-            { isErrorLobby && <p>Error loading lobby</p>}
+
             {
-                !isLobbyLoading &&
-                !isErrorLobby &&
                 typeof lobby.players !== 'undefined' &&
                 lobby.players.length > 0 &&
                 <>
@@ -60,10 +79,8 @@ export default function Lobby() {
             {
                 typeof lobby !== 'undefined' &&
                 !hasJoinedLobby &&
-                !isLobbyLoading &&
-                !isErrorLobby &&
                 <>
-                <input placeholder="Your name" type="text" name="first-name" onChange={e => setNameField(e.target.value)} />
+                <input placeholder="Your name" type="text" name="first-name" onChange={e => setName(e.target.value)} />
                 <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
                 </>
             }

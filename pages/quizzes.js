@@ -21,7 +21,7 @@ const Quizzes = function({ data }) {
                     <div className={styles.quizListItem} key={quiz._id}>
                         <h6 className={styles.quizCategory}>{quiz.category}</h6>
                         <h4 className={styles.quizName}>
-                            <Link href='/quiz/[slug]' as={`/quiz/${quiz.slug}?lid=${userId}`}>
+                            <Link href='/quiz/[slug]' as={`/quiz/${quiz.slug}?loid=${userId}`}>
                                 <a>{quiz.name}</a>
                             </Link>
                         </h4>
@@ -34,7 +34,7 @@ const Quizzes = function({ data }) {
 
 export async function getStaticProps() {
 
-    const res = await fetch("http://localhost:3000/api/quizzes")
+    const res = await fetch('http://localhost:3000/api/quizzes')
     const json = await res.json()
 
     return {
