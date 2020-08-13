@@ -12,7 +12,7 @@ handler.get(async (req, res) => {
     // Create Lobby if one doesn't exist
     if(!lobby){
         const emptyLobby = { owner: ownerId, players: [] }
-        lobby = await req.db.collection('lobbies').updateOne({ owner: ownerId }, {$set: emptyLobby}, { upsert: true })
+        lobby = await req.db.collection('lobbies').updateOne({ owner: ownerId }, { $set: emptyLobby }, { upsert: true })
     }
     
     res.json(lobby)

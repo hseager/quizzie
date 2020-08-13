@@ -8,29 +8,11 @@ const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({ dev })
 const nextHandler = nextApp.getRequestHandler()
 
-// fake DB
-const lobbies = []
-
-/*
 io.on('connection', socket => {
-
-    socket.on('createLobby', lobby => {
-        // Check if lobby already created
-        if(lobbies.find(l => l.owner === lobby.owner)) return
-
-        lobbies.push(lobby)
-    })
-
-    socket.on('joinLobby', user => {
-        const lobby = lobbies.find(l => l.owner === user.lobbyId)
-
-        const newUser = { id: user.id, name: user.name }
-        lobby.players.push(newUser)
-
-        socket.broadcast.emit('joinedLobby', newUser)
+    socket.on('joinLobby', player => {
+        socket.broadcast.emit('playerJoinedLobby', player)
     })
 })
-*/
 
 nextApp.prepare().then(() => {
 
