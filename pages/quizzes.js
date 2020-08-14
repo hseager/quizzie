@@ -21,7 +21,7 @@ const Quizzes = function({ data }) {
                     <div className={styles.quizListItem} key={quiz._id}>
                         <h6 className={styles.quizCategory}>{quiz.category}</h6>
                         <h4 className={styles.quizName}>
-                            <Link href='/quiz/[slug]' as={`/quiz/${quiz.slug}?loid=${userId}`}>
+                            <Link href={`/quiz/[slug]?loid=${userId}`} as={`/quiz/${quiz.slug}?loid=${userId}`}>
                                 <a>{quiz.name}</a>
                             </Link>
                         </h4>

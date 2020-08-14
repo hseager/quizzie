@@ -1,20 +1,16 @@
 import styles from '../styles/lobby.module.css'
 import useSocket from '../hooks/useSocket'
 import buttonStyles from '../styles/buttons.module.css'
-import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { getUserId } from '../libs/localStorage'
 import fetch from 'isomorphic-unfetch'
 
-export default function Lobby() {
-
-    const router = useRouter()
-    const lobbyOwnerId = router.query.loid
+export default function Lobby({ data }) {
 
     const [name, setName] = useState('')
     const [userId, setUserId] = useState()
-    const [lobby, setLobby] = useState()
-    const [inLobby, setInLobby] = useState(false)
+    const [lobby, setLobby] = useState(data)
+    const [inLobby, setInLobby] = useState(true)
 
     const socket = useSocket('playerJoinedLobby', player => {
         setLobby({
@@ -33,7 +29,7 @@ export default function Lobby() {
 
         fetch('http://localhost:3000/api/lobbies/join', {
             method: 'post',
-            body: JSON.stringify({ lobbyOwnerId, player }),
+            body: JSON.stringify({ owner: lobby.owner, player }),
             headers: { 'Content-Type': 'application/json' }
         })
 
@@ -46,25 +42,19 @@ export default function Lobby() {
             ]
         })
 
-        socket.emit('joinLobby', player)
+        socket.emit('joinLobby', { owner: lobby.owner, player })
     }
 
     useEffect(() => {
         setUserId(getUserId())
-    },[userId])
-
-    useEffect(() => {
-        fetch(`/api/lobbies/${lobbyOwnerId}`)
-            .then(res => res.json())
-            .then(data => setLobby(data))
-    }, [])
+    }, [userId])
 
     useEffect(() => {
         if(lobby && lobby.players){
             const isInLobby = lobby.players.some(p => p.id == userId)
             setInLobby(isInLobby)
         }
-    }, [lobby, inLobby])
+    }, [lobby, userId])
 
     if(!lobby)
         return <p>Loading lobby...</p>
@@ -78,7 +68,7 @@ export default function Lobby() {
                     <h2>Players</h2>
                     <ul>
                         {lobby.players.map(user => (
-                            <li key={user.id}>{user.name}</li>
+                            <li key={user.id} className={(user.id === userId ? styles.playerInLobby : '')}>{user.name}</li>
                         ))}
                     </ul>
                 </>
@@ -92,6 +82,7 @@ export default function Lobby() {
             }
             {
                 inLobby && 
+                userId === lobby.owner &&
                 <>
                 <button className={buttonStyles.button}>Start Quiz</button>
                 <h2>Invite players</h2>
@@ -101,7 +92,6 @@ export default function Lobby() {
                 <p>Code: <strong>3</strong></p>
                 </>
             }
-
         </div>
     )
 }

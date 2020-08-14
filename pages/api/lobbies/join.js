@@ -7,7 +7,7 @@ handler.use(middleware)
 
 handler.post(async (req, res) => {
     let data = req.body
-    let doc = await req.db.collection('lobbies').updateOne({ owner: data.lobbyOwnerId }, { $push: { players: data.player } }, { upsert: false })
+    let doc = await req.db.collection('lobbies').updateOne({ owner: data.owner }, { $push: { players: data.player } }, { upsert: false })
     
     res.json({ message: 'ok' })
 })
