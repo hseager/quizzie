@@ -1,19 +1,32 @@
 import Layout from '../../components/layout'
 import Lobby from '../../components/lobby'
+import Countdown from '../../components/countdown'
 import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
+import { useState, useEffect } from 'react'
 
 export default function Quiz({ quizData, lobbyData }) {
 
+    // const [isCountingDown, setIsCountingDown] = useState(false) 
+
     useSocket('startQuiz', () => {
-        console.log('START NOW')
+        // setIsCountingDown(true)
     })
 
     return (
         <Layout>
             <h1>Lobby</h1>
             <p>Quiz: <strong>{quizData.name}</strong></p>
-            <Lobby data={lobbyData} />
+            {
+                // !isCountingDown &&
+                <Lobby data={lobbyData} />
+            }
+            {
+                /*
+                isCountingDown &&
+                <Countdown />
+                */
+            }
         </Layout>
     )
 }
