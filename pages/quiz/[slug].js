@@ -17,7 +17,11 @@ export async function getServerSideProps(context) {
     const quizRes = await fetch(`http://localhost:3000/api/quizzes/${context.params.slug}`)
     const quizJson = await quizRes.json()
 
-    const lobbyRes = await fetch(`http://localhost:3000/api/lobbies/${context.query.loid}`)
+    const loid = context.query.loid;
+    if(!loid)
+        context.res.redirect('/quizzes')
+
+    const lobbyRes = await fetch(`http://localhost:3000/api/lobbies/${loid}`)
     const lobbyJson = await lobbyRes.json()
 
     return {

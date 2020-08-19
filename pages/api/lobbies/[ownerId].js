@@ -6,16 +6,26 @@ const handler = nextConnect()
 handler.use(middleware)
 
 handler.get(async (req, res) => {
+
     const { ownerId } = req.query;
-    let lobby = await req.db.collection('lobbies').findOne({ owner: ownerId });
+    const lobbiesCollection = req.db.collection('lobbies');
+
+    let lobby = await lobbiesCollection.findOne({ owner: ownerId });
 
     // Create Lobby if one doesn't exist
-    if(!lobby){
+    if(lobby) {
+        res.json(lobby)
+    } else {
         const emptyLobby = { owner: ownerId, players: [] }
-        lobby = await req.db.collection('lobbies').updateOne({ owner: ownerId }, { $set: emptyLobby }, { upsert: true })
+        const result = await lobbiesCollection.updateOne(
+                                { owner: ownerId }, 
+                                { $set: emptyLobby }, 
+                                { upsert: true })
+
+        lobby = await lobbiesCollection.findOne({ _id: result.result.upserted[0]._id })
+        res.json(lobby)
     }
     
-    res.json(lobby)
 })
 
 export default handler
