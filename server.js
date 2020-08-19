@@ -9,13 +9,16 @@ const nextApp = next({ dev })
 const nextHandler = nextApp.getRequestHandler()
 
 io.on('connection', socket => {
-
     socket.on('connectToLobby', lobbyOwnerId => {
         socket.join(lobbyOwnerId)
     })
 
     socket.on('joinLobby', lobbyData => {
         io.to(lobbyData.owner).emit('playerJoinedLobby', lobbyData.player)
+    })
+
+    socket.on('startQuiz', lobbyId => {
+        io.to(lobbyId).emit('startQuiz')
     })
 })
 

@@ -1,8 +1,14 @@
 import Layout from '../../components/layout'
 import Lobby from '../../components/lobby'
 import fetch from 'isomorphic-unfetch'
+import useSocket from '../../hooks/useSocket'
 
 export default function Quiz({ quizData, lobbyData }) {
+
+    useSocket('startQuiz', () => {
+        console.log('START NOW')
+    })
+
     return (
         <Layout>
             <h1>Lobby</h1>

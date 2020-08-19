@@ -4,6 +4,8 @@ import buttonStyles from '../styles/buttons.module.css'
 import { useState, useEffect } from 'react'
 import { getUserId } from '../libs/localStorage'
 import fetch from 'isomorphic-unfetch'
+import { useRouter } from 'next/router'
+import config from '../libs/config'
 
 export default function Lobby({ data }) {
 
@@ -11,6 +13,8 @@ export default function Lobby({ data }) {
     const [userId, setUserId] = useState()
     const [lobby, setLobby] = useState(data)
     const [inLobby, setInLobby] = useState(true)
+
+    const router = useRouter()
 
     const socket = useSocket('playerJoinedLobby', player => {
         setLobby({
@@ -21,20 +25,6 @@ export default function Lobby({ data }) {
             ]
         })
     })
-
-    const joinLobby = async () => {
-        if(name == '') return
-
-        const player = { id: userId, name }
-
-        fetch('http://localhost:3000/api/lobbies/join', {
-            method: 'post',
-            body: JSON.stringify({ owner: lobby.owner, player }),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        setInLobby(true)
-        socket.emit('joinLobby', { owner: lobby.owner, player })
-    }
 
     useEffect(() => {
         setUserId(getUserId())
@@ -50,6 +40,24 @@ export default function Lobby({ data }) {
     useEffect(() => {
         socket.emit('connectToLobby', lobby.owner)
     }, [lobby])
+
+    const joinLobby = async () => {
+        if(name == '') return
+
+        const player = { id: userId, name }
+
+        fetch(`${config.siteUrl}/api/lobbies/join`, {
+            method: 'post',
+            body: JSON.stringify({ owner: lobby.owner, player }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        setInLobby(true)
+        socket.emit('joinLobby', { owner: lobby.owner, player })
+    }
+
+    const startQuiz = () => {
+        socket.emit('startQuiz', lobby.owner)
+    }
 
     if(!lobby)
         return <p>Loading lobby...</p>
@@ -84,19 +92,21 @@ export default function Lobby({ data }) {
                 inLobby && 
                 userId === lobby.owner &&
                 <>
-                    <button className={buttonStyles.button}>Start Quiz</button>
+                    <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
                     <h2>Invite players</h2>
-                    <p>Share this link: <br/><strong>http://localhost:3000/quiz/3</strong></p>
+                    <p>Share this link: <br/><strong><a href={ config.siteUrl + router.asPath }>{ config.siteUrl + router.asPath }</a></strong></p>
+                    { /* }
                     <p>Or</p>
                     <p>Type in this code at: <br/><strong>http://localhost:3000/join</strong></p>
                     <p>Code: <strong>3</strong></p>
+                    {*/}
                 </>
             }
             {
                 inLobby && 
                 userId !== lobby.owner &&
                 <>
-                    <p>Waiting for Quiz leader to start...</p>
+                    <p>Waiting for the Quiz leader to start...</p>
                 </>
             }
         </div>
