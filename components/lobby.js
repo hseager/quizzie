@@ -32,16 +32,7 @@ export default function Lobby({ data }) {
             body: JSON.stringify({ owner: lobby.owner, player }),
             headers: { 'Content-Type': 'application/json' }
         })
-
         setInLobby(true)
-        setLobby({
-            ...lobby,
-            players: [
-                ...lobby.players,
-                player
-            ]
-        })
-
         socket.emit('joinLobby', { owner: lobby.owner, player })
     }
 
@@ -56,6 +47,10 @@ export default function Lobby({ data }) {
         }
     }, [lobby, userId])
 
+    useEffect(() => {
+        socket.emit('connectToLobby', lobby.owner)
+    }, [lobby])
+
     if(!lobby)
         return <p>Loading lobby...</p>
 
@@ -68,7 +63,12 @@ export default function Lobby({ data }) {
                     <h2>Players</h2>
                     <ul>
                         {lobby.players.map(user => (
-                            <li key={user.id} className={(user.id === userId ? styles.playerInLobby : '')}>{user.name}</li>
+                            <li 
+                                key={user.id} 
+                                className={(user.id === userId ? styles.playerInLobby : '')}
+                            >
+                                {user.name}
+                            </li>
                         ))}
                     </ul>
                 </>
@@ -76,20 +76,27 @@ export default function Lobby({ data }) {
             {
                 !inLobby &&
                 <>
-                <input placeholder="Your name" type="text" name="first-name" onChange={e => setName(e.target.value)} />
-                <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
+                    <input placeholder="Your name" type="text" name="first-name" onChange={e => setName(e.target.value)} />
+                    <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
                 </>
             }
             {
                 inLobby && 
                 userId === lobby.owner &&
                 <>
-                <button className={buttonStyles.button}>Start Quiz</button>
-                <h2>Invite players</h2>
-                <p>Share this link: <br/><strong>http://localhost:3000/quiz/3</strong></p>
-                <p>Or</p>
-                <p>Type in this code at: <br/><strong>http://localhost:3000/join</strong></p>
-                <p>Code: <strong>3</strong></p>
+                    <button className={buttonStyles.button}>Start Quiz</button>
+                    <h2>Invite players</h2>
+                    <p>Share this link: <br/><strong>http://localhost:3000/quiz/3</strong></p>
+                    <p>Or</p>
+                    <p>Type in this code at: <br/><strong>http://localhost:3000/join</strong></p>
+                    <p>Code: <strong>3</strong></p>
+                </>
+            }
+            {
+                inLobby && 
+                userId !== lobby.owner &&
+                <>
+                    <p>Waiting for Quiz leader to start...</p>
                 </>
             }
         </div>
