@@ -46,16 +46,29 @@ export default function Lobby({ data }) {
 
         const player = { id: userId, name }
 
-        fetch(`${config.siteUrl}/api/lobbies/join`, {
+        fetch(`${config.siteUrl}/api/lobbies`, {
             method: 'post',
-            body: JSON.stringify({ owner: lobby.owner, player }),
+            body: JSON.stringify({ 
+                id: lobby.owner,
+                data: { players: player },
+                push: true
+            }),
             headers: { 'Content-Type': 'application/json' }
         })
+
         setInLobby(true)
         socket.emit('joinLobby', { owner: lobby.owner, player })
     }
 
     const startQuiz = () => {
+        fetch(`${config.siteUrl}/api/lobbies`, {
+            method: 'post',
+            body: JSON.stringify({ 
+                id: lobby.owner,
+                data: { hasStartedQuiz: true }
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        })        
         socket.emit('startQuiz', lobby.owner)
     }
 

@@ -5,27 +5,21 @@ import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
 import { useState, useEffect } from 'react'
 
-export default function Quiz({ quizData, lobbyData }) {
+export default function Quiz({ quiz, lobby }) {
 
-    // const [isCountingDown, setIsCountingDown] = useState(false) 
-
+    /*
     useSocket('startQuiz', () => {
-        // setIsCountingDown(true)
+        console.log('quiz has started')
     })
+    */
 
     return (
         <Layout>
             <h1>Lobby</h1>
-            <p>Quiz: <strong>{quizData.name}</strong></p>
+            <p>Quiz: <strong>{quiz.name}</strong></p>
             {
-                // !isCountingDown &&
-                <Lobby data={lobbyData} />
-            }
-            {
-                /*
-                isCountingDown &&
-                <Countdown />
-                */
+                !lobby.hasStartedQuiz &&
+                <Lobby data={lobby} />
             }
         </Layout>
     )
@@ -45,8 +39,8 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
-            quizData: quizJson,
-            lobbyData: lobbyJson
+            quiz: quizJson,
+            lobby: lobbyJson
         }
     }
 }

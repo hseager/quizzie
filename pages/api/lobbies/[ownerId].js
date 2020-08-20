@@ -16,11 +16,17 @@ handler.get(async (req, res) => {
     if(lobby) {
         res.json(lobby)
     } else {
-        const emptyLobby = { owner: ownerId, players: [] }
+        const emptyLobby = { 
+            owner: ownerId, 
+            players: [],
+            hasStartedQuiz: false
+        }
+
         const result = await lobbiesCollection.updateOne(
-                                { owner: ownerId }, 
-                                { $set: emptyLobby }, 
-                                { upsert: true })
+            { owner: ownerId }, 
+            { $set: emptyLobby }, 
+            { upsert: true }
+        )
 
         lobby = await lobbiesCollection.findOne({ _id: result.result.upserted[0]._id })
         res.json(lobby)
