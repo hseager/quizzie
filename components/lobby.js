@@ -7,7 +7,7 @@ import fetch from 'isomorphic-unfetch'
 import { useRouter } from 'next/router'
 import config from '../libs/config'
 
-export default function Lobby({ data }) {
+export default function Lobby({ data, quizData }) {
 
     const [name, setName] = useState('')
     const [userId, setUserId] = useState()
@@ -65,11 +65,13 @@ export default function Lobby({ data }) {
             method: 'post',
             body: JSON.stringify({ 
                 id: lobby.owner,
-                data: { hasStartedQuiz: true }
+                data: { 
+                    hasStartedQuiz: true, 
+                }
             }),
             headers: { 'Content-Type': 'application/json' }
-        })        
-        socket.emit('startQuiz', lobby.owner)
+        })
+        socket.emit('startQuiz', { lobbyId: lobby.owner, questionCount: quizData.questions.length })
     }
 
     if(!lobby)

@@ -8,6 +8,7 @@ const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({ dev })
 const nextHandler = nextApp.getRequestHandler()
 
+
 io.on('connection', socket => {
     socket.on('connectToLobby', lobbyOwnerId => {
         socket.join(lobbyOwnerId)
@@ -17,8 +18,24 @@ io.on('connection', socket => {
         io.to(lobbyData.owner).emit('playerJoinedLobby', lobbyData.player)
     })
 
-    socket.on('startQuiz', lobbyId => {
-        io.to(lobbyId).emit('startQuiz')
+    socket.on('startQuiz', data => {
+
+        const questionTimer = 10 * 1000
+        let currentQuestion = 0
+
+        // Tell everyone to start the quiz
+        io.to(data.lobbyId).emit('startQuiz')
+
+        // Start counting down until the next question
+        let questionInterval = setInterval(() => {
+            io.to(data.lobbyId).emit('changeQuestion', ++currentQuestion)
+            console.log('changing question. current question: ' + currentQuestion + ' of ' + data.questionCount)
+        }, questionTimer)
+
+        if(currentQuestion >= data.questionCount)
+            clearInterval(questionInterval)
+        // Trouble clearing interval
+
     })
 })
 
