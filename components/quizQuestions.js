@@ -11,10 +11,13 @@ export default function QuizQuestions({ data }) {
     let questionTimeout = null
 
     useSocket('changeQuestion', newQuestion => {
-        console.log(newQuestion)
         setCurrentQuestion(newQuestion)
         setQuestionTimer(questionTimeLimit)
         clearTimeout(questionTimeout)
+    })
+
+    useSocket('finishedQuiz', () => {
+        clearTimeout(questionTimeout) 
     })
 
     useEffect(() => {

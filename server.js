@@ -28,13 +28,14 @@ io.on('connection', socket => {
 
         // Start counting down until the next question
         let questionInterval = setInterval(() => {
-            io.to(data.lobbyId).emit('changeQuestion', ++currentQuestion)
-            console.log('changing question. current question: ' + currentQuestion + ' of ' + data.questionCount)
+            currentQuestion++
+            if(currentQuestion < data.questionCount){
+                io.to(data.lobbyId).emit('changeQuestion', currentQuestion)
+            } else {
+                io.to(data.lobbyId).emit('finishedQuiz')
+                clearInterval(questionInterval)
+            }
         }, questionTimer)
-
-        if(currentQuestion >= data.questionCount)
-            clearInterval(questionInterval)
-        // Trouble clearing interval
 
     })
 })

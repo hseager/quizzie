@@ -8,10 +8,14 @@ import { useState } from 'react'
 
 export default function Quiz({ quiz, lobby }) {
 
-    const [hasStarted, setHasStarted] = useState(lobby.hasStartedQuiz)
+    const [status, setStatus] = useState(lobby.status)
 
     useSocket('startQuiz', () => {
-        setHasStarted(true)
+        setStatus('started')
+    })
+
+    useSocket('finishedQuiz', () => {
+        setStatus('finished')
     })
 
     return (
@@ -19,12 +23,16 @@ export default function Quiz({ quiz, lobby }) {
             <h1>Lobby</h1>
             <p>Quiz: <strong>{quiz.name}</strong></p>
             {
-                !hasStarted &&
+                status == 'lobby' &&
                 <Lobby data={lobby} quizData={quiz} />
             }
             {
-                hasStarted &&
+                status == 'started' &&
                 <QuizQuestions data={quiz} />
+            }
+            {
+                status == 'finished' &&
+                <p>Finished</p>
             }
         </Layout>
     )

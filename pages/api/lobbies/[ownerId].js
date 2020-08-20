@@ -19,7 +19,7 @@ handler.get(async (req, res) => {
         const emptyLobby = { 
             owner: ownerId, 
             players: [],
-            hasStartedQuiz: false
+            status: 'lobby'
         }
 
         const result = await lobbiesCollection.updateOne(

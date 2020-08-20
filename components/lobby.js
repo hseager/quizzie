@@ -63,10 +63,10 @@ export default function Lobby({ data, quizData }) {
     const startQuiz = () => {
         fetch(`${config.siteUrl}/api/lobbies`, {
             method: 'post',
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 id: lobby.owner,
-                data: { 
-                    hasStartedQuiz: true, 
+                data: {
+                    status: 'started',
                 }
             }),
             headers: { 'Content-Type': 'application/json' }
