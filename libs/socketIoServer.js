@@ -1,5 +1,4 @@
 module.exports = (server) => {
-
     const io = require('socket.io')(server)
 
     io.on('connection', socket => {
@@ -12,7 +11,6 @@ module.exports = (server) => {
         })
     
         socket.on('startQuiz', data => {
-    
             const questionTimer = 10 * 1000
             let currentQuestion = 0
     

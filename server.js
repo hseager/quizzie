@@ -11,7 +11,6 @@ const nextHandler = nextApp.getRequestHandler()
 socketIoServer(server)
 
 nextApp.prepare().then(() => {
-
     app.get('*', (req, res) => {
         return nextHandler(req, res)
     })
