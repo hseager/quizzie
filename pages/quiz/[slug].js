@@ -2,6 +2,7 @@ import Layout from '../../components/layout'
 import Lobby from '../../components/lobby'
 import Countdown from '../../components/countdown'
 import QuizQuestions from '../../components/quizQuestions'
+import Results from '../../components/results'
 import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
 import { useState } from 'react'
@@ -32,7 +33,7 @@ export default function Quiz({ quiz, lobby }) {
             }
             {
                 status == 'finished' &&
-                <p>Finished</p>
+                <Results />
             }
         </Layout>
     )
