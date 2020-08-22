@@ -37,10 +37,6 @@ export default function Lobby({ data, quizData }) {
         }
     }, [lobby, userId])
 
-    useEffect(() => {
-        socket.emit('connectToLobby', lobby.owner)
-    }, [lobby])
-
     const joinLobby = async () => {
         if(name == '') return
 
@@ -66,7 +62,7 @@ export default function Lobby({ data, quizData }) {
             body: JSON.stringify({
                 id: lobby.owner,
                 data: {
-                    status: 'started',
+                    status: 'started'
                 }
             }),
             headers: { 'Content-Type': 'application/json' }

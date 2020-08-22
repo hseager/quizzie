@@ -2,47 +2,34 @@ import buttonStyles from '../styles/buttons.module.css'
 import useSocket from '../hooks/useSocket'
 import { useState, useEffect } from 'react'
 
-export default function QuizQuestions({ data }) {
+export default function QuizQuestions({ quiz, lobby }) {
 
-    const questionTimeLimit = 10;
-    const [currentQuestion, setCurrentQuestion] = useState(0)
-    const [questionTimer, setQuestionTimer] = useState(questionTimeLimit)
-
-    let questionTimeout = null
+    const [currentQuestion, setCurrentQuestion] = useState(lobby.currentQuestion)
+    const [nextQuestionTimer, setNextQuestionTimer] = useState()
 
     useSocket('changeQuestion', newQuestion => {
         setCurrentQuestion(newQuestion)
-        setQuestionTimer(questionTimeLimit)
-        clearTimeout(questionTimeout)
+        setNextQuestionTimer(null)
     })
 
-    useSocket('finishedQuiz', () => {
-        clearTimeout(questionTimeout) 
+    useSocket('nextQuestionTimer', nextQuestionTime => {
+        setNextQuestionTimer(nextQuestionTime)
     })
-
-    useEffect(() => {
-
-        if(questionTimer <= 0){
-            clearTimeout(questionTimeout) 
-            return
-        }
-
-        questionTimeout = setTimeout(() => {
-            setQuestionTimer(questionTimer - 1)
-        }, 1000)
-    }, [questionTimer])
 
     return (
         <>
         {
-            typeof data.questions[currentQuestion] !== 'undefined' &&
+            typeof quiz.questions[currentQuestion] !== 'undefined' &&
             <div>
-                <h2>{ data.questions[currentQuestion].question }</h2>
-                <p>Question {currentQuestion + 1} of {data.questions.length}</p>
-                <p>You have {questionTimer} seconds to answer!</p>
+                <h2>{ quiz.questions[currentQuestion].question }</h2>
+                <p>Question {currentQuestion + 1} of {quiz.questions.length}</p>
+                {
+                    nextQuestionTimer &&
+                    <p>You have {nextQuestionTimer} seconds to answer!</p>
+                }
                 <div>
                     {
-                        data.questions[currentQuestion].answers.map((a, i) => (
+                        quiz.questions[currentQuestion].answers.map((a, i) => (
                             <button key={i} className={buttonStyles.button}>{a}</button>
                         ))
                     }

@@ -1,15 +1,15 @@
 import Layout from '../../components/layout'
 import Lobby from '../../components/lobby'
-import Countdown from '../../components/countdown'
 import QuizQuestions from '../../components/quizQuestions'
 import Results from '../../components/results'
 import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Quiz({ quiz, lobby }) {
 
     const [status, setStatus] = useState(lobby.status)
+    const socket = useSocket()
 
     useSocket('startQuiz', () => {
         setStatus('started')
@@ -18,6 +18,10 @@ export default function Quiz({ quiz, lobby }) {
     useSocket('finishedQuiz', () => {
         setStatus('finished')
     })
+
+    useEffect(() => {
+        socket.emit('connectToLobby', lobby.owner)
+    }, [])
 
     return (
         <Layout>
@@ -29,7 +33,7 @@ export default function Quiz({ quiz, lobby }) {
             }
             {
                 status == 'started' &&
-                <QuizQuestions data={quiz} />
+                <QuizQuestions quiz={quiz} lobby={lobby} />
             }
             {
                 status == 'finished' &&
