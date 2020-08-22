@@ -5,17 +5,14 @@
     cursor: pointer;
     font-size: 20px;
     color: inherit;
-    background: #fff3f3;
-    
-    box-shadow: #a86969 0px 4px 12px;
+    /* box-shadow: var(--color1) 0px 1px 3px; */
     display: inline-block;
+    outline: none;
+    background: var(--color1);
+    color: var(--color4);
 }
 
 .button:active{
-    box-shadow: #a86969 0px 0px 12px;
+    /* box-shadow: var(--color1) 0px 0px 3px; */
     margin: 2px 0 -2px;
-}
-
-.button:hover{
-    background: #fff8f8;
 }

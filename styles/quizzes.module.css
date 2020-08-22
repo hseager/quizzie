@@ -5,7 +5,7 @@
 }
 
 .quizListItem {
-    border: 1px solid #ffc3c3;
+    border: 1px solid var(--color1);
     padding: 10px;
     margin: 10px;
     width: 40%;

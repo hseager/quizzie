@@ -3,7 +3,7 @@ import styles from '../styles/layout.module.css'
 
 export default function Layout({children}) {
     return (
-        <div className={styles.container}>
+        <>
             <Head>
                 <meta
                     name="description"
@@ -11,9 +11,14 @@ export default function Layout({children}) {
                 />
                 <title>Quizzie - Live Quiz with your friends</title>
             </Head>
-            <main>
-                {children}
-            </main>
-        </div>
+            <header className={styles.header}>
+                <h1 className={styles.title}>Quizzie</h1>
+            </header>
+            <div className={styles.container}>
+                <main>
+                    {children}
+                </main>
+            </div>
+        </>
     )
 }

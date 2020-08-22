@@ -1,6 +1,6 @@
 import buttonStyles from '../styles/buttons.module.css'
 import useSocket from '../hooks/useSocket'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function QuizQuestions({ quiz, lobby }) {
 

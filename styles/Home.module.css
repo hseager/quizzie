@@ -1,4 +1,22 @@
-.content {
+.section {
     margin: 40px 0;
     text-align: center;
+    padding: 0 10px;
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+}
+
+.feature {
+    padding: 10px;
+    background: var(--color3);
+    text-align: center;
+    border-bottom: 1px solid var(--color4);
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color4);
 }
