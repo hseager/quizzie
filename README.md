@@ -11,7 +11,7 @@
     - step 1. choose a quiz
     - step 2. invite friends & family
     - step 3. start quiz
-- socket disconnecting
+    - Create an account to save progress and create quizzes
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
