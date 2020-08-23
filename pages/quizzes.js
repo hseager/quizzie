@@ -16,7 +16,7 @@ const Quizzes = function({ data }) {
     return (
         <Layout>
             <div className={styles.section}>
-                <h1>Quizzes</h1>
+                <h1 className={styles.title}>Pick a Quiz</h1>
                 <div className={styles.quizList}>
                     {data.map((quiz) => (
                         <div className={styles.quizListItem} key={quiz._id}>

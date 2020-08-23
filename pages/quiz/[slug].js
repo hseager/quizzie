@@ -5,6 +5,7 @@ import Results from '../../components/results'
 import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
 import { useState, useEffect } from 'react'
+import styles from '../../styles/quiz.module.css'
 
 export default function Quiz({ quiz, lobby }) {
 
@@ -25,20 +26,21 @@ export default function Quiz({ quiz, lobby }) {
 
     return (
         <Layout>
-            <h1>Lobby</h1>
-            <p>Quiz: <strong>{quiz.name}</strong></p>
-            {
-                status == 'lobby' &&
-                <Lobby data={lobby} quizData={quiz} />
-            }
-            {
-                status == 'started' &&
-                <QuizQuestions quiz={quiz} lobby={lobby} />
-            }
-            {
-                status == 'finished' &&
-                <Results />
-            }
+            <div class={styles.section}>
+                <p>Play the Quiz: <strong>{quiz.name}</strong></p>
+                {
+                    status == 'lobby' &&
+                    <Lobby data={lobby} quizData={quiz} />
+                }
+                {
+                    status == 'started' &&
+                    <QuizQuestions quiz={quiz} lobby={lobby} />
+                }
+                {
+                    status == 'finished' &&
+                    <Results />
+                }
+            </div>
         </Layout>
     )
 }

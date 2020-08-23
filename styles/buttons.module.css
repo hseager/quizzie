@@ -8,8 +8,8 @@
     /* box-shadow: var(--color1) 0px 1px 3px; */
     display: inline-block;
     outline: none;
-    background: var(--color1);
-    color: var(--color4);
+    background: var(--color3);
+    color: var(--color1);
 }
 
 .button:active{

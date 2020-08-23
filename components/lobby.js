@@ -74,7 +74,8 @@ export default function Lobby({ data, quizData }) {
         return <p>Loading lobby...</p>
 
     return (
-        <div className={styles.lobby}>
+        <>
+            <h1 className={styles.title}>Invite your friends</h1>
             {
                 lobby.players &&
                 lobby.players.length > 0 &&
@@ -104,13 +105,15 @@ export default function Lobby({ data, quizData }) {
                 userId === lobby.owner &&
                 <>
                     <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
-                    <h2>Invite players</h2>
-                    <p>Share this link: <br/><strong><a href={ config.siteUrl + router.asPath }>{ config.siteUrl + router.asPath }</a></strong></p>
-                    { /* }
-                    <p>Or</p>
-                    <p>Type in this code at: <br/><strong>http://localhost:3000/join</strong></p>
-                    <p>Code: <strong>3</strong></p>
-                    {*/}
+                    <div className={styles.invitePanel}>
+                        <h2>Invite players</h2>
+                        <p>Share this link: <br/><br/><strong><a href={ config.siteUrl + router.asPath }>{ config.siteUrl + router.asPath }</a></strong></p>
+                        { /* }
+                        <p>Or</p>
+                        <p>Type in this code at: <br/><strong>http://localhost:3000/join</strong></p>
+                        <p>Code: <strong>3</strong></p>
+                        {*/}
+                    </div>
                 </>
             }
             {
@@ -120,6 +123,6 @@ export default function Lobby({ data, quizData }) {
                     <p>Waiting for the Quiz leader to start...</p>
                 </>
             }
-        </div>
+        </>
     )
 }

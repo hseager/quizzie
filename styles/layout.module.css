@@ -13,12 +13,14 @@
 }
 
 .header {
-    border-bottom: 1px solid var(--color1);
     padding: 10px;
     margin:0 0 10px;
     /* box-shadow: 0px 0px 6px #d9bc9d; */
+    background: var(--color1);
+    color: var(--color5);
 }
 
 .title {
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: normal;
 }

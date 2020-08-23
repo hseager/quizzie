@@ -1,9 +1,19 @@
-
-.lobby {
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-
 .playerInLobby{
     font-weight: bold;
+}
+
+.title {
+    margin: 0 0 15px;
+}
+
+.invitePanel{
+    padding: 10px;
+    background: var(--color2);
+    color: var(--color5);
+    margin: 20px 0 0 0;
+    word-wrap: break-word;
+}
+
+.invitePanel a {
+    color: var(--color5);
 }

@@ -11,12 +11,12 @@
 
 .feature {
     padding: 10px;
-    background: var(--color3);
+    background: var(--color2);
     text-align: center;
-    border-bottom: 1px solid var(--color4);
+    border-bottom: 1px solid var(--color5);
     min-height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color4);
+    color: var(--color5);
 }
