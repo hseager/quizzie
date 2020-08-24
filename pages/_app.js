@@ -4,11 +4,11 @@ import { setUserId } from '../libs/localStorage'
 
 function MyApp({ Component, pageProps }) {
 
-  useEffect(() => {
-    setUserId()
-  },[])
+    useEffect(() => {
+        setUserId()
+    },[])
 
-  return <Component {...pageProps} />
+    return <Component {...pageProps} />
 }
 
 export default MyApp

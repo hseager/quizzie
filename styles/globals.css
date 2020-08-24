@@ -4,16 +4,24 @@
     --color3: #ff9999;
     --color4: #ffc8c8;
     --color5: #efefef;
+    --font-size: 16px;
+    --font: 'Quicksand','Arial', sans-serif;
+    --text-dark: var(--color1);
 }
 
-html,
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     padding: 0;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    color: var(--color1);
+    font-family: var(--font);
+    color: var(--text-dark);
     background: var(--color5);
+    font-size: var(--font-size);
 }
 
 a {
@@ -30,8 +38,6 @@ ul {
     padding: 0 40px;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+textarea {
+    font-family: var(--font);
 }

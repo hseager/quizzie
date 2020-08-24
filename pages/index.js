@@ -18,13 +18,13 @@ export default function Home() {
             </div>
             <div className={styles.features}>
                 <div className={styles.feature}>
-                    <h3>Step 1. Choose a quiz</h3>
+                    <h3 className={styles.featureTitle}>Step 1. Choose a quiz</h3>
                 </div>
                 <div className={styles.feature}>
-                    <h3>Step 2. Invite your friends</h3>
+                    <h3 className={styles.featureTitle}>Step 2. Invite your friends</h3>
                 </div>
                 <div className={styles.feature}>
-                    <h3>Step 3. Play the realtime quiz</h3>
+                    <h3 className={styles.featureTitle}>Step 3. Play the realtime quiz</h3>
                 </div>
             </div>
             <div className={styles.section}>

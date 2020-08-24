@@ -1,3 +1,4 @@
+import styles from '../styles/questions.module.css'
 import buttonStyles from '../styles/buttons.module.css'
 import useSocket from '../hooks/useSocket'
 import { useState } from 'react'
@@ -20,12 +21,12 @@ export default function QuizQuestions({ quiz, lobby }) {
         <>
         {
             typeof quiz.questions[currentQuestion] !== 'undefined' &&
-            <div>
+            <div className={styles.questionPanel}>
                 <h2>{ quiz.questions[currentQuestion].question }</h2>
-                <p>Question {currentQuestion + 1} of {quiz.questions.length}</p>
+                <p>Question <strong>{currentQuestion + 1}</strong> of <strong>{quiz.questions.length}</strong></p>
                 {
                     nextQuestionTimer &&
-                    <p>You have {nextQuestionTimer} seconds to answer!</p>
+                    <p>You have <strong>{nextQuestionTimer}</strong> seconds to answer!</p>
                 }
                 <div>
                     {

@@ -5,7 +5,7 @@ import Results from '../../components/results'
 import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
 import { useState, useEffect } from 'react'
-import styles from '../../styles/quiz.module.css'
+import styles from '../../styles/layout.module.css'
 
 export default function Quiz({ quiz, lobby }) {
 
@@ -26,7 +26,7 @@ export default function Quiz({ quiz, lobby }) {
 
     return (
         <Layout>
-            <div class={styles.section}>
+            <div className={styles.section}>
                 <p>Play the Quiz: <strong>{quiz.name}</strong></p>
                 {
                     status == 'lobby' &&
