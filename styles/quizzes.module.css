@@ -4,7 +4,7 @@
 }
 
 .title{
-    margin: 0 0 15px;
+    margin: 20px 0;
 }
 
 .quizList {
@@ -26,4 +26,5 @@
 
 .quizName {
     margin: 0;
+    font-size: 18px;
 }

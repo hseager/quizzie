@@ -5,15 +5,12 @@
     cursor: pointer;
     font-size: 20px;
     color: inherit;
-    /* box-shadow: var(--color1) 0px 1px 3px; */
     display: inline-block;
     outline: none;
     background: var(--color3);
     color: var(--text-dark);
-    font-weight: bold;
 }
 
 .button:active{
-    /* box-shadow: var(--color1) 0px 0px 3px; */
-    margin: 2px 0 -2px;
+    transform: translate(0, 2px);
 }

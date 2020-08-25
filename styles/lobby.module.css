@@ -2,10 +2,6 @@
     font-weight: bold;
 }
 
-.title {
-    margin: 0 0 15px;
-}
-
 .invitePanel{
     padding: 10px;
     background: var(--color2);

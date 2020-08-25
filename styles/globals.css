@@ -1,12 +1,15 @@
 :root {
     --color1: #3e4149;
     --color2: #444f5a;
-    --color3: #ff9999;
+    --color3: #e3c467;
     --color4: #ffc8c8;
     --color5: #efefef;
     --font-size: 16px;
     --font: 'Quicksand','Arial', sans-serif;
     --text-dark: var(--color1);
+    --spacing-small: 10px;
+    --spacing-medium: 15px;
+    --spacing-large: 40px;
 }
 
 * {
@@ -30,12 +33,12 @@ a {
 }
 
 p {
-    margin: 15px 0;
+    margin: 0 0 var(--spacing-medium) 0;
 }
 
 ul {
-    margin: 15px 0;
-    padding: 0 40px;
+    margin: var(--spacing-medium) 0;
+    padding: 0 var(--spacing-large);
 }
 
 textarea {

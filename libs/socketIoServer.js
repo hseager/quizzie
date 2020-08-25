@@ -65,7 +65,7 @@ module.exports = (server) => {
                     })
                     
                     // While testing buttons
-                    //io.to(data.lobbyId).emit('finishedQuiz')
+                    // io.to(data.lobbyId).emit('finishedQuiz')
                     clearInterval(questionInterval)
                     clearInterval(clientCountdown)
                 }

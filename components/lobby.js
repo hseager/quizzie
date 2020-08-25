@@ -1,4 +1,3 @@
-import styles from '../styles/lobby.module.css'
 import useSocket from '../hooks/useSocket'
 import buttonStyles from '../styles/buttons.module.css'
 import { useState, useEffect } from 'react'
@@ -6,6 +5,8 @@ import { getUserId } from '../libs/localStorage'
 import fetch from 'isomorphic-unfetch'
 import { useRouter } from 'next/router'
 import config from '../libs/config'
+import layout from '../styles/layout.module.css'
+import styles from '../styles/lobby.module.css'
 
 export default function Lobby({ data, quizData }) {
 
@@ -75,7 +76,7 @@ export default function Lobby({ data, quizData }) {
 
     return (
         <>
-            <h1 className={styles.title}>Invite your friends</h1>
+            <h1 className={layout.title}>Invite your friends</h1>
             {
                 lobby.players &&
                 lobby.players.length > 0 &&

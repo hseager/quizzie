@@ -26,6 +26,7 @@ const Quizzes = function({ data }) {
                                     <a>{quiz.name}</a>
                                 </Link>
                             </h4>
+                            <p>{quiz.questions.length + 1} Questions</p>
                         </div>
                     ))}
                 </div>

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from '../styles/layout.module.css'
+import layout from '../styles/layout.module.css'
 
 export default function Layout({children}) {
     return (
@@ -12,13 +12,8 @@ export default function Layout({children}) {
                 <title>Quizzie - Live Quiz with your friends</title>
                 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" /> 
             </Head>
-            <header className={styles.header}>
-                <h1 className={styles.title}>Quizzie</h1>
-            </header>
-            <div className={styles.container}>
-                <main>
-                    {children}
-                </main>
+            <div className={layout.container}>
+                {children}
             </div>
         </>
     )
