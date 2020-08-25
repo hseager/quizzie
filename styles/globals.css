@@ -44,3 +44,7 @@ ul {
 textarea {
     font-family: var(--font);
 }
+
+h1, h2 {
+    margin: 0 0 var(--spacing-medium);
+}

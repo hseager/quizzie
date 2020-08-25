@@ -1,11 +1,15 @@
-import styles from '../styles/home.module.css'
 import buttonStyles from '../styles/buttons.module.css'
 import Layout from '../components/layout'
 import Link from 'next/link'
+import styles from '../styles/home.module.css'
 
 export default function Home() {
     return (
         <Layout>
+            <div className={styles.section}>
+                <h1>Quizzie</h1>
+                <p>Play a realtime quiz with your friends and family.</p>
+            </div>
             <div className={styles.section}>
                 <Link href="/quizzes">
                     <a className={buttonStyles.button}>Start a new Quiz</a>

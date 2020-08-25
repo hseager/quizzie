@@ -25,10 +25,6 @@
     padding: 0 var(--spacing-small);
 }
 
-.section:first-child{
-    margin-top: 0;
-}
-
 .title {
     margin: 0 0 var(--spacing-medium)
 }

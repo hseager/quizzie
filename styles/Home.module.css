@@ -1,7 +1,6 @@
 .section {
-    margin: 40px 0;
+    composes: section from './layout.module.css';
     text-align: center;
-    padding: 0 10px;
 }
 
 .features {

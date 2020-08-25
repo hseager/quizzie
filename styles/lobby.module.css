@@ -3,13 +3,37 @@
 }
 
 .invitePanel{
-    padding: 10px;
+    padding: var(--spacing-small);
     background: var(--color2);
     color: var(--color5);
-    margin: 20px 0 0 0;
+    margin: var(--spacing-medium) 0 0 0;
     word-wrap: break-word;
 }
 
 .invitePanel a {
     color: var(--color5);
+}
+
+.lobbyPanel {
+    background: var(--color1);
+    padding: var(--spacing-small);
+    margin: 0 0 var(--spacing-medium);
+    color: var(--color5);
+}
+
+.lobbyPanel ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lobbyPanel ul li{
+    background: var(--color1);
+    padding: 4px;
+    border-bottom: 1px solid var(--color5);
+}
+
+.lobbyTitle {
+    font-size: 22px;
+    margin: 0;
 }

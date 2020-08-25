@@ -80,8 +80,8 @@ export default function Lobby({ data, quizData }) {
             {
                 lobby.players &&
                 lobby.players.length > 0 &&
-                <>
-                    <h2>Players</h2>
+                <div className={styles.lobbyPanel}>
+                    <h2 className={styles.lobbyTitle}>Players</h2>
                     <ul>
                         {lobby.players.map(user => (
                             <li 
@@ -92,7 +92,7 @@ export default function Lobby({ data, quizData }) {
                             </li>
                         ))}
                     </ul>
-                </>
+                </div>
             }
             {
                 !inLobby &&
