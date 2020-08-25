@@ -71,12 +71,27 @@ export default function Lobby({ data, quizData }) {
         socket.emit('startQuiz', { lobbyId: lobby.owner, questionCount: quizData.questions.length })
     }
 
+    const getLobbyPlayerClass = (playerId) => {
+        if(playerId === lobby.owner)
+            return styles.playerOwner
+
+        if(playerId === userId)
+            return styles.playerCurrent
+    }
+
     if(!lobby)
         return <p>Loading lobby...</p>
 
     return (
         <>
-            <h1 className={layout.title}>Invite your friends</h1>
+            {
+                userId === lobby.owner &&
+                <h1 className={layout.title}>Invite your friends</h1>
+            }
+            {
+                userId !== lobby.owner &&
+                <h1 className={layout.title}>Get ready to play a Quiz</h1>
+            }
             {
                 lobby.players &&
                 lobby.players.length > 0 &&
@@ -86,7 +101,7 @@ export default function Lobby({ data, quizData }) {
                         {lobby.players.map(user => (
                             <li 
                                 key={user.id} 
-                                className={(user.id === userId ? styles.playerInLobby : '')}
+                                className={getLobbyPlayerClass(user.id)}
                             >
                                 {user.name}
                             </li>
