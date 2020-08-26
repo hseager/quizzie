@@ -1,6 +1,6 @@
 import Layout from '../../components/layout'
 import Lobby from '../../components/lobby'
-import QuizQuestions from '../../components/quizQuestions'
+import Questions from '../../components/questions'
 import Results from '../../components/results'
 import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
@@ -33,7 +33,7 @@ export default function Quiz({ quiz, lobby }) {
                 }
                 {
                     status == 'started' &&
-                    <QuizQuestions quiz={quiz} lobby={lobby} />
+                    <Questions quiz={quiz} lobby={lobby} />
                 }
                 {
                     status == 'finished' &&

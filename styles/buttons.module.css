@@ -11,6 +11,10 @@
     color: var(--text-dark);
 }
 
-.button:active{
+.button:active:not(:disabled){
     transform: translate(0, 2px);
+}
+
+.button:disabled {
+    background: var(--color4);
 }
