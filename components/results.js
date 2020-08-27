@@ -1,6 +1,8 @@
 
+export default function Results({ results }) {
 
-export default function Results() {
+    console.log(results)
+
     return (
         <p>The Results!</p>
     )

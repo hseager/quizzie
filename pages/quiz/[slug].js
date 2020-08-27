@@ -6,8 +6,9 @@ import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
 import { useState, useEffect } from 'react'
 import layout from '../../styles/layout.module.css'
+import config from '../../libs/config'
 
-export default function Quiz({ quiz, lobby }) {
+export default function Quiz({ quiz, lobby, results }) {
 
     const [status, setStatus] = useState(lobby.status)
     const socket = useSocket()
@@ -37,7 +38,7 @@ export default function Quiz({ quiz, lobby }) {
                 }
                 {
                     status == 'finished' &&
-                    <Results />
+                    <Results results={results} />
                 }
             </div>
         </Layout>
@@ -46,20 +47,24 @@ export default function Quiz({ quiz, lobby }) {
 
 export async function getServerSideProps(context) {
 
-    const quizRes = await fetch(`http://localhost:3000/api/quizzes/${context.params.slug}`)
+    const quizRes = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`)
     const quizJson = await quizRes.json()
 
     const loid = context.query.loid;
     if(!loid)
         context.res.redirect('/quizzes')
 
-    const lobbyRes = await fetch(`http://localhost:3000/api/lobbies/${loid}`)
+    const lobbyRes = await fetch(`${config.siteUrl}/api/lobbies/${loid}`)
     const lobbyJson = await lobbyRes.json()
+
+    const resultRes = await fetch(`${config.siteUrl}/api/results/${loid}`)
+    const resultsJson = await resultRes.json()
 
     return {
         props: {
             quiz: quizJson,
-            lobby: lobbyJson
+            lobby: lobbyJson,
+            results: resultsJson
         }
     }
 }
