@@ -2,6 +2,7 @@ import useSocket from '../hooks/useSocket'
 import { useState } from 'react'
 import questionStyles from '../styles/questions.module.css'
 import config from '../libs/config'
+import { getUserId } from '../libs/localStorage'
 
 export default function Questions({ quiz, lobby }) {
 
@@ -20,19 +21,21 @@ export default function Questions({ quiz, lobby }) {
     })
 
     const answerQuestion = (answer) => {
-        console.log(answer)
-        // setDisableAnswers(true)
-
-        fetch(`${config.siteUrl}/api/lobbies`, {
+        
+        fetch(`${config.siteUrl}/api/results/answer`, {
             method: 'post',
             body: JSON.stringify({
-                id: lobby.owner,
+                lobbyId: lobby.owner,
                 data: {
-                    status: 'started'
+                    playerId: getUserId(),
+                    question: currentQuestion,
+                    answer
                 }
             }),
             headers: { 'Content-Type': 'application/json' }
         })
+
+        setDisableAnswers(true)
 
     }
 

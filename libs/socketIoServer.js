@@ -64,8 +64,7 @@ module.exports = (server) => {
                         console.log(`Error with finishing quiz. lobbyId: ${data.lobbyId}. Error: ${err}`)
                     })
                     
-                    // While testing buttons
-                    // io.to(data.lobbyId).emit('finishedQuiz')
+                    io.to(data.lobbyId).emit('finishedQuiz')
                     clearInterval(questionInterval)
                     clearInterval(clientCountdown)
                 }

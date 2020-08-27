@@ -47,7 +47,9 @@ export default function Lobby({ data, quizData }) {
             method: 'post',
             body: JSON.stringify({ 
                 id: lobby.owner,
-                data: { players: player },
+                data: { 
+                    players: player
+                },
                 push: true
             }),
             headers: { 'Content-Type': 'application/json' }
@@ -68,6 +70,16 @@ export default function Lobby({ data, quizData }) {
             }),
             headers: { 'Content-Type': 'application/json' }
         })
+
+        fetch(`${config.siteUrl}/api/results`, {
+            method: 'post',
+            body: JSON.stringify({
+                lobbyId: lobby.owner,
+                quizId: quizData._id
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        })        
+
         socket.emit('startQuiz', { lobbyId: lobby.owner, questionCount: quizData.questions.length })
     }
 
