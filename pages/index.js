@@ -11,7 +11,7 @@ export default function Home() {
                 <p>Play a realtime quiz with your friends and family</p>
             </div>
             <div className={styles.section}>
-                <Link href="/quizzes">
+                <Link href="/choose-a-quiz">
                     <a className={buttonStyles.button}>Start a new Quiz</a>
                 </Link>
             </div>

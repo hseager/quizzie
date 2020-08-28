@@ -4,8 +4,9 @@ import styles from '../styles/quizzes.module.css'
 import { getUserId } from '../libs/localStorage'
 import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
+import config from '../libs/config'
 
-const Quizzes = function({ data }) {
+const ChooseAQuiz = function({ data }) {
 
     const [userId, setUserId] = useState()
     
@@ -16,7 +17,7 @@ const Quizzes = function({ data }) {
     return (
         <Layout>
             <div className={styles.section}>
-                <h1 className={styles.title}>Pick a Quiz</h1>
+                <h1 className={styles.title}>Choose a Quiz</h1>
                 <div className={styles.quizList}>
                     {data.map((quiz) => (
                         <div className={styles.quizListItem} key={quiz._id}>
@@ -37,7 +38,7 @@ const Quizzes = function({ data }) {
 
 export async function getStaticProps() {
 
-    const res = await fetch('http://localhost:3000/api/quizzes')
+    const res = await fetch(`${config.siteUrl}/api/quizzes`)
     const json = await res.json()
 
     return {
@@ -48,4 +49,4 @@ export async function getStaticProps() {
 }
 
 
-export default Quizzes
+export default ChooseAQuiz
