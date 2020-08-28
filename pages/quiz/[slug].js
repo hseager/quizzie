@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import layout from '../../styles/layout.module.css'
 import config from '../../libs/config'
 
-export default function Quiz({ quiz, lobby, results }) {
+export default function Quiz({ quiz, lobby }) {
 
     const [status, setStatus] = useState(lobby.status)
     const socket = useSocket()
@@ -38,7 +38,7 @@ export default function Quiz({ quiz, lobby, results }) {
                 }
                 {
                     status == 'finished' &&
-                    <Results results={results} />
+                    <Results lobbyId={lobby.owner} quizData={quiz} />
                 }
             </div>
         </Layout>
@@ -47,24 +47,20 @@ export default function Quiz({ quiz, lobby, results }) {
 
 export async function getServerSideProps(context) {
 
-    const quizRes = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`)
+    const quizRes = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`).catch((err) => { console.log(err) })
     const quizJson = await quizRes.json()
 
     const loid = context.query.loid;
     if(!loid)
         context.res.redirect('/quizzes')
 
-    const lobbyRes = await fetch(`${config.siteUrl}/api/lobbies/${loid}`)
+    const lobbyRes = await fetch(`${config.siteUrl}/api/lobbies/${loid}`).catch((err) => { console.log(err) })
     const lobbyJson = await lobbyRes.json()
-
-    const resultRes = await fetch(`${config.siteUrl}/api/results/${loid}`)
-    const resultsJson = await resultRes.json()
 
     return {
         props: {
             quiz: quizJson,
-            lobby: lobbyJson,
-            results: resultsJson
+            lobby: lobbyJson
         }
     }
 }

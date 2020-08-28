@@ -13,6 +13,7 @@ handler.get(async (req, res) => {
     let results = await resultsCollection.findOne({ lobbyId });
 
     res.json(results)
+
 })
 
 export default handler

@@ -9,7 +9,7 @@ const client = new MongoClient(config.mongoDbConnection, {
 
 async function database(req, res, next) {
     if(!client.isConnected()) await client.connect()
-    req.dbCLient = client
+    //req.dbCLient = client
     req.db = client.db(config.mongoDbName)
     return next()
 }

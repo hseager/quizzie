@@ -30,6 +30,7 @@ handler.get(async (req, res) => {
         )
 
         lobby = await lobbiesCollection.findOne({ _id: result.result.upserted[0]._id })
+
         res.json(lobby)
     }
     

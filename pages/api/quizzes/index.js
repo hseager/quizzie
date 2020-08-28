@@ -7,6 +7,7 @@ handler.use(middleware)
 
 handler.get(async (req, res) => {
     let doc = await req.db.collection('quizzes').find({}).toArray();
+
     res.json(doc)
 })
 

@@ -27,7 +27,7 @@ export default function Questions({ quiz, lobby }) {
             body: JSON.stringify({
                 lobbyId: lobby.owner,
                 data: {
-                    playerId: getUserId(),
+                    player: lobby.players.find(p => p.id === getUserId()),
                     question: currentQuestion,
                     answer
                 }
@@ -36,7 +36,6 @@ export default function Questions({ quiz, lobby }) {
         })
 
         setDisableAnswers(true)
-
     }
 
     return (
