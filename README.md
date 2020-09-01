@@ -1,17 +1,11 @@
 # Quizzie
 
 - *To do*
+- Create lobbyIds instead of UserId, to fix results page always showing
 - Multi Choice / Text - create quiz
 - Share Link + Code
 - email signup & save progress
-- design + styling
-- result page + play again
 - error testing
-- homepage
-    - step 1. choose a quiz
-    - step 2. invite friends & family
-    - step 3. start quiz
-    - Create an account to save progress and create quizzes
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
