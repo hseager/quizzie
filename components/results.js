@@ -29,7 +29,7 @@ export default function Results({ lobbyId, quizData }) {
                     </div>
                 ))
             }
-            <Link href={`/quizzes`}>
+            <Link href={`/choose-a-quiz`}>
                 <a className={buttonStyles.button}>Play another Quiz</a>
             </Link>
         </>

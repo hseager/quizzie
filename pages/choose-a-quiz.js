@@ -17,6 +17,9 @@ const ChooseAQuiz = function({ data }) {
     return (
         <Layout>
             <div className={styles.section}>
+                <Link href={'/'}>
+                    <a>Back</a>
+                </Link>
                 <h1 className={styles.title}>Choose a Quiz</h1>
                 <div className={styles.quizList}>
                     {data.map((quiz) => (
@@ -27,7 +30,7 @@ const ChooseAQuiz = function({ data }) {
                                     <a>{quiz.name}</a>
                                 </Link>
                             </h4>
-                            <p>{quiz.questions.length + 1} Questions</p>
+                            <p>{quiz.questions.length} Questions</p>
                         </div>
                     ))}
                 </div>

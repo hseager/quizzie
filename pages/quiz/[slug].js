@@ -47,14 +47,16 @@ export default function Quiz({ quiz, lobby }) {
 
 export async function getServerSideProps(context) {
 
-    const quizRes = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`).catch((err) => { console.log(err) })
+    const quizRes = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`)
+                                .catch((err) => { console.log(err) })
     const quizJson = await quizRes.json()
 
     const loid = context.query.loid;
     if(!loid)
         context.res.redirect('/quizzes')
 
-    const lobbyRes = await fetch(`${config.siteUrl}/api/lobbies/${loid}`).catch((err) => { console.log(err) })
+    const lobbyRes = await fetch(`${config.siteUrl}/api/lobbies/${loid}`)
+                                .catch((err) => { console.log(err) })
     const lobbyJson = await lobbyRes.json()
 
     return {

@@ -8,7 +8,7 @@ export default function Home() {
         <Layout>
             <div className={styles.section}>
                 <h1>Quizzie</h1>
-                <p>Play a realtime quiz with your friends and family</p>
+                <p>Play a realtime quiz with your friends and family!</p>
             </div>
             <div className={styles.section}>
                 <Link href="/choose-a-quiz">
