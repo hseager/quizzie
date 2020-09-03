@@ -7,20 +7,32 @@ handler.use(middleware)
 
 handler.get(async (req, res) => {
 
-    const { ownerId } = req.query;
+    const { ownerId, q } = req.query;
+    const quizId = q
     const lobbiesCollection = req.db.collection('lobbies');
 
     let lobby = await lobbiesCollection.findOne({ owner: ownerId });
 
+    // TODO: Redo all of this so that the GET request isn't updating DB
+
     // Create Lobby if one doesn't exist
     if(lobby) {
+
+        if(quizId !== 'undefined')
+            await lobbiesCollection.updateOne(
+                { owner: ownerId }, 
+                { $set: {quizId} }
+            )
+
         res.json(lobby)
     } else {
+
         const emptyLobby = { 
             owner: ownerId, 
             players: [],
             status: 'lobby',
-            currentQuestion: 0
+            currentQuestion: 0,
+            quizId: (quizId !== 'undefined' ? quizId : null)
         }
 
         const result = await lobbiesCollection.updateOne(

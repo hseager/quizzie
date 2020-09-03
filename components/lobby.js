@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import config from '../libs/config'
 import layout from '../styles/layout.module.css'
 import styles from '../styles/lobby.module.css'
+import Link from 'next/link'
 
 export default function Lobby({ data, quizData }) {
 
@@ -105,6 +106,13 @@ export default function Lobby({ data, quizData }) {
                 <h1 className={layout.title}>Get ready to play a Quiz</h1>
             }
             {
+                quizData && 
+                <>
+                    <p>You are playing the quiz: <strong>{quizData.name}</strong></p>
+                    <p><strong>{quizData.questions.length}</strong> Questions</p>
+                </>
+            }
+            {
                 lobby.players &&
                 lobby.players.length > 0 &&
                 <div className={styles.lobbyPanel}>
@@ -132,7 +140,6 @@ export default function Lobby({ data, quizData }) {
                 inLobby && 
                 userId === lobby.owner &&
                 <>
-                    <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
                     <div className={styles.invitePanel}>
                         <h2>Invite players</h2>
                         <p>Share this link: <br/><br/><strong><a href={ config.siteUrl + router.asPath }>{ config.siteUrl + router.asPath }</a></strong></p>
@@ -142,6 +149,13 @@ export default function Lobby({ data, quizData }) {
                         <p>Code: <strong>3</strong></p>
                         {*/}
                     </div>
+                    {
+                        quizData &&
+                        <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
+                    }
+                    <Link href={`/choose-a-quiz`}>
+                        <a className={buttonStyles.button}>Change Quiz</a>
+                    </Link>
                 </>
             }
             {

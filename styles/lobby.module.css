@@ -19,7 +19,7 @@
     padding: var(--spacing-small);
     background: var(--color2);
     color: var(--color5);
-    margin: var(--spacing-medium) 0 0 0;
+    margin: var(--spacing-medium) 0;
     word-wrap: break-word;
 }
 

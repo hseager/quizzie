@@ -56,7 +56,8 @@ module.exports = (server) => {
                         body: JSON.stringify({
                             id: data.lobbyId,
                             data: {
-                                status: 'finished',
+                                status: 'lobby',
+                                currentQuestion: 0
                             }
                         }),
                         headers: { 'Content-Type': 'application/json' }

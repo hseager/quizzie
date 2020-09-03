@@ -14,7 +14,7 @@
 .answerButton{
     composes: button from './buttons.module.css';
     width: 48%;
-    margin: 0 0 var(--spacing-medium);
+    margin: 0 0 var(--spacing-medium) !important;
 }
 
 .answerButton:nth-child(3),

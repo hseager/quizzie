@@ -38,7 +38,7 @@ export default function Quiz({ quiz, lobby }) {
                 }
                 {
                     status == 'finished' &&
-                    <Results lobbyId={lobby.owner} quizData={quiz} />
+                    <Results lobby={lobby} quizData={quiz} setStatus={setStatus} />
                 }
             </div>
         </Layout>
@@ -47,15 +47,21 @@ export default function Quiz({ quiz, lobby }) {
 
 export async function getServerSideProps(context) {
 
+    /*
     const quizRes = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`)
                                 .catch((err) => { console.log(err) })
     const quizJson = await quizRes.json()
+    */
 
-    const loid = context.query.loid;
+   const quizJson = null;
+
+   /*
+    const loid = context.query.l;
     if(!loid)
-        context.res.redirect('/quizzes')
+        context.res.redirect('/choose-a-quiz')
+    */
 
-    const lobbyRes = await fetch(`${config.siteUrl}/api/lobbies/${loid}`)
+    const lobbyRes = await fetch(`${config.siteUrl}/api/lobbies/${context.params.lobbyId}?q=${context.query.q}`)
                                 .catch((err) => { console.log(err) })
     const lobbyJson = await lobbyRes.json()
 
