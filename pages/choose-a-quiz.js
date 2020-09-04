@@ -26,8 +26,7 @@ const ChooseAQuiz = function({ data }) {
                         <div className={styles.quizListItem} key={quiz._id}>
                             <h6 className={styles.quizCategory}>{quiz.category}</h6>
                             <h4 className={styles.quizName}>
-                                { /* TODO: Should I be using an onClick here and posting instead? */ }
-                                <Link href={`/play/[lobbyId]?q=${quiz._id}`} as={`/play/${userId}?q=${quiz._id}`}>
+                                <Link href={`/quiz/[slug]`} as={`/quiz/${quiz.slug}`}>
                                     <a>{quiz.name}</a>
                                 </Link>
                             </h4>

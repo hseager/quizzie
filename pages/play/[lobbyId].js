@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import layout from '../../styles/layout.module.css'
 import config from '../../libs/config'
 
-export default function Quiz({ quiz, lobby }) {
+export default function Lobby({ quiz, lobby }) {
 
     const [status, setStatus] = useState(lobby.status)
     const socket = useSocket()
