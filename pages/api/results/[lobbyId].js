@@ -12,7 +12,7 @@ handler.get(async (req, res) => {
 
     let results = await resultsCollection.findOne({ lobbyId });
 
-    res.json(results)
+    res.status(200).json(results)
 
 })
 

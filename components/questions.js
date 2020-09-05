@@ -25,7 +25,7 @@ export default function Questions({ quiz, lobby }) {
         fetch(`${config.siteUrl}/api/results/answer`, {
             method: 'post',
             body: JSON.stringify({
-                lobbyId: lobby.owner,
+                lobbyId: lobby._id,
                 data: {
                     player: lobby.players.find(p => p.id === getUserId()),
                     question: currentQuestion,

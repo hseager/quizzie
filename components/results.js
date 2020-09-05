@@ -3,14 +3,14 @@ import { formatResults } from '../libs/results.js'
 import Link from 'next/link'
 import buttonStyles from '../styles/buttons.module.css'
 
-export default function Results({ lobby, quizData, setStatus }) {
+export default function Results({ lobby, quiz, setStatus }) {
 
     const [results, setResults] = useState(null)
 
     useEffect(() => {
-        fetch(`/api/results/${lobby.owner}`)
+        fetch(`/api/results/${lobby._id}`)
             .then(res => res.json())
-            .then(data => setResults(formatResults(data, quizData)))
+            .then(data => setResults(formatResults(data, quiz)))
             .catch((err) => {
                 console.log(err)
             })
@@ -25,18 +25,18 @@ export default function Results({ lobby, quizData, setStatus }) {
 
     return (
         <>
-            <h3>The Results for your {quizData.name} quiz!</h3>
+            <h3>The Results for your {quiz.name} quiz!</h3>
             {
                 results.overview.map((result, i) => (
                     <div key={i}>
-                        <p>{result.name} scored <strong>{result.correctAnswers}</strong> out of <strong>{quizData.questions.length}</strong></p>
+                        <p>{result.name} scored <strong>{result.correctAnswers}</strong> out of <strong>{quiz.questions.length}</strong></p>
                     </div>
                 ))
             }
             <a className={buttonStyles.button} onClick={startAgain}>Play another Quiz</a>
             <br/><br/>
             <Link href={`/`}>
-                <a className={buttonStyles.button}>Back</a>
+                <a className={buttonStyles.button}>Leave</a>
             </Link>
         </>
     )

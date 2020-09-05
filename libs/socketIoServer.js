@@ -2,12 +2,12 @@ module.exports = (server) => {
     const io = require('socket.io')(server)
 
     io.on('connection', socket => {
-        socket.on('connectToLobby', lobbyOwnerId => {
-            socket.join(lobbyOwnerId)
+        socket.on('connectToLobby', lobbyId => {
+            socket.join(lobbyId)
         })
     
-        socket.on('joinLobby', lobbyData => {
-            io.to(lobbyData.owner).emit('playerJoinedLobby', lobbyData.player)
+        socket.on('joinLobby', data => {
+            io.to(data.lobbyId).emit('playerJoinedLobby', data.player)
         })
     
         socket.on('startQuiz', data => {
@@ -39,7 +39,7 @@ module.exports = (server) => {
                         body: JSON.stringify({
                             id: data.lobbyId,
                             data: {
-                                currentQuestion: currentQuestion,
+                                currentQuestion,
                             }
                         }),
                         headers: { 'Content-Type': 'application/json' }
@@ -56,7 +56,7 @@ module.exports = (server) => {
                         body: JSON.stringify({
                             id: data.lobbyId,
                             data: {
-                                status: 'lobby',
+                                status: 'finished',
                                 currentQuestion: 0
                             }
                         }),

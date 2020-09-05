@@ -8,14 +8,14 @@ handler.use(middleware)
 
 handler.post(async (req, res) => {
 
-    const {id, data} = req.body
+    const {lobbyId, player} = req.body
 
     await req.db.collection('lobbies').updateOne(
-        { _id: ObjectId(id) },
-        { $set: data }
+        { _id: ObjectId(lobbyId) },
+        { $push: { players: player } }
     )
 
-    res.status(200).json({ message: 'Lobby updated' })
+    res.status(200).json({ message: 'Player joined lobby' })
 })
 
 export default handler

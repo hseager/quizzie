@@ -22,7 +22,7 @@ export default function LobbyPage({ quiz, lobby }) {
     })
 
     useEffect(() => {
-        socket.emit('connectToLobby', lobby.owner)
+        socket.emit('connectToLobby', lobby._id)
     }, [])
 
     return (
@@ -30,15 +30,15 @@ export default function LobbyPage({ quiz, lobby }) {
             <div className={layout.fullHeightPage}>
                 {
                     status == 'lobby' &&
-                    <Lobby data={lobby} quizData={quiz} />
+                    <Lobby lobbyData={lobby} quiz={quiz} />
                 }
                 {
                     status == 'started' &&
-                    <Questions quiz={quiz} lobby={lobby} />
+                    <Questions lobby={lobby} quiz={quiz} />
                 }
                 {
                     status == 'finished' &&
-                    <Results lobby={lobby} quizData={quiz} setStatus={setStatus} />
+                    <Results lobby={lobby} quiz={quiz} setStatus={setStatus} />
                 }
             </div>
         </Layout>
@@ -47,24 +47,15 @@ export default function LobbyPage({ quiz, lobby }) {
 
 export async function getServerSideProps(context) {
 
-    /*
-    const quizRes = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`)
-                                .catch((err) => { console.log(err) })
-    const quizJson = await quizRes.json()
-    */
-
-    const quizJson = null;
-
     const getLobby = await fetch(`${config.siteUrl}/api/lobbies/${context.params.id}`)
                         .catch(err => console.log(err))
     const lobby = await getLobby.json()
 
-    const getQuiz = await fetch(`${config.siteUrl}/api/quizzes/${lobby.quizId}`)
-                        .catch(err => console.log(err))
+    // TODO: handle when lobby doesn't exist
+
+    const getQuiz = await fetch(`${config.siteUrl}/api/quizzes/id/${lobby.quizId}`)
+    .catch(err => console.log(err))
     const quiz = await getQuiz.json()
-
-
-    // console.log(lobbyJson)
 
     return {
         props: {

@@ -9,11 +9,11 @@ import layout from '../styles/layout.module.css'
 import styles from '../styles/lobby.module.css'
 import Link from 'next/link'
 
-export default function Lobby({ data, quizData }) {
+export default function Lobby({ lobbyData, quiz }) {
 
     const [name, setName] = useState('')
     const [userId, setUserId] = useState()
-    const [lobby, setLobby] = useState(data)
+    const [lobby, setLobby] = useState(lobbyData)
     const [inLobby, setInLobby] = useState(true)
 
     const router = useRouter()
@@ -44,28 +44,25 @@ export default function Lobby({ data, quizData }) {
 
         const player = { id: userId, name }
 
-        fetch(`${config.siteUrl}/api/lobbies`, {
+        fetch(`${config.siteUrl}/api/lobbies/join`, {
             method: 'post',
             body: JSON.stringify({ 
-                id: lobby.owner,
-                data: { 
-                    players: player
-                },
-                push: true
+                lobbyId: lobby._id,
+                player
             }),
             headers: { 'Content-Type': 'application/json' }
         })
         // TODO: handle errors
 
         setInLobby(true)
-        socket.emit('joinLobby', { owner: lobby.owner, player })
+        socket.emit('joinLobby', { lobbyId: lobby._id, player })
     }
 
     const startQuiz = () => {
         fetch(`${config.siteUrl}/api/lobbies`, {
             method: 'post',
             body: JSON.stringify({
-                id: lobby.owner,
+                id: lobby._id,
                 data: {
                     status: 'started'
                 }
@@ -76,13 +73,13 @@ export default function Lobby({ data, quizData }) {
         fetch(`${config.siteUrl}/api/results`, {
             method: 'post',
             body: JSON.stringify({
-                lobbyId: lobby.owner,
-                quizId: quizData._id
+                lobbyId: lobby._id,
+                quizId: quiz._id
             }),
             headers: { 'Content-Type': 'application/json' }
         })
 
-        socket.emit('startQuiz', { lobbyId: lobby.owner, questionCount: quizData.questions.length })
+        socket.emit('startQuiz', { lobbyId: lobby._id, questionCount: quiz.questions.length })
     }
 
     const getLobbyPlayerClass = (playerId) => {
@@ -107,10 +104,10 @@ export default function Lobby({ data, quizData }) {
                 <h1 className={layout.title}>Get ready to play a Quiz</h1>
             }
             {
-                quizData && 
+                quiz && 
                 <>
-                    <p>You are playing the quiz: <strong>{quizData.name}</strong></p>
-                    <p><strong>{quizData.questions.length}</strong> Questions</p>
+                    <p>You are playing the quiz: <strong>{quiz.name}</strong></p>
+                    <p><strong>{quiz.questions.length}</strong> Questions</p>
                 </>
             }
             {
@@ -151,7 +148,7 @@ export default function Lobby({ data, quizData }) {
                         {*/}
                     </div>
                     {
-                        quizData &&
+                        quiz &&
                         <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
                     }
                     <Link href={`/choose-a-quiz`}>

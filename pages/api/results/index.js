@@ -9,7 +9,7 @@ handler.post(async (req, res) => {
 
     const { lobbyId, quizId } = req.body
 
-    const doc = await req.db.collection('results').updateOne(
+    await req.db.collection('results').updateOne(
         { lobbyId }, 
         { $set: 
             {
@@ -21,7 +21,7 @@ handler.post(async (req, res) => {
         { upsert: true }
     )
 
-    res.json({ message: 'ok' })
+    res.status(200).json({ message: 'ok' })
 })
 
 export default handler

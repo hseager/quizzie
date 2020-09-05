@@ -9,13 +9,12 @@ handler.post(async (req, res) => {
 
     const { lobbyId, data } = req.body
 
-    const doc = await req.db.collection('results').updateOne(
+    await req.db.collection('results').updateOne(
         { lobbyId }, 
-        { $push: { results: data } }, 
-        { upsert: false }
+        { $push: { results: data } }
     )
 
-    res.json({ message: 'ok' })
+    res.status(200).json({ message: 'ok' })
 })
 
 export default handler
