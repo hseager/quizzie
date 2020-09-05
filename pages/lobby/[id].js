@@ -55,16 +55,21 @@ export async function getServerSideProps(context) {
 
     const quizJson = null;
 
-    const lobbyRes = await fetch(`${config.siteUrl}/api/lobbies/${context.params.id}`)
-                                .catch(err => console.log(err))
-    const lobbyJson = await lobbyRes.json()
+    const getLobby = await fetch(`${config.siteUrl}/api/lobbies/${context.params.id}`)
+                        .catch(err => console.log(err))
+    const lobby = await getLobby.json()
+
+    const getQuiz = await fetch(`${config.siteUrl}/api/quizzes/${lobby.quizId}`)
+                        .catch(err => console.log(err))
+    const quiz = await getQuiz.json()
+
 
     // console.log(lobbyJson)
 
     return {
         props: {
-            quiz: quizJson,
-            lobby: lobbyJson
+            quiz,
+            lobby
         }
     }
 }

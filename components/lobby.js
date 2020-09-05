@@ -55,6 +55,7 @@ export default function Lobby({ data, quizData }) {
             }),
             headers: { 'Content-Type': 'application/json' }
         })
+        // TODO: handle errors
 
         setInLobby(true)
         socket.emit('joinLobby', { owner: lobby.owner, player })
@@ -79,7 +80,7 @@ export default function Lobby({ data, quizData }) {
                 quizId: quizData._id
             }),
             headers: { 'Content-Type': 'application/json' }
-        })        
+        })
 
         socket.emit('startQuiz', { lobbyId: lobby.owner, questionCount: quizData.questions.length })
     }

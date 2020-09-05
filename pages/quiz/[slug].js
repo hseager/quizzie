@@ -45,13 +45,13 @@ export default function Quiz({ quiz }) {
 
 export async function getServerSideProps(context) {
 
-    const quizRes = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`)
+    const getQuiz = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`)
                                 .catch(err => { console.log(err) })
-    const quizJson = await quizRes.json()
+    const quiz = await getQuiz.json()
 
     return {
         props: {
-            quiz: quizJson,
+            quiz
         }
     }
 }

@@ -15,13 +15,13 @@ handler.post(async (req, res) => {
     else 
         action = { $set: data.data }
 
-    const doc = await req.db.collection('lobbies').updateOne(
+    await req.db.collection('lobbies').updateOne(
         { owner: data.id }, 
         action, 
         { upsert: false }
     )
 
-    res.json({ message: 'ok' })
+    res.json({ message: 'Lobby updated' })
 })
 
 export default handler
