@@ -7,12 +7,19 @@ handler.use(middleware)
 
 handler.post(async (req, res) => {
 
-    const data = req.body
+    const { userId, quizId } = req.body
+    const lobbiesCollection = req.db.collection('lobbies');
+
+    let lobby = await lobbiesCollection.findOne({ owner: userId });
 
     //TODO: create quiz then redirect 
-    console.log(data)
 
-    res.json({ message: 'ok' })
+    if(lobby){
+        res.status(200).json(lobby)
+    } else {
+        res.status(404).json({ message: 'Lobby not found' })
+    }
+    
 })
 
 export default handler

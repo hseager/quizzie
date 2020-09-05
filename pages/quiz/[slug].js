@@ -2,6 +2,7 @@ import Layout from '../../components/layout'
 import config from '../../libs/config'
 import buttonStyles from '../../styles/buttons.module.css'
 import { getUserId } from '../../libs/localStorage'
+import fetch from 'isomorphic-unfetch'
 
 export default function Quiz({ quiz }) {
 
@@ -16,7 +17,9 @@ export default function Quiz({ quiz }) {
             }),
             headers: { 'Content-Type': 'application/json' }
         })
-        .catch(err => { console.log(err) })
+        .then(res => res.json())
+        .catch(err => { console.log(err); })
+        // TODO: handle errors from server
 
     }
 
