@@ -3,6 +3,7 @@ import config from '../../libs/config'
 import buttonStyles from '../../styles/buttons.module.css'
 import { getUserId } from '../../libs/localStorage'
 import fetch from 'isomorphic-unfetch'
+import Router from 'next/router'
 
 export default function Quiz({ quiz }) {
 
@@ -18,8 +19,9 @@ export default function Quiz({ quiz }) {
             headers: { 'Content-Type': 'application/json' }
         })
         .then(res => res.json())
-        .catch(err => { console.log(err); })
-        // TODO: handle errors from server
+        .then(res => Router.push(`/lobby/${res.lobbyId}`))
+        .catch(err => { console.log(`Error creating lobby: ${err}`) })
+        // TODO: handle errors from server better
 
     }
 
@@ -44,7 +46,7 @@ export default function Quiz({ quiz }) {
 export async function getServerSideProps(context) {
 
     const quizRes = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`)
-                                .catch((err) => { console.log(err) })
+                                .catch(err => { console.log(err) })
     const quizJson = await quizRes.json()
 
     return {

@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import layout from '../../styles/layout.module.css'
 import config from '../../libs/config'
 
-export default function Lobby({ quiz, lobby }) {
+export default function LobbyPage({ quiz, lobby }) {
 
     const [status, setStatus] = useState(lobby.status)
     const socket = useSocket()
@@ -53,17 +53,13 @@ export async function getServerSideProps(context) {
     const quizJson = await quizRes.json()
     */
 
-   const quizJson = null;
+    const quizJson = null;
 
-   /*
-    const loid = context.query.l;
-    if(!loid)
-        context.res.redirect('/choose-a-quiz')
-    */
-
-    const lobbyRes = await fetch(`${config.siteUrl}/api/lobbies/${context.params.lobbyId}?q=${context.query.q}`)
-                                .catch((err) => { console.log(err) })
+    const lobbyRes = await fetch(`${config.siteUrl}/api/lobbies/${context.params.id}`)
+                                .catch(err => console.log(err))
     const lobbyJson = await lobbyRes.json()
+
+    // console.log(lobbyJson)
 
     return {
         props: {

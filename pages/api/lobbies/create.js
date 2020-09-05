@@ -12,13 +12,28 @@ handler.post(async (req, res) => {
 
     let lobby = await lobbiesCollection.findOne({ owner: userId });
 
-    //TODO: create quiz then redirect 
+    if(!lobby){
+        // Create Lobby if one doesn't exist
+        const emptyLobby = {
+            owner: userId,
+            players: [],
+            status: 'lobby',
+            currentQuestion: 0,
+            quizId,
+            created: new Date()
+        }
 
-    if(lobby){
-        res.status(200).json(lobby)
-    } else {
-        res.status(404).json({ message: 'Lobby not found' })
+        const newLobby = await lobbiesCollection.updateOne(
+            { owner: userId }, 
+            { $set: emptyLobby }, 
+            { upsert: true }
+        )
+
+        lobby = await lobbiesCollection.findOne({ _id: newLobby.result.upserted[0]._id })
     }
+
+    // Return LobbyId to then redirect
+    res.status(200).json({ lobbyId: lobby._id })
     
 })
 

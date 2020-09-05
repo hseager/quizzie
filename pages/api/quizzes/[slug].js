@@ -7,9 +7,9 @@ handler.use(middleware)
 
 handler.get(async (req, res) => {
     const { slug } = req.query;
-    const doc = await req.db.collection('quizzes').findOne({ slug });
+    const quiz = await req.db.collection('quizzes').findOne({ slug });
 
-    res.json(doc)
+    res.status(200).json(quiz)
 })
 
 export default handler
