@@ -78,8 +78,18 @@ module.exports = (server) => {
     
         })
 
+        socket.on('disconnecting', some => {
+            /*
+            const rooms = Object.keys(socket.rooms);
+            // the rooms array contains at least the socket ID
+            console.log('Disconnecting' + some)
+            console.log(rooms)
+            */
+           // TODO: Handle user leaving room
+        });
+
         socket.on('disconnect', () => {
-            console.log('Someone disconnected')
+            //console.log('Someone disconnected')
         })
 
     })
