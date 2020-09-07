@@ -1,5 +1,7 @@
 import nextConnect from 'next-connect'
 import middleware from '../../../middleware/database'
+import fetch from 'isomorphic-unfetch'
+import config from '../../../libs/config'
 
 const handler = nextConnect()
 
@@ -30,11 +32,24 @@ handler.post(async (req, res) => {
         )
 
         lobby = await lobbiesCollection.findOne({ _id: newLobby.result.upserted[0]._id })
+
+        res.status(200).json({ lobbyId: lobby._id })
+    } else {
+        // Update Lobby if already exists
+        await fetch(`${config.siteUrl}/api/lobbies/update`, {
+            method: 'post',
+            body: JSON.stringify({ 
+                id: lobby._id,
+                data: {
+                    quizId
+                }
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+
+        res.status(200).json({ lobbyId: lobby._id })
     }
 
-    // Return LobbyId to then redirect
-    res.status(200).json({ lobbyId: lobby._id })
-    
 })
 
 export default handler

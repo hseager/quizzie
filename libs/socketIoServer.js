@@ -34,7 +34,8 @@ module.exports = (server) => {
 
                 if(currentQuestion < data.questionCount){
                     // Change the question
-                    fetch(`http://localhost:3000/api/lobbies`, {
+                    // TODO: use config here
+                    fetch(`http://localhost:3000/api/lobbies/update`, {
                         method: 'post',
                         body: JSON.stringify({
                             id: data.lobbyId,
@@ -51,7 +52,7 @@ module.exports = (server) => {
 
                 } else {
                     // Finish the quiz and show results
-                    fetch(`http://localhost:3000/api/lobbies`, {
+                    fetch(`http://localhost:3000/api/lobbies/update`, {
                         method: 'post',
                         body: JSON.stringify({
                             id: data.lobbyId,
@@ -76,5 +77,10 @@ module.exports = (server) => {
             }(), questionTimer)
     
         })
+
+        socket.on('disconnect', () => {
+            console.log('Someone disconnected')
+        })
+
     })
 }

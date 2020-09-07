@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { formatResults } from '../libs/results.js'
 import Link from 'next/link'
 import buttonStyles from '../styles/buttons.module.css'
+import config from '../libs/config'
 
 export default function Results({ lobby, quiz, setStatus }) {
 
@@ -17,6 +18,16 @@ export default function Results({ lobby, quiz, setStatus }) {
     }, [])
 
     const startAgain = () => {
+        fetch(`${config.siteUrl}/api/lobbies/update`, {
+            method: 'post',
+            body: JSON.stringify({
+                id: lobby._id,
+                data: {
+                    status: 'lobby'
+                }
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        })
         setStatus('lobby')
     }
 

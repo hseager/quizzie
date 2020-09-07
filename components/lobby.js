@@ -59,7 +59,7 @@ export default function Lobby({ lobbyData, quiz }) {
     }
 
     const startQuiz = () => {
-        fetch(`${config.siteUrl}/api/lobbies`, {
+        fetch(`${config.siteUrl}/api/lobbies/update`, {
             method: 'post',
             body: JSON.stringify({
                 id: lobby._id,

@@ -10,7 +10,7 @@ export default function Quiz({ quiz }) {
     const createLobby = () => {
         
         // TODO: show loading gif etc
-        fetch(`${config.siteUrl}/api/lobbies/create`, {
+        fetch(`${config.siteUrl}/api/lobbies/createOrUpdate`, {
             method: 'post',
             body: JSON.stringify({ 
                 userId: getUserId(),
@@ -37,7 +37,7 @@ export default function Quiz({ quiz }) {
             }
             </p>
             <p><strong>{ quiz.questions.length }</strong> Questions</p>
-            <button className={buttonStyles.button} onClick={createLobby}>Create Lobby</button>
+            <button className={buttonStyles.button} onClick={createLobby}>Play Quiz</button>
         </Layout>
     )
 
