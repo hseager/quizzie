@@ -21,6 +21,6 @@ nextApp.prepare().then(() => {
 
     server.listen(port, err => {
         if(err) throw err
-        console.log(`> Next.js Server Ready on http://localhost:${port}`)
+        console.log(`> Next.js Server Ready on ${process.env.NEXT_PUBLIC_HOST}`)
     })
 })

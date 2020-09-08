@@ -1,7 +1,6 @@
 import nextConnect from 'next-connect'
 import middleware from '../../../middleware/database'
 import fetch from 'isomorphic-unfetch'
-import config from '../../../libs/config'
 
 const handler = nextConnect()
 
@@ -36,7 +35,7 @@ handler.post(async (req, res) => {
         res.status(200).json({ lobbyId: lobby._id })
     } else {
         // Update Lobby if already exists
-        await fetch(`${config.siteUrl}/api/lobbies/update`, {
+        await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
             method: 'post',
             body: JSON.stringify({ 
                 id: lobby._id,

@@ -1,7 +1,6 @@
 import useSocket from '../hooks/useSocket'
 import { useState } from 'react'
 import questionStyles from '../styles/questions.module.css'
-import config from '../libs/config'
 import { getUserId } from '../libs/localStorage'
 
 export default function Questions({ quiz, lobby }) {
@@ -22,7 +21,7 @@ export default function Questions({ quiz, lobby }) {
 
     const answerQuestion = (answer) => {
         
-        fetch(`${config.siteUrl}/api/results/answer`, {
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/answer`, {
             method: 'post',
             body: JSON.stringify({
                 lobbyId: lobby._id,

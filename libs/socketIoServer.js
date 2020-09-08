@@ -34,8 +34,7 @@ module.exports = (server) => {
 
                 if(currentQuestion < data.questionCount){
                     // Change the question
-                    // TODO: use config here
-                    fetch(`http://localhost:3000/api/lobbies/update`, {
+                    fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
                         method: 'post',
                         body: JSON.stringify({
                             id: data.lobbyId,
@@ -52,7 +51,7 @@ module.exports = (server) => {
 
                 } else {
                     // Finish the quiz and show results
-                    fetch(`http://localhost:3000/api/lobbies/update`, {
+                    fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
                         method: 'post',
                         body: JSON.stringify({
                             id: data.lobbyId,

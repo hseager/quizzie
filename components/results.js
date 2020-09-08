@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react'
 import { formatResults } from '../libs/results.js'
 import Link from 'next/link'
 import buttonStyles from '../styles/buttons.module.css'
-import config from '../libs/config'
 
 export default function Results({ lobby, quiz, setStatus }) {
 
     const [results, setResults] = useState(null)
 
     useEffect(() => {
-        fetch(`/api/results/${lobby._id}`)
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/${lobby._id}`)
             .then(res => res.json())
             .then(data => setResults(formatResults(data, quiz)))
             .catch((err) => {
@@ -18,7 +17,7 @@ export default function Results({ lobby, quiz, setStatus }) {
     }, [])
 
     const startAgain = () => {
-        fetch(`${config.siteUrl}/api/lobbies/update`, {
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
             method: 'post',
             body: JSON.stringify({
                 id: lobby._id,

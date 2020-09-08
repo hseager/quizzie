@@ -1,12 +1,18 @@
 # Quizzie
 
 - *To do*
-- Create lobbyIds instead of UserId, to fix results page always showing
-- Multi Choice / Text - create quiz
 - Share Link + Code
 - email signup & save progress
 - error testing
 - User leaving lobby
+- Styling
+- Add quizzes
+
+- *Extra Features*
+- Multi Choice / Text - create quiz
+- Quiz Images
+- Quick fire round
+- Rewards
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

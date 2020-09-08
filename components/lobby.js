@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { getUserId } from '../libs/localStorage'
 import fetch from 'isomorphic-unfetch'
 import { useRouter } from 'next/router'
-import config from '../libs/config'
 import layout from '../styles/layout.module.css'
 import styles from '../styles/lobby.module.css'
 import Link from 'next/link'
@@ -44,7 +43,7 @@ export default function Lobby({ lobbyData, quiz }) {
 
         const player = { id: userId, name }
 
-        fetch(`${config.siteUrl}/api/lobbies/join`, {
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/join`, {
             method: 'post',
             body: JSON.stringify({ 
                 lobbyId: lobby._id,
@@ -59,7 +58,7 @@ export default function Lobby({ lobbyData, quiz }) {
     }
 
     const startQuiz = () => {
-        fetch(`${config.siteUrl}/api/lobbies/update`, {
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
             method: 'post',
             body: JSON.stringify({
                 id: lobby._id,
@@ -70,7 +69,7 @@ export default function Lobby({ lobbyData, quiz }) {
             headers: { 'Content-Type': 'application/json' }
         })
 
-        fetch(`${config.siteUrl}/api/results`, {
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results`, {
             method: 'post',
             body: JSON.stringify({
                 lobbyId: lobby._id,
@@ -140,7 +139,7 @@ export default function Lobby({ lobbyData, quiz }) {
                 <>
                     <div className={styles.invitePanel}>
                         <h2>Invite players</h2>
-                        <p>Share this link: <br/><br/><strong><a href={ config.siteUrl + router.asPath }>{ config.siteUrl + router.asPath }</a></strong></p>
+                        <p>Share this link: <br/><br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
                         { /* }
                         <p>Or</p>
                         <p>Type in this code at: <br/><strong>http://localhost:3000/join</strong></p>

@@ -1,5 +1,4 @@
 import Layout from '../../components/layout'
-import config from '../../libs/config'
 import buttonStyles from '../../styles/buttons.module.css'
 import { getUserId } from '../../libs/localStorage'
 import fetch from 'isomorphic-unfetch'
@@ -10,7 +9,7 @@ export default function Quiz({ quiz }) {
     const createLobby = () => {
         
         // TODO: show loading gif etc
-        fetch(`${config.siteUrl}/api/lobbies/createOrUpdate`, {
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/createOrUpdate`, {
             method: 'post',
             body: JSON.stringify({ 
                 userId: getUserId(),
@@ -45,7 +44,7 @@ export default function Quiz({ quiz }) {
 
 export async function getServerSideProps(context) {
 
-    const getQuiz = await fetch(`${config.siteUrl}/api/quizzes/${context.params.slug}`)
+    const getQuiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${context.params.slug}`)
                                 .catch(err => { console.log(err) })
     const quiz = await getQuiz.json()
 

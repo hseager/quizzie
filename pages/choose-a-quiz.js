@@ -4,7 +4,6 @@ import styles from '../styles/quizzes.module.css'
 import { getUserId } from '../libs/localStorage'
 import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
-import config from '../libs/config'
 
 const ChooseAQuiz = function({ data }) {
 
@@ -41,7 +40,7 @@ const ChooseAQuiz = function({ data }) {
 
 export async function getStaticProps() {
 
-    const res = await fetch(`${config.siteUrl}/api/quizzes`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes`)
     const json = await res.json()
 
     return {
