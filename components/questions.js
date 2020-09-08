@@ -47,8 +47,9 @@ export default function Questions({ quiz, lobby }) {
                     <h2>{ quiz.questions[currentQuestion].question }</h2>
                     {
                         nextQuestionTimer &&
-                        <p>You have <strong>{nextQuestionTimer}</strong> seconds to answer!</p>
+                        <div className={questionStyles.timer}>{nextQuestionTimer}</div>
                     }
+                    
                 </div>
                 <div className={questionStyles.answers}>
                     {
