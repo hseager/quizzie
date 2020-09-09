@@ -6,6 +6,7 @@ import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
 import { useState, useEffect } from 'react'
 import layout from '../../styles/layout.module.css'
+import { getUserId } from '../../libs/localStorage'
 
 export default function LobbyPage({ quiz, lobby }) {
 
@@ -21,7 +22,7 @@ export default function LobbyPage({ quiz, lobby }) {
     })
 
     useEffect(() => {
-        socket.emit('connectToLobby', lobby._id)
+        socket.emit('connectToLobby', {lobbyId: lobby._id, userId: getUserId()})
     }, [])
 
     return (

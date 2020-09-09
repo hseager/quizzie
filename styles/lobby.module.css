@@ -1,9 +1,5 @@
 .playerCurrent{
     font-weight: bold;
-}
-
-.playerOwner{
-    font-weight: bold;
     color: var(--color3)
 }
 

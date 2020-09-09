@@ -82,11 +82,16 @@ export default function Lobby({ lobbyData, quiz }) {
     }
 
     const getLobbyPlayerClass = (playerId) => {
+
+        let playerClass = '';
+        
         if(playerId === lobby.owner)
-            return styles.playerOwner
+            playerClass = styles.playerOwner
 
         if(playerId === userId)
-            return styles.playerCurrent
+            playerClass += ' ' + styles.playerCurrent
+        
+        return playerClass
     }
 
     if(!lobby)
@@ -139,7 +144,7 @@ export default function Lobby({ lobbyData, quiz }) {
                 <>
                     <div className={styles.invitePanel}>
                         <h2>Invite players</h2>
-                        <p>Share this link: <br/><br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
+                        <p>Share this link: <br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
                         { /* }
                         <p>Or</p>
                         <p>Type in this code at: <br/><strong>http://localhost:3000/join</strong></p>

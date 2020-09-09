@@ -1,9 +1,19 @@
 module.exports = (server) => {
     const io = require('socket.io')(server)
+    const rooms = []
 
     io.on('connection', socket => {
-        socket.on('connectToLobby', lobbyId => {
+        socket.on('connectToLobby', ({lobbyId, userId}) => {
             socket.join(lobbyId)
+
+            if(!rooms.some(r => r.id === lobbyId))
+                rooms.push({id: lobbyId, players: []})
+            
+            const room = rooms.find(r => r.id == lobbyId)
+            if(!room.players.some(p => p.id === userId))
+                room.players.push({id: userId})
+
+            console.log(rooms)
         })
     
         socket.on('joinLobby', data => {
@@ -84,6 +94,9 @@ module.exports = (server) => {
             console.log('Disconnecting' + some)
             console.log(rooms)
             */
+
+            //console.log(socket)
+
            // TODO: Handle user leaving room
         });
 
