@@ -27,6 +27,32 @@ export default function Lobby({ lobbyData, quiz }) {
         })
     })
 
+    /*
+    useSocket('playerDisconnected', userId => {
+        if(lobby.players.some(p => p.id === userId)){
+
+            const players = lobby.players.filter(p => p.id !== userId)
+
+            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
+                method: 'post',
+                body: JSON.stringify({
+                    id: lobby._id,
+                    data: {
+                        players
+                    }
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            })
+
+            setLobby({
+                ...lobby,
+                players
+            })
+            setInLobby(false)
+        }
+    })
+    */
+
     useEffect(() => {
         setUserId(getUserId())
     }, [userId])
@@ -82,7 +108,6 @@ export default function Lobby({ lobbyData, quiz }) {
     }
 
     const getLobbyPlayerClass = (playerId) => {
-
         let playerClass = '';
         
         if(playerId === lobby.owner)

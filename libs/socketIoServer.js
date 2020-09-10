@@ -1,19 +1,26 @@
 module.exports = (server) => {
     const io = require('socket.io')(server)
-    const rooms = []
+    //const rooms = []
 
     io.on('connection', socket => {
         socket.on('connectToLobby', ({lobbyId, userId}) => {
             socket.join(lobbyId)
 
+            /*
+            socket.lobbyId = lobbyId
+            socket.userId = userId
+            */
+
+            // Add player to rooms to keep track when they disconnect
+            /*
             if(!rooms.some(r => r.id === lobbyId))
                 rooms.push({id: lobbyId, players: []})
             
             const room = rooms.find(r => r.id == lobbyId)
             if(!room.players.some(p => p.id === userId))
-                room.players.push({id: userId})
+                room.players.push({id: userId, socketId: socket.id })
+            */
 
-            console.log(rooms)
         })
     
         socket.on('joinLobby', data => {
@@ -87,22 +94,33 @@ module.exports = (server) => {
     
         })
 
-        socket.on('disconnecting', some => {
+        socket.on('disconnecting', room => {
+
             /*
             const rooms = Object.keys(socket.rooms);
             // the rooms array contains at least the socket ID
             console.log('Disconnecting' + some)
             console.log(rooms)
             */
+           /*
+            console.log(socket.rooms)
+            console.log(socket.id)
+            */
 
-            //console.log(socket)
+
 
            // TODO: Handle user leaving room
         });
 
+        /*
         socket.on('disconnect', () => {
-            //console.log('Someone disconnected')
+            if(socket.lobbyId && socket.userId){
+                setTimeout(() =>{
+                    io.to(socket.lobbyId).emit('playerDisconnected', socket.userId)
+                }, 10000)
+            }
         })
+        */
 
     })
 }
