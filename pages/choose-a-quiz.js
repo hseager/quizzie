@@ -1,6 +1,6 @@
 import Layout from '../components/layout'
 import Link from 'next/link'
-import styles from '../styles/quizzes.module.css'
+import styles from '../styles/page.module.css'
 import { getUserId } from '../libs/localStorage'
 import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'

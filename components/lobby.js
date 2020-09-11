@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { getUserId } from '../libs/localStorage'
 import fetch from 'isomorphic-unfetch'
 import { useRouter } from 'next/router'
-import layout from '../styles/layout.module.css'
+import pageStyles from '../styles/page.module.css'
 import styles from '../styles/lobby.module.css'
 import Link from 'next/link'
 
@@ -125,11 +125,11 @@ export default function Lobby({ lobbyData, quiz }) {
         <>
             {
                 userId === lobby.owner &&
-                <h1 className={layout.title}>Invite your friends</h1>
+                <h1 className={pageStyles.title}>Invite your friends</h1>
             }
             {
                 userId !== lobby.owner &&
-                <h1 className={layout.title}>Get ready to play a Quiz</h1>
+                <h1 className={pageStyles.title}>Get ready to play a Quiz</h1>
             }
             {
                 quiz && 

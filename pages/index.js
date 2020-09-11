@@ -1,7 +1,7 @@
 import buttonStyles from '../styles/buttons.module.css'
 import Layout from '../components/layout'
 import Link from 'next/link'
-import styles from '../styles/home.module.css'
+import styles from '../styles/page.module.css'
 
 export default function Home() {
     return (

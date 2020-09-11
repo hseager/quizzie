@@ -5,7 +5,7 @@ import Results from '../../components/results'
 import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
 import { useState, useEffect } from 'react'
-import layout from '../../styles/layout.module.css'
+import pageStyles from '../../styles/page.module.css'
 import { getUserId } from '../../libs/localStorage'
 import ErrorPage from 'next/error'
 
@@ -31,7 +31,7 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
 
     return (
         <Layout>
-            <div className={layout.fullHeightPage}>
+            <div className={pageStyles.fullHeightPage}>
                 {
                     status == 'lobby' &&
                     <Lobby lobbyData={lobby} quiz={quiz} />
