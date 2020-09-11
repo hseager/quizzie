@@ -77,7 +77,6 @@ export default function Lobby({ lobbyData, quiz }) {
             }),
             headers: { 'Content-Type': 'application/json' }
         })
-        // TODO: handle errors
 
         setInLobby(true)
         socket.emit('joinLobby', { lobbyId: lobby._id, player })

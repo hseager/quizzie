@@ -20,7 +20,6 @@ export default function Quiz({ quiz }) {
         .then(res => res.json())
         .then(res => Router.push(`/lobby/${res.lobbyId}`))
         .catch(err => { console.log(`Error creating lobby: ${err}`) })
-        // TODO: handle errors from server better
 
     }
 

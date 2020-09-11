@@ -7,8 +7,12 @@ import useSocket from '../../hooks/useSocket'
 import { useState, useEffect } from 'react'
 import layout from '../../styles/layout.module.css'
 import { getUserId } from '../../libs/localStorage'
+import ErrorPage from 'next/error'
 
-export default function LobbyPage({ quiz, lobby }) {
+export default function LobbyPage({ quiz, lobby, statusCode }) {
+
+    if(statusCode === 404)
+        return (<ErrorPage statusCode={statusCode} />)
 
     const [status, setStatus] = useState(lobby.status)
     const socket = useSocket()
@@ -46,16 +50,23 @@ export default function LobbyPage({ quiz, lobby }) {
 }
 
 export async function getServerSideProps(context) {
-
-    const getLobby = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`)
+    
+    const lobby = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`)
+                        .then(res => res.json())
                         .catch(err => console.log(err))
-    const lobby = await getLobby.json()
 
-    // TODO: handle when lobby doesn't exist
+    // Throw 404 if lobby not found
+    if(typeof lobby === 'undefined'){
+        return {
+            props: {
+                statusCode: 404
+            }
+        }
+    }
 
-    const getQuiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${lobby.quizId}`)
-    .catch(err => console.log(err))
-    const quiz = await getQuiz.json()
+    const quiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${lobby.quizId}`)
+                            .then(res => res.json())
+                            .catch(err => console.log(err))
 
     return {
         props: {
@@ -63,4 +74,5 @@ export async function getServerSideProps(context) {
             lobby
         }
     }
+
 }
