@@ -1,7 +1,6 @@
 .section {
     margin: var(--spacing-large) 0;
     padding: 0 var(--spacing-small);
-    text-align: center;
 }
 
 .container {
