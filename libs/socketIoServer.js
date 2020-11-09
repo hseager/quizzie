@@ -1,10 +1,14 @@
 module.exports = (server) => {
     const io = require('socket.io')(server)
-    //const rooms = []
+    //require('./libs/classes/lobby')
+
+    const lobbies = []
 
     io.on('connection', socket => {
         socket.on('connectToLobby', ({lobbyId, userId}) => {
             socket.join(lobbyId)
+
+
 
             /*
             socket.lobbyId = lobbyId
