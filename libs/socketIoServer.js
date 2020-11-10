@@ -3,27 +3,26 @@ module.exports = (server) => {
     const Lobby = require('../libs/classes/lobby')
     const lobbies = []
 
+    const oneSecond = 1000
+    const questionTimer = 10 * oneSecond
+    const disconnectionTimer = 5 * oneSecond
+
     io.on('connection', socket => {
+
         socket.on('connectToLobby', ({lobbyId, userId}) => {
             socket.join(lobbyId)
 
-            if(!lobbies.some(l => l.id === lobbyId))
-                const lobby = new Lobby(lobbyId)
+            let lobby = lobbies.find(l => l.id === lobbyId)
+            if(typeof lobby === 'undefined'){
+                lobby = new Lobby(lobbyId)
+                lobbies.push(lobby)
+            }
 
-            /*
-            socket.lobbyId = lobbyId
-            socket.userId = userId
-            */
-
-            // Add player to rooms to keep track when they disconnect
-            /*
-            if(!rooms.some(r => r.id === lobbyId))
-                rooms.push({id: lobbyId, players: []})
-            
-            const room = rooms.find(r => r.id == lobbyId)
-            if(!room.players.some(p => p.id === userId))
-                room.players.push({id: userId, socketId: socket.id })
-            */
+            let connection = lobby.connections.find(c => c.userId === userId)
+            if(typeof connection === 'undefined')
+                lobby.connections.push({userId, socketId: socket.id})
+            else 
+                connection.socketId = socket.id
 
         })
     
@@ -33,8 +32,7 @@ module.exports = (server) => {
     
         socket.on('startQuiz', data => {
 
-            const oneSecond = 1000
-            const questionTimer = 10 * oneSecond
+            
             let currentQuestion = 0
     
             // Tell everyone to start the quiz
@@ -98,33 +96,23 @@ module.exports = (server) => {
     
         })
 
-        socket.on('disconnecting', room => {
-
-            /*
-            const rooms = Object.keys(socket.rooms);
-            // the rooms array contains at least the socket ID
-            console.log('Disconnecting' + some)
-            console.log(rooms)
-            */
-           /*
-            console.log(socket.rooms)
-            console.log(socket.id)
-            */
-
-
-
-           // TODO: Handle user leaving room
-        });
-
-        /*
         socket.on('disconnect', () => {
-            if(socket.lobbyId && socket.userId){
-                setTimeout(() =>{
-                    io.to(socket.lobbyId).emit('playerDisconnected', socket.userId)
-                }, 10000)
-            }
+            setTimeout(() => {
+                // Remove user from lobby on disconnect
+                lobbies.forEach(lobby => {
+                    let connectionIndex = lobby.connections.findIndex(c => c.socketId === socket.id)
+
+                    if(connectionIndex !== -1){
+                        const disconnectingUserId = lobby.connections[connectionIndex].userId
+                        lobby.connections.splice(connectionIndex, 1)
+                        
+                        io.to(lobby.id).emit('playerLeftLobby', disconnectingUserId)
+                    }
+                })
+
+                
+            }, disconnectionTimer)
         })
-        */
 
     })
 }

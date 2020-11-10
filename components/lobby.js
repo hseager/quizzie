@@ -27,8 +27,7 @@ export default function Lobby({ lobbyData, quiz }) {
         })
     })
 
-    /*
-    useSocket('playerDisconnected', userId => {
+    useSocket('playerLeftLobby', userId => {
         if(lobby.players.some(p => p.id === userId)){
 
             const players = lobby.players.filter(p => p.id !== userId)
@@ -51,7 +50,6 @@ export default function Lobby({ lobbyData, quiz }) {
             setInLobby(false)
         }
     })
-    */
 
     useEffect(() => {
         setUserId(getUserId())

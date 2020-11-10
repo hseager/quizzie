@@ -7,7 +7,6 @@ import Router from 'next/router'
 export default function Quiz({ quiz }) {
 
     const createLobby = () => {
-        
         // TODO: show loading gif etc
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/createOrUpdate`, {
             method: 'post',
@@ -20,7 +19,6 @@ export default function Quiz({ quiz }) {
         .then(res => res.json())
         .then(res => Router.push(`/lobby/${res.lobbyId}`))
         .catch(err => { console.log(`Error creating lobby: ${err}`) })
-
     }
 
     return (
