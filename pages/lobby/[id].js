@@ -26,7 +26,11 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
     })
 
     useEffect(() => {
-        socket.emit('connectToLobby', {lobbyId: lobby._id, userId: getUserId()})
+        // Connect to lobby when user loads lobby page
+        socket.emit('connectToLobby', {
+            lobbyId: lobby._id, 
+            userId: getUserId()
+        })
     }, [])
 
     return (

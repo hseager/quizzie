@@ -1,14 +1,14 @@
 module.exports = (server) => {
     const io = require('socket.io')(server)
-    //require('./libs/classes/lobby')
-
+    const Lobby = require('../libs/classes/lobby')
     const lobbies = []
 
     io.on('connection', socket => {
         socket.on('connectToLobby', ({lobbyId, userId}) => {
             socket.join(lobbyId)
 
-
+            if(!lobbies.some(l => l.id === lobbyId))
+                const lobby = new Lobby(lobbyId)
 
             /*
             socket.lobbyId = lobbyId
