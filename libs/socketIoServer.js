@@ -8,31 +8,23 @@ module.exports = (server) => {
     const disconnectionTimer = 5 * oneSecond
 
     io.on('connection', socket => {
-
         socket.on('connectToLobby', ({lobbyId, userId}) => {
-            socket.join(lobbyId)
-
+            // Get or create a new lobby
             let lobby = lobbies.find(l => l.id === lobbyId)
             if(typeof lobby === 'undefined'){
-                lobby = new Lobby(lobbyId)
+                lobby = new Lobby(lobbyId, io)
                 lobbies.push(lobby)
             }
-
-            let connection = lobby.connections.find(c => c.userId === userId)
-            if(typeof connection === 'undefined')
-                lobby.connections.push({userId, socketId: socket.id})
-            else 
-                connection.socketId = socket.id
-
+            lobby.connect(socket, userId, socket.id)
         })
     
         socket.on('joinLobby', data => {
-            io.to(data.lobbyId).emit('playerJoinedLobby', data.player)
+            let lobby = lobbies.find(l => l.id === data.lobbyId)
+            if(typeof lobby !== 'undefined')
+                lobby.join(data.player)
         })
     
         socket.on('startQuiz', data => {
-
-            
             let currentQuestion = 0
     
             // Tell everyone to start the quiz
@@ -62,7 +54,7 @@ module.exports = (server) => {
                             }
                         }),
                         headers: { 'Content-Type': 'application/json' }
-                    }).catch((err) => {
+                    }).catch(err => {
                         console.log(`Error with changing question. lobbyId: ${data.lobbyId}. Error: ${err}`)
                     })
 
@@ -98,19 +90,10 @@ module.exports = (server) => {
 
         socket.on('disconnect', () => {
             setTimeout(() => {
-                // Remove user from lobby on disconnect
                 lobbies.forEach(lobby => {
-                    let connectionIndex = lobby.connections.findIndex(c => c.socketId === socket.id)
-
-                    if(connectionIndex !== -1){
-                        const disconnectingUserId = lobby.connections[connectionIndex].userId
-                        lobby.connections.splice(connectionIndex, 1)
-                        
-                        io.to(lobby.id).emit('playerLeftLobby', disconnectingUserId)
-                    }
+                    if(lobby.isConnected(socket.id))
+                        lobby.disconnect(socket.id)
                 })
-
-                
             }, disconnectionTimer)
         })
 

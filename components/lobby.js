@@ -64,20 +64,8 @@ export default function Lobby({ lobbyData, quiz }) {
 
     const joinLobby = async () => {
         if(name == '') return
-
-        const player = { id: userId, name }
-
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/join`, {
-            method: 'post',
-            body: JSON.stringify({ 
-                lobbyId: lobby._id,
-                player
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        })
-
         setInLobby(true)
-        socket.emit('joinLobby', { lobbyId: lobby._id, player })
+        socket.emit('joinLobby', { lobbyId: lobby._id, player: { id: userId, name }})
     }
 
     const startQuiz = () => {
