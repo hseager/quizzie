@@ -11,7 +11,7 @@ export default function Questions({ quiz, lobby }) {
 
     useSocket('changeQuestion', newQuestion => {
         setCurrentQuestion(newQuestion)
-        setNextQuestionTimer(null)
+        //setNextQuestionTimer(null)
         setDisableAnswers(false)
     })
 
@@ -20,7 +20,6 @@ export default function Questions({ quiz, lobby }) {
     })
 
     const answerQuestion = (answer) => {
-        
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/answer`, {
             method: 'post',
             body: JSON.stringify({
@@ -33,7 +32,6 @@ export default function Questions({ quiz, lobby }) {
             }),
             headers: { 'Content-Type': 'application/json' }
         })
-
         setDisableAnswers(true)
     }
 

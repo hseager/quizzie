@@ -55,17 +55,6 @@ export default function Lobby({ lobbyData, quiz }) {
     }
 
     const startQuiz = () => {
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
-            method: 'post',
-            body: JSON.stringify({
-                id: lobby._id,
-                data: {
-                    status: 'started'
-                }
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        })
-
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results`, {
             method: 'post',
             body: JSON.stringify({
@@ -74,7 +63,6 @@ export default function Lobby({ lobbyData, quiz }) {
             }),
             headers: { 'Content-Type': 'application/json' }
         })
-
         socket.emit('startQuiz', { lobbyId: lobby._id, questionCount: quiz.questions.length })
     }
 

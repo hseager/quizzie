@@ -4,6 +4,9 @@ module.exports = class Lobby {
         this.io = io
         this.connections = []
         this.players = []
+        this.currentQuestion = 0
+        this.questionTimer = 10 * 1000
+        this.questionInterval
     }
     connect(socket, userId, socketId){
         let connection = this.connections.find(c => c.userId === userId)
@@ -58,5 +61,74 @@ module.exports = class Lobby {
                 headers: { 'Content-Type': 'application/json' }
             })
         }
+    }
+    // TODO: Somehow get the questionCount from DB rather than passed through from client
+    startQuiz(questionCount){
+        // Tell everyone to start the quiz and show the questions
+        this.io.to(this.id).emit('startQuiz')
+        // Update the DB
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
+            method: 'post',
+            body: JSON.stringify({
+                id: this.id,
+                data: {
+                    status: 'started'
+                }
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        // Start counting down until the next question
+        this.changeQuestion(questionCount)
+        this.questionInterval = setInterval(() => this.changeQuestion(questionCount), this.questionTimer)
+    }
+    changeQuestion(questionCount){
+        // Start the client side countdown and emit 
+        let currentClientCountdown = this.questionTimer / 1000
+        this.io.to(this.id).emit('nextQuestionTimer', currentClientCountdown)
+        let clientCountdown = setInterval(() => {
+            currentClientCountdown--
+            if(currentClientCountdown > 0)
+                this.io.to(this.id).emit('nextQuestionTimer', currentClientCountdown)
+            else 
+                clearInterval(clientCountdown)
+        }, 1000)
+
+        if(this.currentQuestion < questionCount){
+            // Change the question
+            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
+                method: 'post',
+                body: JSON.stringify({
+                    id: this.id,
+                    data: {
+                        currentQuestion: this.currentQuestion
+                    }
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            }).catch(err => {
+                console.log(`Error with changing question. lobbyId: ${this.id}. Error: ${err}`)
+            })
+
+            this.io.to(this.id).emit('changeQuestion', this.currentQuestion)
+        } else {
+            // Finish the quiz and show results
+            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
+                method: 'post',
+                body: JSON.stringify({
+                    id: this.id,
+                    data: {
+                        status: 'finished',
+                        currentQuestion: 0
+                    }
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            }).catch(err => {
+                console.log(`Error with finishing quiz. lobbyId: ${this.id}. Error: ${err}`)
+            })
+            this.currentQuestion = 0
+            this.io.to(this.id).emit('finishedQuiz')
+            clearInterval(this.questionInterval)
+            clearInterval(clientCountdown)
+        }
+        this.currentQuestion++
     }
 }
