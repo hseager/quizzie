@@ -28,6 +28,9 @@ module.exports = class Lobby {
         return this.connections.some(c => c.socketId === socketId)
     }
     join(player){
+        this.players.push(player)
+        this.io.to(this.id).emit('playerJoinedLobby', player)
+        // Update the DB
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/join`, {
             method: 'post',
             body: JSON.stringify({ 
@@ -38,19 +41,18 @@ module.exports = class Lobby {
         }).catch(err => {
             console.log(`Error joining lobby. Error: ${err}`)
         })
-
-        this.players.push(player)
-        this.io.to(this.id).emit('playerJoinedLobby', player)
     }
     kick(userId){
         if(this.players.some(p => p.id === userId)){
-            const updatedPlayers = this.players.filter(p => p.id !== userId)
+            // Remove player from players list
+            this.players = this.players.filter(p => p.id !== userId)
+            // Update the DB
             fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
                 method: 'post',
                 body: JSON.stringify({
                     id: this.id,
                     data: {
-                        updatedPlayers
+                        players: this.players
                     }
                 }),
                 headers: { 'Content-Type': 'application/json' }

@@ -29,23 +29,9 @@ export default function Lobby({ lobbyData, quiz }) {
 
     useSocket('playerLeftLobby', userId => {
         if(lobby.players.some(p => p.id === userId)){
-
-            const players = lobby.players.filter(p => p.id !== userId)
-
-            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
-                method: 'post',
-                body: JSON.stringify({
-                    id: lobby._id,
-                    data: {
-                        players
-                    }
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            })
-
             setLobby({
                 ...lobby,
-                players
+                players: lobby.players.filter(p => p.id !== userId)
             })
             setInLobby(false)
         }

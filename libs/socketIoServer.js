@@ -18,10 +18,10 @@ module.exports = (server) => {
             lobby.connect(socket, userId, socket.id)
         })
     
-        socket.on('joinLobby', data => {
-            let lobby = lobbies.find(l => l.id === data.lobbyId)
+        socket.on('joinLobby', ({lobbyId, player}) => {
+            let lobby = lobbies.find(l => l.id === lobbyId)
             if(typeof lobby !== 'undefined')
-                lobby.join(data.player)
+                lobby.join(player)
         })
     
         socket.on('startQuiz', data => {
@@ -98,4 +98,5 @@ module.exports = (server) => {
         })
 
     })
+
 }
