@@ -11,7 +11,6 @@ export default function Questions({ quiz, lobby }) {
 
     useSocket('changeQuestion', newQuestion => {
         setCurrentQuestion(newQuestion)
-        //setNextQuestionTimer(null)
         setDisableAnswers(false)
     })
 
@@ -20,18 +19,21 @@ export default function Questions({ quiz, lobby }) {
     })
 
     const answerQuestion = (answer) => {
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/answer`, {
-            method: 'post',
-            body: JSON.stringify({
-                lobbyId: lobby._id,
-                data: {
-                    player: lobby.players.find(p => p.id === getUserId()),
-                    question: currentQuestion,
-                    answer
-                }
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        })
+        const player = lobby.players.find(p => p.id === getUserId())
+        if(typeof player !== 'undefined'){
+            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/answer`, {
+                method: 'post',
+                body: JSON.stringify({
+                    lobbyId: lobby._id,
+                    data: {
+                        player: player,
+                        question: currentQuestion,
+                        answer
+                    }
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            })
+        }
         setDisableAnswers(true)
     }
 

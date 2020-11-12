@@ -12,6 +12,7 @@
 - Quiz images for questions
 - Move to actual hosting
 - Check need for cookie popup/gdpr
+- Logo
 
 - *V1.1*
 - Email signup & accounts

@@ -2,7 +2,6 @@ import useSocket from '../hooks/useSocket'
 import buttonStyles from '../styles/buttons.module.css'
 import { useState, useEffect } from 'react'
 import { getUserId } from '../libs/localStorage'
-import fetch from 'isomorphic-unfetch'
 import { useRouter } from 'next/router'
 import pageStyles from '../styles/page.module.css'
 import styles from '../styles/lobby.module.css'
@@ -18,6 +17,7 @@ export default function Lobby({ lobbyData, quiz }) {
     const router = useRouter()
 
     const socket = useSocket('playerJoinedLobby', player => {
+        console.log(player)
         setLobby({
             ...lobby,
             players: [
@@ -48,22 +48,22 @@ export default function Lobby({ lobbyData, quiz }) {
         }
     }, [lobby, userId])
 
-    const joinLobby = async () => {
+    const joinLobby = () => {
         if(name == '') return
         setInLobby(true)
-        socket.emit('joinLobby', { lobbyId: lobby._id, player: { id: userId, name }})
+        socket.emit('joinLobby', { 
+            lobbyId: lobby._id,
+            userId,
+            name
+        })
     }
 
     const startQuiz = () => {
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results`, {
-            method: 'post',
-            body: JSON.stringify({
-                lobbyId: lobby._id,
-                quizId: quiz._id
-            }),
-            headers: { 'Content-Type': 'application/json' }
+        socket.emit('startQuiz', { 
+            lobbyId: lobby._id,
+            quizId: quiz._id,
+            questionCount: quiz.questions.length
         })
-        socket.emit('startQuiz', { lobbyId: lobby._id, questionCount: quiz.questions.length })
     }
 
     const getLobbyPlayerClass = (playerId) => {

@@ -1,4 +1,5 @@
 module.exports = class Lobby {
+    // TODO: Instead of updating individual parts of Lobby, map class to DB and create save method
     constructor(id, io){
         this.id = id
         this.io = io
@@ -8,47 +9,50 @@ module.exports = class Lobby {
         this.questionTimer = 10 * 1000
         this.questionInterval
     }
-    connect(socket, userId, socketId){
-        let connection = this.connections.find(c => c.userId === userId)
+    connect(socket, player){
+        let connection = this.connections.find(p => p.id === player.id)
         if(typeof connection === 'undefined')
-            this.connections.push({userId, socketId})
+            this.connections.push(player)
         else 
-            connection.socketId = socketId
+            connection.socketId = player.socketId
 
         socket.join(this.id)
     }
-    disconnect(socketId){
-        let connectionIndex = this.connections.findIndex(c => c.socketId === socketId)
-        if(connectionIndex !== -1){
-            const disconnectingUserId = this.connections[connectionIndex].userId
-            this.connections.splice(connectionIndex, 1)
-            this.kick(disconnectingUserId)
-            // Broadcast disconnection to connected clients
-            this.io.to(this.id).emit('playerLeftLobby', disconnectingUserId)
+    disconnect(player){
+        if(this.connections.some(c => c.socketId === player.socketId)){
+            let connectionIndex = this.connections.findIndex(c => c.socketId === player.socketId)
+            if(connectionIndex !== -1){
+                const disconnectingPlayer = this.connections[connectionIndex]
+                this.connections.splice(connectionIndex, 1)
+                console.log('kicking - ' + disconnectingPlayer.name)
+                this.kick(disconnectingPlayer)
+                // Broadcast disconnection to connected clients
+                this.io.to(this.id).emit('playerLeftLobby', disconnectingPlayer.id)
+            }
         }
     }
-    isConnected(socketId){
-        return this.connections.some(c => c.socketId === socketId)
-    }
     join(player){
+        // TODO maybe change shortened player object to class instance: player
+        player = { id: player.id, name: player.name }
         this.players.push(player)
         this.io.to(this.id).emit('playerJoinedLobby', player)
         // Update the DB
+        console.log('joining - ' + player.name)
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/join`, {
             method: 'post',
             body: JSON.stringify({ 
                 lobbyId: this.id,
-                player
+                player: player
             }),
             headers: { 'Content-Type': 'application/json' }
         }).catch(err => {
             console.log(`Error joining lobby. Error: ${err}`)
         })
     }
-    kick(userId){
-        if(this.players.some(p => p.id === userId)){
+    kick(player){
+        if(this.players.some(p => p.id === player.id)){
             // Remove player from players list
-            this.players = this.players.filter(p => p.id !== userId)
+            this.players = this.players.filter(p => p.id !== player.id)
             // Update the DB
             fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
                 method: 'post',
@@ -63,10 +67,10 @@ module.exports = class Lobby {
         }
     }
     // TODO: Somehow get the questionCount from DB rather than passed through from client
-    startQuiz(questionCount){
+    startQuiz(questionCount, quizId){
         // Tell everyone to start the quiz and show the questions
         this.io.to(this.id).emit('startQuiz')
-        // Update the DB
+        // Flag the DB as started
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
             method: 'post',
             body: JSON.stringify({
@@ -74,6 +78,15 @@ module.exports = class Lobby {
                 data: {
                     status: 'started'
                 }
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        // Create a results DB entry
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results`, {
+            method: 'post',
+            body: JSON.stringify({
+                lobbyId: this.id,
+                quizId: quizId
             }),
             headers: { 'Content-Type': 'application/json' }
         })
