@@ -1,18 +1,35 @@
 # Quizzie
 
 - *To do*
-- Share Link + Code
-- email signup & save progress
-- error testing
-- User leaving lobby
-- Styling
-- Add quizzes
+- *V1.0*
+- Refactor more DB calls to serverside
+- Join Code/Password
+- Error testing (DB disconnection)
+- Styling/Redesign/Layout change
+- Thumbnail images for quizzes
+- Add more quizzes
+- Improve Results Page
+- Quiz images for questions
+- Move to actual hosting
+- Check need for cookie popup/gdpr
+
+- *V1.1*
+- Email signup & accounts
+- Create Quiz
 
 - *Extra Features*
-- Multi Choice / Text - create quiz
-- Quiz Images
-- Quick fire round
-- Rewards
+- Move question timer to DB/setting rather than hardcoded 10secs
+- Admin panel to manage quizzes easier
+- Sort/Filter quizzes by rating/plays/type
+- Estimated time to complete quiz
+- Track Quiz plays
+- Ratings
+- Comments
+- Lobby Chat room
+- Public Quizzes
+- Quiz types - Standard/Text type/Fastest finger/Order answers
+- Rewards(Trophies)
+- Microtransactions - Cosmetics, Avatars, Winning animations, quiz packs
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
