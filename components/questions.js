@@ -3,9 +3,9 @@ import { useState } from 'react'
 import questionStyles from '../styles/questions.module.css'
 import { getUserId } from '../libs/localStorage'
 
-export default function Questions({ quiz, lobby }) {
+export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, players }) {
 
-    const [currentQuestion, setCurrentQuestion] = useState(lobby.currentQuestion)
+    const [currentQuestion, setCurrentQuestion] = useState(lobbyCurrentQuestion)
     const [nextQuestionTimer, setNextQuestionTimer] = useState()
     const [disableAnswers, setDisableAnswers] = useState(false)
 
@@ -19,12 +19,12 @@ export default function Questions({ quiz, lobby }) {
     })
 
     const answerQuestion = (answer) => {
-        const player = lobby.players.find(p => p.id === getUserId())
+        const player = players.find(p => p.id === getUserId())
         if(typeof player !== 'undefined'){
             fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/answer`, {
                 method: 'post',
                 body: JSON.stringify({
-                    lobbyId: lobby._id,
+                    lobbyId,
                     data: {
                         player: player,
                         question: currentQuestion,

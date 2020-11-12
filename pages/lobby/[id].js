@@ -15,6 +15,7 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
         return (<ErrorPage statusCode={statusCode} />)
 
     const [status, setStatus] = useState(lobby.status)
+    const [players, setPlayers] = useState(lobby.players)
     const socket = useSocket()
 
     useSocket('startQuiz', () => {
@@ -23,6 +24,21 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
 
     useSocket('finishedQuiz', () => {
         setStatus('finished')
+    })
+
+    useSocket('playerJoinedLobby', player => {
+       setPlayers(
+           [
+            ...players,
+            player
+           ]
+       )
+    })
+
+    useSocket('playerLeftLobby', userId => {
+        if(players.some(p => p.id === userId)){
+            setPlayers(players.filter(p => p.id !== userId))
+        }
     })
 
     useEffect(() => {
@@ -38,15 +54,29 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
             <div className={pageStyles.fullHeightPage}>
                 {
                     status == 'lobby' &&
-                    <Lobby lobbyData={lobby} quiz={quiz} />
+                    <Lobby 
+                        lobbyId={lobby._id} 
+                        lobbyOwner={lobby.owner}
+                        quiz={quiz}
+                        players={players}
+                    />
                 }
                 {
                     status == 'started' &&
-                    <Questions lobby={lobby} quiz={quiz} />
+                    <Questions 
+                        lobbyId={lobby._id}
+                        lobbyCurrentQuestion={lobby.currentQuestion}
+                        players={players}
+                        quiz={quiz}
+                    />
                 }
                 {
                     status == 'finished' &&
-                    <Results lobby={lobby} quiz={quiz} setStatus={setStatus} />
+                    <Results 
+                        lobbyId={lobby._id} 
+                        quiz={quiz} 
+                        setStatus={setStatus}
+                    />
                 }
             </div>
         </Layout>

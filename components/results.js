@@ -3,12 +3,12 @@ import { formatResults } from '../libs/results.js'
 import Link from 'next/link'
 import buttonStyles from '../styles/buttons.module.css'
 
-export default function Results({ lobby, quiz, setStatus }) {
+export default function Results({ lobbyId, quiz, setStatus }) {
 
     const [results, setResults] = useState(null)
 
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/${lobby._id}`)
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/${lobbyId}`)
             .then(res => res.json())
             .then(data => setResults(formatResults(data, quiz)))
             .catch((err) => {
@@ -20,7 +20,7 @@ export default function Results({ lobby, quiz, setStatus }) {
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
             method: 'post',
             body: JSON.stringify({
-                id: lobby._id,
+                id: lobbyId,
                 data: {
                     status: 'lobby'
                 }
