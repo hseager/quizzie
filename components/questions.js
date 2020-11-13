@@ -3,6 +3,7 @@ import { useState } from 'react'
 import questionStyles from '../styles/questions.module.css'
 import { getUserId } from '../libs/localStorage'
 
+// TODO: you can refresh page and answer again
 export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, players }) {
 
     const [currentQuestion, setCurrentQuestion] = useState(lobbyCurrentQuestion)

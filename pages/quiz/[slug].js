@@ -42,7 +42,7 @@ export default function Quiz({ quiz }) {
 export async function getServerSideProps(context) {
 
     const getQuiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${context.params.slug}`)
-                                .catch(err => { console.log(err) })
+                        .catch(err => { console.log(err) })
     const quiz = await getQuiz.json()
 
     return {

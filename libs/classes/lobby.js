@@ -18,19 +18,6 @@ module.exports = class Lobby {
 
         socket.join(this.id)
     }
-    disconnect(player){
-        if(this.connections.some(c => c.socketId === player.socketId)){
-            let connectionIndex = this.connections.findIndex(c => c.socketId === player.socketId)
-            if(connectionIndex !== -1){
-                const disconnectingPlayer = this.connections[connectionIndex]
-                this.connections.splice(connectionIndex, 1)
-                console.log('kicking - ' + disconnectingPlayer.name)
-                this.kick(disconnectingPlayer)
-                // Broadcast disconnection to connected clients
-                this.io.to(this.id).emit('playerLeftLobby', disconnectingPlayer.id)
-            }
-        }
-    }
     join(player){
         // TODO maybe change shortened player object to class instance: player
         player = { id: player.id, name: player.name }
@@ -48,6 +35,19 @@ module.exports = class Lobby {
         }).catch(err => {
             console.log(`Error joining lobby. Error: ${err}`)
         })
+    }
+    disconnect(player){
+        if(this.connections.some(c => c.socketId === player.socketId)){
+            let connectionIndex = this.connections.findIndex(c => c.socketId === player.socketId)
+            if(connectionIndex !== -1){
+                const disconnectingPlayer = this.connections[connectionIndex]
+                this.connections.splice(connectionIndex, 1)
+                console.log('kicking - ' + disconnectingPlayer.name)
+                this.kick(disconnectingPlayer)
+                // Broadcast disconnection to connected clients
+                this.io.to(this.id).emit('playerLeftLobby', disconnectingPlayer.id)
+            }
+        }
     }
     kick(player){
         if(this.players.some(p => p.id === player.id)){

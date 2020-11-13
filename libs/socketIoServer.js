@@ -4,7 +4,7 @@ module.exports = (server) => {
     const Player = require('../libs/classes/player')
     const lobbies = []
     const players = []
-    const disconnectionTimer = 5 * 1000
+    const disconnectionTimer = 30 * 1000
 
     io.on('connection', socket => {
         socket.on('connectToLobby', ({lobbyId, userId}) => {
