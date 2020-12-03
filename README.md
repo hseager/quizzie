@@ -1,6 +1,10 @@
 # Quizzie
 
 - *To do*
+- *Notes*
+- Create Load() method in socket.io to load quiz from DB is exisits
+- Create Save() method that maps and saves certain fields to db
+- Instead of removing user on disconnect, set status field and show status on frontend like MicrosoftTeams color
 - *V1.0*
 - Refactor more DB calls to serverside
 - Join Code/Password
