@@ -1,9 +1,10 @@
 # Quizzie
 
-## To Do
-- Create Load() method in socket.io to load quiz from DB is exisits
-- Create Save() method that maps and saves certain fields to db
+## Notes
 - Instead of removing user on disconnect, set status field and show status on frontend like MicrosoftTeams color
+- Remove ID from URL and just have /lobby. Join URL will be /lobby/join/somecode which redirects to lobby and player joins
+
+## To Do
 ### V1.0
 - Refactor more DB calls to serverside
 - Join Code/Password

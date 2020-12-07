@@ -4,10 +4,14 @@ module.exports = class Lobby {
         this.id = id
         this.io = io
         this.connections = []
-        this.players = []
-        this.currentQuestion = 0
         this.questionTimer = 10 * 1000
         this.questionInterval
+
+        this.currentQuestion = 0
+        this.status = 'lobby'
+        this.players = []
+        
+        this.load(id)
     }
     connect(socket, player){
         let connection = this.connections.find(p => p.id === player.id)
@@ -22,19 +26,9 @@ module.exports = class Lobby {
         // TODO maybe change shortened player object to class instance: player
         player = { id: player.id, name: player.name }
         this.players.push(player)
+        this.save()
+
         this.io.to(this.id).emit('playerJoinedLobby', player)
-        // Update the DB
-        console.log('joining - ' + player.name)
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/join`, {
-            method: 'post',
-            body: JSON.stringify({ 
-                lobbyId: this.id,
-                player: player
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        }).catch(err => {
-            console.log(`Error joining lobby. Error: ${err}`)
-        })
     }
     disconnect(player){
         if(this.connections.some(c => c.socketId === player.socketId)){
@@ -42,7 +36,6 @@ module.exports = class Lobby {
             if(connectionIndex !== -1){
                 const disconnectingPlayer = this.connections[connectionIndex]
                 this.connections.splice(connectionIndex, 1)
-                console.log('kicking - ' + disconnectingPlayer.name)
                 this.kick(disconnectingPlayer)
                 // Broadcast disconnection to connected clients
                 this.io.to(this.id).emit('playerLeftLobby', disconnectingPlayer.id)
@@ -53,34 +46,16 @@ module.exports = class Lobby {
         if(this.players.some(p => p.id === player.id)){
             // Remove player from players list
             this.players = this.players.filter(p => p.id !== player.id)
-            // Update the DB
-            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
-                method: 'post',
-                body: JSON.stringify({
-                    id: this.id,
-                    data: {
-                        players: this.players
-                    }
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            })
+            this.save()
         }
     }
     // TODO: Somehow get the questionCount from DB rather than passed through from client
     startQuiz(questionCount, quizId){
+        this.status = "started"
+        this.save()
         // Tell everyone to start the quiz and show the questions
         this.io.to(this.id).emit('startQuiz')
-        // Flag the DB as started
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
-            method: 'post',
-            body: JSON.stringify({
-                id: this.id,
-                data: {
-                    status: 'started'
-                }
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        })
+        // TODO: must be a better way to create results entry
         // Create a results DB entry
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results`, {
             method: 'post',
@@ -108,40 +83,42 @@ module.exports = class Lobby {
 
         if(this.currentQuestion < questionCount){
             // Change the question
-            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
-                method: 'post',
-                body: JSON.stringify({
-                    id: this.id,
-                    data: {
-                        currentQuestion: this.currentQuestion
-                    }
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            }).catch(err => {
-                console.log(`Error with changing question. lobbyId: ${this.id}. Error: ${err}`)
-            })
-
+            this.save()
             this.io.to(this.id).emit('changeQuestion', this.currentQuestion)
         } else {
             // Finish the quiz and show results
-            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
-                method: 'post',
-                body: JSON.stringify({
-                    id: this.id,
-                    data: {
-                        status: 'finished',
-                        currentQuestion: 0
-                    }
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            }).catch(err => {
-                console.log(`Error with finishing quiz. lobbyId: ${this.id}. Error: ${err}`)
-            })
+            this.status = 'finished'
             this.currentQuestion = 0
+            this.save()
+
             this.io.to(this.id).emit('finishedQuiz')
             clearInterval(this.questionInterval)
             clearInterval(clientCountdown)
         }
         this.currentQuestion++
+    }
+    save(){
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
+            method: 'post',
+            body: JSON.stringify({
+                id: this.id,
+                data: {
+                    status: this.status,
+                    currentQuestion: this.currentQuestion,
+                    players: this.players
+                }
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        }).catch(err => {
+            console.log(`Error with updating lobby. lobbyId: ${this.id}. Error: ${err}`)
+        })
+    }
+    load(id){
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${id}`)
+            .then(res => res.json())
+            .then(res => {
+                this.players = res.players
+            })
+            .catch(err => { console.log(`Error getting lobby: ${err}`) })
     }
 }
