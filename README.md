@@ -1,11 +1,10 @@
 # Quizzie
 
-- *To do*
-- *Notes*
+## To Do
 - Create Load() method in socket.io to load quiz from DB is exisits
 - Create Save() method that maps and saves certain fields to db
 - Instead of removing user on disconnect, set status field and show status on frontend like MicrosoftTeams color
-- *V1.0*
+### V1.0
 - Refactor more DB calls to serverside
 - Join Code/Password
 - Error testing (DB disconnection)
@@ -18,11 +17,11 @@
 - Check need for cookie popup/gdpr
 - Logo
 
-- *V1.1*
+### V1.1
 - Email signup & accounts
 - Create Quiz
 
-- *Extra Features*
+### *Extra Features*
 - Move question timer to DB/setting rather than hardcoded 10secs
 - Admin panel to manage quizzes easier
 - Sort/Filter quizzes by rating/plays/type
