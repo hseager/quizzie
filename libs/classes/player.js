@@ -4,5 +4,6 @@ module.exports = class Player {
         this.socketId = socketId
         this.name
         this.connected = false
+        this.lobbyId
     }
 }

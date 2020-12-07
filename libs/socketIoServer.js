@@ -21,10 +21,12 @@ module.exports = (server) => {
             if(typeof player === 'undefined'){
                 player = new Player(userId, socket.id)
                 player.connected = true
+                player.lobbyId = lobbyId
                 players.push(player)
             } else {
                 player.socketId = socket.id
                 player.connected = true
+                player.lobbyId = lobbyId
             }
 
             lobby.connect(socket, player)
@@ -50,10 +52,10 @@ module.exports = (server) => {
             if(typeof player !== 'undefined'){
                 player.connected = false
                 setTimeout(() => {
-                    lobbies.forEach(lobby => {
-                        if(player.connected === false)
-                            lobby.disconnect(player)
-                    })
+                    if(player.connected === false){
+                        const lobby = lobbies.find(l => l.id == player.lobbyId)
+                        lobby.disconnect(player)
+                    }
                 }, disconnectionTimer)
             }
         })
