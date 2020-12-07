@@ -1,9 +1,5 @@
 # Quizzie
 
-## Notes
-- Instead of removing user on disconnect, set status field and show status on frontend like MicrosoftTeams color
-- Remove ID from URL and just have /lobby. Join URL will be /lobby/join/somecode which redirects to lobby and player joins
-
 ## To Do
 ### V1.0
 - Refactor more DB calls to serverside
@@ -17,6 +13,7 @@
 - Move to actual hosting
 - Check need for cookie popup/gdpr
 - Logo
+- Style 404 page
 
 ### V1.1
 - Email signup & accounts
@@ -35,6 +32,8 @@
 - Quiz types - Standard/Text type/Fastest finger/Order answers
 - Rewards(Trophies)
 - Microtransactions - Cosmetics, Avatars, Winning animations, quiz packs
+- Instead of removing user on disconnect, set status field and show status on frontend like MicrosoftTeams color
+- Remove ID from URL and just have /lobby. Join URL will be /lobby/join/somecode which redirects to lobby and player joins
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
