@@ -97,7 +97,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
             {
                 !inLobby &&
                 <>
-                    <input placeholder="Your name" type="text" name="first-name" onChange={e => setName(e.target.value)} />
+                    <input placeholder="Enter your name" type="text" name="first-name" className={styles.nameField} onChange={e => setName(e.target.value)} />
                     <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
                 </>
             }
