@@ -9,6 +9,7 @@ export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, players
     const [currentQuestion, setCurrentQuestion] = useState(lobbyCurrentQuestion)
     const [nextQuestionTimer, setNextQuestionTimer] = useState()
     const [disableAnswers, setDisableAnswers] = useState(false)
+    const answerLetters = ['A','B','C','D']
 
     useSocket('changeQuestion', newQuestion => {
         setCurrentQuestion(newQuestion)
@@ -44,15 +45,29 @@ export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, players
             typeof quiz.questions[currentQuestion] !== 'undefined' &&
             <div className={questionStyles.questionPanel}>
                 <div className={questionStyles.questionHeader}>
-                    <p>Question <strong>{currentQuestion + 1}</strong> of <strong>{quiz.questions.length}</strong></p>
-                    <h2>{ quiz.questions[currentQuestion].question }</h2>
+                    <p>
+                        Question <strong>{currentQuestion + 1}</strong> of <strong>{quiz.questions.length}</strong>
+                    </p>
                     {
                         nextQuestionTimer &&
                         <div className={questionStyles.timer}>{nextQuestionTimer}</div>
                     }
-                    
+                    <h2>{ quiz.questions[currentQuestion].question }</h2>
                 </div>
-                <div className={questionStyles.answers}>
+                <ul className={questionStyles.answers}>
+                    {
+                        quiz.questions[currentQuestion].answers.map((answer, i) => (
+                            <li 
+                                key={i}
+                                className={questionStyles.answer}
+                            >
+                                <span className={questionStyles.answerLetter}>{answerLetters[i]}</span>
+                                <span className={questionStyles.answerText}>{answer}</span>
+                            </li>
+                        ))
+                    }
+                </ul>
+                <div className={questionStyles.answerButtons}>
                     {
                         quiz.questions[currentQuestion].answers.map((answer, i) => (
                             <button 
@@ -61,7 +76,7 @@ export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, players
                                 onClick={() => answerQuestion(i)}
                                 disabled={disableAnswers}
                             >
-                                {answer}
+                                {answerLetters[i]}
                             </button>
                         ))
                     }
