@@ -25,7 +25,7 @@ const ChooseAQuiz = function({ data }) {
                         <div className={styles.quizListItem} key={quiz._id}>
                             <h6 className={styles.quizCategory}>
                                 {quiz.tags.map((tag, i) => (
-                                    <span>{tag}{(i + 1 < quiz.tags.length ? ', ' : '')}</span>
+                                    <span key={i}>{tag}{(i + 1 < quiz.tags.length ? ', ' : '')}</span>
                                 ))}
                             </h6>
                             <h4 className={styles.quizName}>

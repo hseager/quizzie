@@ -55,16 +55,6 @@ module.exports = class Lobby {
         this.save()
         // Tell everyone to start the quiz and show the questions
         this.io.to(this.id).emit('startQuiz')
-        // TODO: must be a better way to create results entry
-        // Create a results DB entry
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results`, {
-            method: 'post',
-            body: JSON.stringify({
-                lobbyId: this.id,
-                quizId: quizId
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        })
         // Start counting down until the next question
         this.changeQuestion(questionCount)
         this.questionInterval = setInterval(() => this.changeQuestion(questionCount), this.questionTimer)

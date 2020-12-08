@@ -21,21 +21,17 @@ export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, players
     })
 
     const answerQuestion = (answer) => {
-        const player = players.find(p => p.id === getUserId())
-        if(typeof player !== 'undefined'){
-            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/answer`, {
-                method: 'post',
-                body: JSON.stringify({
-                    lobbyId,
-                    data: {
-                        player: player,
-                        question: currentQuestion,
-                        answer
-                    }
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            })
-        }
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/answer`, {
+            method: 'post',
+            body: JSON.stringify({
+                lobbyId,
+                quizId: quiz._id,
+                playerId: getUserId(),
+                question: currentQuestion,
+                answer
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        })
         setDisableAnswers(true)
     }
 

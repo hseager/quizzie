@@ -7,12 +7,47 @@ handler.use(middleware)
 
 handler.post(async (req, res) => {
 
-    const { lobbyId, data } = req.body
+    const { lobbyId, quizId, playerId, question, answer } = req.body
 
-    await req.db.collection('results').updateOne(
-        { lobbyId }, 
-        { $push: { results: data } }
-    )
+    const results = req.db.collection('results')
+
+    try{
+        await results.updateOne(
+            { 
+                lobbyId,
+                quizId
+            }, 
+            {
+                $addToSet: { 
+                    results: {
+                        playerId,
+                        answers: []
+                    }
+                }
+            },
+            {
+                upsert: true
+            }
+        )
+
+        await results.updateOne(
+            {
+                lobbyId,
+                quizId,
+                'results.playerId': playerId
+            },
+            {
+                $push: {
+                    'results.$.answers': {
+                        question,
+                        answer
+                    }
+                }
+            }
+        )
+    } catch(e){
+        console.log('Error: ' + e)
+    }
 
     res.status(200).json({ message: 'ok' })
 })
