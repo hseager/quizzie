@@ -1,12 +1,13 @@
 
-export function formatResults (results, quiz) {
+export function formatResults (data, quiz) {
     
     let formattedResults = {
         overview: [],
         detailed: {}
     }
 
-    results.results.map(r => {
+    /*
+    data.results.map(r => {
 
         // Create results overview
         const correctAnswer = quiz.questions[r.question].answer === r.answer
@@ -16,16 +17,10 @@ export function formatResults (results, quiz) {
 
         if(correctAnswer) formattedResults.overview.find(p => p.name === r.player.name).correctAnswers++
 
-        /*
-        formattedResults.detailed[r.player.name] = [
-            formattedResults.detailed[r.player.name],
-            {
-                question: r.question,
-            }
-        ]
-        */
-
     })
+    */
+
+    console.log(data)
 
     return formattedResults
 }

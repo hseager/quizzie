@@ -9,27 +9,38 @@ handler.post(async (req, res) => {
 
     const { lobbyId, quizId, playerId, question, answer } = req.body
 
-    const results = req.db.collection('results')
-
     try{
-        await results.updateOne(
+
+        const results = req.db.collection('results')
+        // See if player has answered before
+        const result = await results.findOne(
             { 
                 lobbyId,
-                quizId
-            }, 
-            {
-                $addToSet: { 
-                    results: {
-                        playerId,
-                        answers: []
-                    }
-                }
-            },
-            {
-                upsert: true
+                quizId,
+                'results.playerId': playerId
             }
         )
 
+        if(!result){
+            await results.updateOne(
+                { 
+                    lobbyId,
+                    quizId
+                }, 
+                {
+                    $addToSet: { 
+                        results: {
+                            playerId,
+                            answers: []
+                        }
+                    }
+                },
+                {
+                    upsert: true
+                }
+            )
+        }
+        
         await results.updateOne(
             {
                 lobbyId,

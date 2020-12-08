@@ -75,6 +75,7 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
                     <Results 
                         lobbyId={lobby._id} 
                         quiz={quiz} 
+                        players={players}
                         setStatus={setStatus}
                     />
                 }
