@@ -37,20 +37,18 @@ export default function Quiz({ quiz }) {
                     <>
                         <h2>{ quiz.name } Quiz</h2>
                         <p>
-                            Category:
+                            <span>Category: </span>
                         {
-                            quiz.category.map( (cat, i) => (
-                                <strong key={i}> {cat}</strong>
+                            quiz.tags.map((tag, i) => (
+                                <strong key={i}>{tag}{(i + 1 < quiz.tags.length ? ', ' : '')}</strong>
                             ))
                         }
                         </p>
-                        <p><strong>{ quiz.questions.length }</strong> Questions</p>
+                        <p><strong>{quiz.questions.length}</strong> Questions</p>
                         <button className={buttonStyles.button} onClick={createLobby}>Play Quiz</button>
                     </>
                 }
-
             </div>
-
         </Layout>
     )
 

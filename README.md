@@ -2,10 +2,6 @@
 
 ## To Do
 ### V1.0
-- Refactor more DB calls to serverside
-- Join Code/Password
-- Error testing (DB disconnection)
-- Styling/Redesign/Layout change
 - Thumbnail images for quizzes
 - Add more quizzes
 - Improve Results Page
@@ -14,10 +10,18 @@
 - Check need for cookie popup/gdpr
 - Logo
 - Style 404 page
+- Error testing (DB disconnection)
 
 ### V1.1
+- Styling/Redesign/Layout change
+- Join Code/Password
 - Email signup & accounts
 - Create Quiz
+
+### Notes
+- Results currently get overwritten on same lobby + quiz. Find a way to store multiple result sets
+- Instead of removing user on disconnect, set status field and show status on frontend like MicrosoftTeams color
+- Remove ID from URL and just have /lobby. Join URL will be /lobby/join/somecode which redirects to lobby and player joins
 
 ### *Extra Features*
 - Move question timer to DB/setting rather than hardcoded 10secs
@@ -32,8 +36,6 @@
 - Quiz types - Standard/Text type/Fastest finger/Order answers
 - Rewards(Trophies)
 - Microtransactions - Cosmetics, Avatars, Winning animations, quiz packs
-- Instead of removing user on disconnect, set status field and show status on frontend like MicrosoftTeams color
-- Remove ID from URL and just have /lobby. Join URL will be /lobby/join/somecode which redirects to lobby and player joins
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

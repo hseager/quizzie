@@ -35,7 +35,7 @@ export default function Results({ lobbyId, quiz, setStatus }) {
 
     return (
         <>
-            <h3>The Results for your {quiz.name} quiz!</h3>
+            <h3>The Results for: {quiz.name}</h3>
             {
                 results.overview.map((result, i) => (
                     <div key={i}>
