@@ -16,6 +16,7 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
 
     const [status, setStatus] = useState(lobby.status)
     const [players, setPlayers] = useState(lobby.players)
+    const [currentQuiz, setCurrentQuiz] = useState(lobby.currentQuiz)
     const socket = useSocket()
 
     useSocket('startQuiz', () => {
@@ -23,6 +24,7 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
     })
 
     useSocket('finishedQuiz', () => {
+        setCurrentQuiz(currentQuiz + 1)
         setStatus('finished')
     })
 
@@ -66,6 +68,7 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
                     <Questions 
                         lobbyId={lobby._id}
                         lobbyCurrentQuestion={lobby.currentQuestion}
+                        currentQuiz={currentQuiz}
                         players={players}
                         quiz={quiz}
                     />
@@ -73,8 +76,9 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
                 {
                     status == 'finished' &&
                     <Results 
-                        lobbyId={lobby._id} 
-                        quiz={quiz} 
+                        lobbyId={lobby._id}
+                        quiz={quiz}
+                        currentQuiz={currentQuiz}
                         players={players}
                         setStatus={setStatus}
                     />
@@ -99,7 +103,7 @@ export async function getServerSideProps(context) {
         }
     }
 
-    const quiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${lobby.quizId}`)
+    const quiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${lobby.currentQuizId}`)
                             .then(res => res.json())
                             .catch(err => console.log(err))
 

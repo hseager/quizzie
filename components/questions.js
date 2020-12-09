@@ -4,7 +4,7 @@ import questionStyles from '../styles/questions.module.css'
 import { getUserId } from '../libs/localStorage'
 
 // TODO: you can refresh page and answer again
-export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, players }) {
+export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, currentQuiz, players }) {
 
     const [currentQuestion, setCurrentQuestion] = useState(lobbyCurrentQuestion)
     const [nextQuestionTimer, setNextQuestionTimer] = useState()
@@ -26,6 +26,7 @@ export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, players
             body: JSON.stringify({
                 lobbyId,
                 quizId: quiz._id,
+                currentQuiz,
                 playerId: getUserId(),
                 question: currentQuestion,
                 answer

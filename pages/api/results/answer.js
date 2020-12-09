@@ -7,16 +7,15 @@ handler.use(middleware)
 
 handler.post(async (req, res) => {
 
-    const { lobbyId, quizId, playerId, question, answer } = req.body
+    const { lobbyId, quizId, currentQuiz, playerId, question, answer } = req.body
 
     try{
-
         const results = req.db.collection('results')
         // See if player has answered before
         const result = await results.findOne(
             { 
                 lobbyId,
-                quizId,
+                currentQuiz,
                 'results.playerId': playerId
             }
         )
@@ -25,7 +24,8 @@ handler.post(async (req, res) => {
             await results.updateOne(
                 { 
                     lobbyId,
-                    quizId
+                    quizId,
+                    currentQuiz
                 }, 
                 {
                     $addToSet: { 
@@ -44,7 +44,7 @@ handler.post(async (req, res) => {
         await results.updateOne(
             {
                 lobbyId,
-                quizId,
+                currentQuiz,
                 'results.playerId': playerId
             },
             {

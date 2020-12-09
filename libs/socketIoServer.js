@@ -8,7 +8,6 @@ module.exports = (server) => {
 
     io.on('connection', socket => {
         socket.on('connectToLobby', ({lobbyId, userId}) => {
-            // TODO: is there a better way or better time to create lobby?
             // Get or create a new lobby
             let lobby = lobbies.find(l => l.id === lobbyId)
             if(typeof lobby === 'undefined'){
@@ -41,10 +40,10 @@ module.exports = (server) => {
             }
         })
     
-        socket.on('startQuiz', ({lobbyId, questionCount, quizId}) => {
+        socket.on('startQuiz', ({lobbyId, questionCount}) => {
             let lobby = lobbies.find(l => l.id === lobbyId)
             if(typeof lobby !== 'undefined')
-                lobby.startQuiz(questionCount, quizId)
+                lobby.startQuiz(questionCount)
         })
 
         socket.on('disconnect', () => {

@@ -7,6 +7,7 @@ module.exports = class Lobby {
         this.questionTimer = 10 * 1000
         this.questionInterval
 
+        this.currentQuiz = 0
         this.currentQuestion = 0
         this.status = 'lobby'
         this.players = []
@@ -49,8 +50,8 @@ module.exports = class Lobby {
             this.save()
         }
     }
-    // TODO: Somehow get the questionCount from DB rather than passed through from client
-    startQuiz(questionCount, quizId){
+    startQuiz(questionCount){
+        this.currentQuestion = 0
         this.status = "started"
         this.save()
         // Tell everyone to start the quiz and show the questions
@@ -78,6 +79,7 @@ module.exports = class Lobby {
         } else {
             // Finish the quiz and show results
             this.status = 'finished'
+            this.currentQuiz++
             this.currentQuestion = 0
             this.save()
 
@@ -94,6 +96,7 @@ module.exports = class Lobby {
                 id: this.id,
                 data: {
                     status: this.status,
+                    currentQuiz: this.currentQuiz,
                     currentQuestion: this.currentQuestion,
                     players: this.players
                 }
@@ -108,6 +111,7 @@ module.exports = class Lobby {
             .then(res => res.json())
             .then(res => {
                 this.players = res.players
+                this.currentQuiz = res.currentQuiz
             })
             .catch(err => { console.log(`Error getting lobby: ${err}`) })
     }

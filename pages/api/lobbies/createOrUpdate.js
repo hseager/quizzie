@@ -21,7 +21,8 @@ handler.post(async (req, res) => {
             players: [],
             status: 'lobby',
             currentQuestion: 0,
-            quizId,
+            currentQuiz: 0,
+            currentQuizId: quizId,
             created: new Date()
         }
 
