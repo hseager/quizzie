@@ -19,8 +19,7 @@
 - Create Quiz
 
 ### Notes
-- Results currently get overwritten on same lobby + quiz. Find a way to store multiple result sets
-- Instead of removing user on disconnect, set status field and show status on frontend like MicrosoftTeams color
+- Instead of removing user on disconnect, set player status as disconnected and show status on frontend like MicrosoftTeams color
 - Remove ID from URL and just have /lobby. Join URL will be /lobby/join/somecode which redirects to lobby and player joins
 
 ### *Extra Features*
