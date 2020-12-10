@@ -1,45 +1,24 @@
 module.exports = (server) => {
     const io = require('socket.io')(server)
     const Lobby = require('../libs/classes/lobby')
-    const Player = require('../libs/classes/player')
     const lobbies = []
-
-    // Maybe instead of global players array, get lobbyId from player and then check connection to lobby rather than socket
-    const players = []
     const disconnectionTimer = 30 * 1000
 
     io.on('connection', socket => {
-        socket.on('connectToLobby', ({lobbyId, userId}) => {
+        socket.on('connectToLobby', ({lobbyId, playerId}) => {
             // Get or create a new lobby
             let lobby = lobbies.find(l => l.id === lobbyId)
             if(typeof lobby === 'undefined'){
                 lobby = new Lobby(lobbyId, io)
                 lobbies.push(lobby)
             }
-
-            // Keep track of connected players
-            let player = players.find(p => p.id === userId)
-            if(typeof player === 'undefined'){
-                player = new Player(userId, socket.id)
-                player.connected = true
-                player.lobbyId = lobbyId
-                players.push(player)
-            } else {
-                player.socketId = socket.id
-                player.connected = true
-                player.lobbyId = lobbyId
-            }
-
-            lobby.connect(socket, player)
+            lobby.connect(socket, playerId)
         })
     
-        socket.on('joinLobby', ({lobbyId, userId, name}) => {
+        socket.on('joinLobby', ({lobbyId, playerId, name}) => {
             let lobby = lobbies.find(l => l.id === lobbyId)
-            let player = players.find(p => p.id === userId)
-            if(typeof lobby !== 'undefined' || typeof player !== 'undefined'){
-                player.name = name
-                lobby.join(player)
-            }
+            if(typeof lobby !== 'undefined')
+                lobby.join(playerId, name)
         })
     
         socket.on('startQuiz', ({lobbyId, questionCount}) => {
@@ -49,18 +28,17 @@ module.exports = (server) => {
         })
 
         socket.on('disconnect', () => {
-            const player = players.find(p => p.socketId === socket.id)
-            if(typeof player !== 'undefined'){
-                player.connected = false
-                setTimeout(() => {
-                    if(player.connected === false){
-                        const lobby = lobbies.find(l => l.id == player.lobbyId)
-                        lobby.disconnect(player)
-                    }
-                }, disconnectionTimer)
-            }
+            lobbies.map(lobby => {
+                const player = lobby.players.find(p => p.socketId === socket.id)
+                if(typeof player !== 'undefined'){
+                    player.connected = false
+                    setTimeout(() => {
+                        // If player hasn't reconnected
+                        if(!player.connected)
+                            lobby.disconnect(socket.id)
+                    }, disconnectionTimer)
+                }
+            })
         })
-
     })
-
 }

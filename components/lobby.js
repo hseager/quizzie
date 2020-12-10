@@ -32,7 +32,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
         setInLobby(true)
         socket.emit('joinLobby', { 
             lobbyId,
-            userId,
+            playerId: userId,
             name
         })
     }
@@ -85,7 +85,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
                     <ul>
                         {
                             players.map(player => {
-                                if(player.connected){
+                                if(player.connected && player.joined){
                                     return <li 
                                         key={player.id} 
                                         className={getLobbyPlayerClass(player.id)}

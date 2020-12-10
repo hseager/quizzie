@@ -1,9 +1,9 @@
+const Player = require('../../libs/classes/player')
+
 module.exports = class Lobby {
-    // TODO: Instead of updating individual parts of Lobby, map class to DB and create save method
     constructor(id, io){
         this.id = id
         this.io = io
-        this.connections = []
         this.questionTimer = 10 * 1000
         this.questionInterval
 
@@ -14,40 +14,34 @@ module.exports = class Lobby {
         
         this.load(id)
     }
-    connect(socket, player){
-        let connection = this.connections.find(p => p.id === player.id)
-        if(typeof connection === 'undefined')
-            this.connections.push(player)
-        else 
-            connection.socketId = player.socketId
-
+    connect(socket, playerId){
+        let player = this.players.find(p => p.id === playerId)
+        if(typeof player === 'undefined'){
+            // Create a new player if not connected
+            player = new Player(playerId, socket.id)
+            player.connected = true
+            this.players.push(player)
+        } else {
+            // Update player socketid on reconnection
+            player.socketId = socket.id
+            player.connected = true
+        }
         socket.join(this.id)
     }
-    join(player){
-        player = { id: player.id, name: player.name, connected: player.connected }
-        this.players.push(player)
-        this.save()
-        this.io.to(this.id).emit('updatePlayers', this.players)
-    }
-    disconnect(player){
-        // Check if player is connected to lobby
-        if(this.connections.some(c => c.socketId === player.socketId)){
-            let connectionIndex = this.connections.findIndex(c => c.socketId === player.socketId)
-            if(connectionIndex !== -1){
-                const disconnectingPlayer = this.connections[connectionIndex]
-                // Remove the player from the connection list
-                this.connections.splice(connectionIndex, 1)
-                this.kick(disconnectingPlayer)
-            }
+    join(playerId, name){
+        let player = this.players.find(p => p.id == playerId)
+        if(typeof player !== 'undefined'){
+            player.name = name
+            player.joined = true
+            this.save()
+            this.io.to(this.id).emit('updatePlayers', this.players)
         }
     }
-    kick(player){
-        if(this.players.some(p => p.id === player.id)){
-            // Flag player as disconnected and hide on frontend
-            let disconnectingPlayer = this.players.find(p => p.id == player.id)
-            disconnectingPlayer.connected = false
+    disconnect(socketId){
+        let player = this.players.find(p => p.socketId === socketId)
+        if(typeof player !== 'undefined'){
+            player.connected = false
             this.save()
-            // Broadcast disconnection to connected clients
             this.io.to(this.id).emit('updatePlayers', this.players)
         }
     }
@@ -55,7 +49,6 @@ module.exports = class Lobby {
         this.currentQuestion = 0
         this.status = "started"
         this.save()
-        // Tell everyone to start the quiz and show the questions
         this.io.to(this.id).emit('startQuiz')
         // Start counting down until the next question
         this.changeQuestion(questionCount)
