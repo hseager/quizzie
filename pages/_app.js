@@ -1,11 +1,11 @@
 import '../styles/globals.css'
 import { useEffect } from 'react'
-import { setUserId } from '../libs/localStorage'
+import { setPlayerId } from '../libs/localStorage'
 
 function MyApp({ Component, pageProps }) {
 
     useEffect(() => {
-        setUserId()
+        setPlayerId()
     },[])
 
     return <Component {...pageProps} />

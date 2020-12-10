@@ -9,15 +9,15 @@ handler.use(middleware)
 //TODO: create an ORM to save lobby class
 handler.post(async (req, res) => {
 
-    const { userId, quizId } = req.body
+    const { playerId, quizId } = req.body
     const lobbiesCollection = req.db.collection('lobbies');
 
-    let lobby = await lobbiesCollection.findOne({ owner: userId });
+    let lobby = await lobbiesCollection.findOne({ owner: playerId });
 
     if(!lobby){
         // Create Lobby if one doesn't exist
         const emptyLobby = {
-            owner: userId,
+            owner: playerId,
             players: [],
             status: 'lobby',
             currentQuestion: 0,
@@ -27,7 +27,7 @@ handler.post(async (req, res) => {
         }
 
         const newLobby = await lobbiesCollection.updateOne(
-            { owner: userId }, 
+            { owner: playerId }, 
             { $set: emptyLobby }, 
             { upsert: true }
         )

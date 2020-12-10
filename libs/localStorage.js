@@ -1,15 +1,15 @@
 import { v4 as uuid } from 'uuid'
 
-const userIdKey = 'userId';
+const playerIdKey = 'playerId';
 
-export function setUserId() {
-    const userId = window.localStorage.getItem(userIdKey);
-    if(!userId){
-        window.localStorage.setItem(userIdKey, uuid())
+export function setPlayerId() {
+    const playerId = window.localStorage.getItem(playerIdKey);
+    if(!playerId){
+        window.localStorage.setItem(playerIdKey, uuid())
     }
-    return userId;
+    return playerId;
 }
 
-export function getUserId() {
-    return setUserId()
+export function getPlayerId() {
+    return setPlayerId()
 }

@@ -1,7 +1,7 @@
 import useSocket from '../hooks/useSocket'
 import buttonStyles from '../styles/buttons.module.css'
 import { useState, useEffect } from 'react'
-import { getUserId } from '../libs/localStorage'
+import { getPlayerId } from '../libs/localStorage'
 import { useRouter } from 'next/router'
 import pageStyles from '../styles/page.module.css'
 import styles from '../styles/lobby.module.css'
@@ -10,29 +10,29 @@ import Link from 'next/link'
 export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
 
     const [name, setName] = useState('')
-    const [userId, setUserId] = useState()
+    const [playerId, setPlayerId] = useState()
     const [inLobby, setInLobby] = useState(true)
 
     const router = useRouter()
     const socket = useSocket()
 
     useEffect(() => {
-        setUserId(getUserId())
-    }, [userId])
+        setPlayerId(getPlayerId())
+    }, [playerId])
 
     useEffect(() => {
         if(players){
-            const isInLobby = players.some(p => p.id == userId)
+            const isInLobby = players.some(p => p.id == playerId)
             setInLobby(isInLobby)
         }
-    }, [players, userId])
+    }, [players, playerId])
 
     const joinLobby = () => {
         if(name == '') return
         setInLobby(true)
         socket.emit('joinLobby', { 
             lobbyId,
-            playerId: userId,
+            playerId,
             name
         })
     }
@@ -45,13 +45,13 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
         })
     }
 
-    const getLobbyPlayerClass = (playerId) => {
+    const getLobbyPlayerClass = (pId) => {
         let playerClass = '';
         
-        if(playerId === lobbyOwner)
+        if(pId === lobbyOwner)
             playerClass = styles.playerOwner
 
-        if(playerId === userId)
+        if(pId === playerId)
             playerClass += ' ' + styles.playerCurrent
         
         return playerClass
@@ -63,11 +63,11 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
     return (
         <>
             {
-                userId === lobbyOwner &&
+                playerId === lobbyOwner &&
                 <h1 className={pageStyles.title}>Invite your friends</h1>
             }
             {
-                userId !== lobbyOwner &&
+                playerId !== lobbyOwner &&
                 <h1 className={pageStyles.title}>Get ready to play a Quiz</h1>
             }
             {
@@ -107,7 +107,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
             }
             {
                 inLobby && 
-                userId === lobbyOwner &&
+                playerId === lobbyOwner &&
                 <>
                     <div className={styles.invitePanel}>
                         <h2>Invite players</h2>
@@ -129,7 +129,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
             }
             {
                 inLobby && 
-                userId !== lobbyOwner &&
+                playerId !== lobbyOwner &&
                 <>
                     <p>Waiting for the Quiz leader to start...</p>
                 </>

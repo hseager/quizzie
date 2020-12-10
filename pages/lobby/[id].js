@@ -6,7 +6,7 @@ import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
 import { useState, useEffect } from 'react'
 import pageStyles from '../../styles/page.module.css'
-import { getUserId } from '../../libs/localStorage'
+import { getPlayerId } from '../../libs/localStorage'
 import ErrorPage from 'next/error'
 
 export default function LobbyPage({ quiz, lobby, statusCode }) {
@@ -36,7 +36,7 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
         // Connect to lobby when player loads page
         socket.emit('connectToLobby', {
             lobbyId: lobby._id,
-            playerId: getUserId()
+            playerId: getPlayerId()
         })
     }, [])
 

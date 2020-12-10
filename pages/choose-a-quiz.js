@@ -1,18 +1,9 @@
 import Layout from '../components/layout'
 import Link from 'next/link'
 import styles from '../styles/page.module.css'
-import { getUserId } from '../libs/localStorage'
-import { useState, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
 
 const ChooseAQuiz = function({ data }) {
-
-    const [userId, setUserId] = useState()
-    
-    useEffect(() => {
-        setUserId(getUserId())
-    },[userId])
-
     return (
         <Layout>
             <div className={styles.section}>

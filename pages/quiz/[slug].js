@@ -1,6 +1,6 @@
 import Layout from '../../components/layout'
 import buttonStyles from '../../styles/buttons.module.css'
-import { getUserId } from '../../libs/localStorage'
+import { getPlayerId } from '../../libs/localStorage'
 import fetch from 'isomorphic-unfetch'
 import Router from 'next/router'
 import { useState } from 'react'
@@ -11,12 +11,11 @@ export default function Quiz({ quiz }) {
     const [loading, setLoading] = useState(false)
 
     const createLobby = () => {
-        // TODO: show loading gif etc
         setLoading(true)
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/createOrUpdate`, {
             method: 'post',
             body: JSON.stringify({ 
-                userId: getUserId(),
+                playerId: getPlayerId(),
                 quizId: quiz._id
             }),
             headers: { 'Content-Type': 'application/json' }

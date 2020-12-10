@@ -1,7 +1,7 @@
 import useSocket from '../hooks/useSocket'
 import { useState } from 'react'
 import questionStyles from '../styles/questions.module.css'
-import { getUserId } from '../libs/localStorage'
+import { getPlayerId } from '../libs/localStorage'
 
 // TODO: you can refresh page and answer again
 export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, currentQuiz, players }) {
@@ -27,7 +27,7 @@ export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, current
                 lobbyId,
                 quizId: quiz._id,
                 currentQuiz,
-                playerId: getUserId(),
+                playerId: getPlayerId(),
                 question: currentQuestion,
                 answer
             }),
