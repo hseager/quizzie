@@ -22,7 +22,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
 
     useEffect(() => {
         if(players){
-            const isInLobby = players.some(p => p.id == playerId)
+            const isInLobby = players.some(p => p.id == playerId && p.joined)
             setInLobby(isInLobby)
         }
     }, [players, playerId])
@@ -79,7 +79,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
             }
             {
                 players &&
-                players.length > 0 &&
+                players.some(p => p.joined) &&
                 <div className={styles.lobbyPanel}>
                     <h2 className={styles.lobbyTitle}>Players</h2>
                     <ul>

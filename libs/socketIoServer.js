@@ -10,6 +10,7 @@ module.exports = (server) => {
             let lobby = lobbies.find(l => l.id === lobbyId)
             if(typeof lobby === 'undefined'){
                 lobby = new Lobby(lobbyId, io)
+                lobby.load()
                 lobbies.push(lobby)
             }
             lobby.connect(socket, playerId)

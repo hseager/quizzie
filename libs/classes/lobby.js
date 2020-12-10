@@ -11,8 +11,6 @@ module.exports = class Lobby {
         this.currentQuestion = 0
         this.status = 'lobby'
         this.players = []
-        
-        this.load(id)
     }
     connect(socket, playerId){
         let player = this.players.find(p => p.id === playerId)
@@ -76,7 +74,6 @@ module.exports = class Lobby {
             this.currentQuiz++
             this.currentQuestion = 0
             this.save()
-
             this.io.to(this.id).emit('finishedQuiz')
             clearInterval(this.questionInterval)
             clearInterval(clientCountdown)
@@ -100,13 +97,15 @@ module.exports = class Lobby {
             console.log(`Error with updating lobby. lobbyId: ${this.id}. Error: ${err}`)
         })
     }
-    load(id){
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${id}`)
+    load(){
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${this.id}`)
             .then(res => res.json())
             .then(res => {
-                this.players = res.players
+                // This is to stop the players getting overwritten with a blank array on construction...
+                if(res.players.length > 0)
+                    this.players = res.players
                 this.currentQuiz = res.currentQuiz
             })
-            .catch(err => { console.log(`Error getting lobby: ${err}`) })
+            .catch(err => { console.log(`Error loading lobby from db: ${err}`) })
     }
 }
