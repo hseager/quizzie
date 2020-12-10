@@ -83,14 +83,18 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
                 <div className={styles.lobbyPanel}>
                     <h2 className={styles.lobbyTitle}>Players</h2>
                     <ul>
-                        {players.map(player => (
-                            <li 
-                                key={player.id} 
-                                className={getLobbyPlayerClass(player.id)}
-                            >
-                                {player.name}
-                            </li>
-                        ))}
+                        {
+                            players.map(player => {
+                                if(player.connected){
+                                    return <li 
+                                        key={player.id} 
+                                        className={getLobbyPlayerClass(player.id)}
+                                    >
+                                        {player.name}
+                                    </li>
+                                }
+                            })
+                        }
                     </ul>
                 </div>
             }

@@ -20,7 +20,8 @@
 
 ### Notes
 - Instead of removing user on disconnect, set player status as disconnected and show status on frontend like MicrosoftTeams color
-- Remove ID from URL and just have /lobby. Join URL will be /lobby/join/somecode which redirects to lobby and player joins
+- Block unjoined players from answering/ show page to users who aren't playing when quiz is in progress
+- Fix issue with rejoining
 
 ### *Extra Features*
 - Move question timer to DB/setting rather than hardcoded 10secs

@@ -24,30 +24,31 @@ module.exports = class Lobby {
         socket.join(this.id)
     }
     join(player){
-        // TODO maybe change shortened player object to class instance: player
-        player = { id: player.id, name: player.name }
+        player = { id: player.id, name: player.name, connected: player.connected }
         this.players.push(player)
         this.save()
-
-        this.io.to(this.id).emit('playerJoinedLobby', player)
+        this.io.to(this.id).emit('updatePlayers', this.players)
     }
     disconnect(player){
+        // Check if player is connected to lobby
         if(this.connections.some(c => c.socketId === player.socketId)){
             let connectionIndex = this.connections.findIndex(c => c.socketId === player.socketId)
             if(connectionIndex !== -1){
                 const disconnectingPlayer = this.connections[connectionIndex]
+                // Remove the player from the connection list
                 this.connections.splice(connectionIndex, 1)
                 this.kick(disconnectingPlayer)
-                // Broadcast disconnection to connected clients
-                this.io.to(this.id).emit('playerLeftLobby', disconnectingPlayer.id)
             }
         }
     }
     kick(player){
         if(this.players.some(p => p.id === player.id)){
-            // Remove player from players list
-            this.players = this.players.filter(p => p.id !== player.id)
+            // Flag player as disconnected and hide on frontend
+            let disconnectingPlayer = this.players.find(p => p.id == player.id)
+            disconnectingPlayer.connected = false
             this.save()
+            // Broadcast disconnection to connected clients
+            this.io.to(this.id).emit('updatePlayers', this.players)
         }
     }
     startQuiz(questionCount){

@@ -28,19 +28,8 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
         setStatus('finished')
     })
 
-    useSocket('playerJoinedLobby', player => {
-       setPlayers(
-           [
-            ...players,
-            player
-           ]
-       )
-    })
-
-    useSocket('playerLeftLobby', userId => {
-        if(players.some(p => p.id === userId)){
-            setPlayers(players.filter(p => p.id !== userId))
-        }
+    useSocket('updatePlayers', players => {
+        setPlayers(players)
     })
 
     useEffect(() => {

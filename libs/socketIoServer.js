@@ -3,6 +3,8 @@ module.exports = (server) => {
     const Lobby = require('../libs/classes/lobby')
     const Player = require('../libs/classes/player')
     const lobbies = []
+
+    // Maybe instead of global players array, get lobbyId from player and then check connection to lobby rather than socket
     const players = []
     const disconnectionTimer = 30 * 1000
 
