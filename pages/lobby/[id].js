@@ -23,8 +23,8 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
         setStatus('started')
     })
 
-    useSocket('finishedQuiz', () => {
-        setCurrentQuiz(currentQuiz + 1)
+    useSocket('finishedQuiz', currentQuiz => {
+        setCurrentQuiz(currentQuiz)
         setStatus('finished')
     })
 
@@ -78,7 +78,7 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
 }
 
 export async function getServerSideProps(context) {
-    const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`)
+    const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`).catch(err => console.log(err))
     if(lobbyRequest.status !== 200){
         return {
             props: {

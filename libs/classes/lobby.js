@@ -24,7 +24,6 @@ module.exports = class Lobby {
             player.socketId = socket.id
             player.connected = true
         }
-        this.save()
         socket.join(this.id)
     }
     join(playerId, name){
@@ -75,7 +74,7 @@ module.exports = class Lobby {
             this.currentQuiz++
             this.currentQuestion = 0
             this.save()
-            this.io.to(this.id).emit('finishedQuiz')
+            this.io.to(this.id).emit('finishedQuiz', this.currentQuiz)
             clearInterval(this.questionInterval)
             clearInterval(clientCountdown)
         }
