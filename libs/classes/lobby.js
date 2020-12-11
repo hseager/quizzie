@@ -24,6 +24,7 @@ module.exports = class Lobby {
             player.socketId = socket.id
             player.connected = true
         }
+        this.save()
         socket.join(this.id)
     }
     join(playerId, name){

@@ -19,7 +19,7 @@ handler.post(async (req, res) => {
                 'results.playerId': playerId
             }
         )
-
+        // Add player to results
         if(!result){
             await results.updateOne(
                 { 
@@ -41,26 +41,40 @@ handler.post(async (req, res) => {
             )
         }
         
-        await results.updateOne(
-            {
+        // Check if player has already answered
+
+        const alreadyAnswered = await results.findOne(
+            { 
                 lobbyId,
                 currentQuiz,
-                'results.playerId': playerId
-            },
-            {
-                $push: {
-                    'results.$.answers': {
-                        question,
-                        answer
-                    }
-                }
+                'results.playerId': playerId,
+                'results.answers.question': question
             }
         )
-    } catch(e){
-        console.log('Error: ' + e)
-    }
 
-    res.status(200).json({ message: 'ok' })
+        if(!alreadyAnswered){
+            results.updateOne(
+                {
+                    lobbyId,
+                    currentQuiz,
+                    'results.playerId': playerId,
+                },
+                {
+                    $push: {
+                        'results.$.answers': {
+                            question,
+                            answer
+                        }
+                    }
+                }
+            )
+        } else {
+            throw 'Player has already answered'
+        }
+        res.status(200).json({ message: 'ok' })
+    } catch(err){
+        res.status(500).json(err)
+    }
 })
 
 export default handler
