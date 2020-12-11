@@ -22,6 +22,7 @@
 - Block unjoined players from answering/ show page to users who aren't playing when quiz is in progress
 - Fix issue with rejoining
 - Revisit saving/loading, why we have 2 sources of truth: lobbies[] and DB?
+- Improve 500+400 error handling on lobby page
 
 ### *Extra Features*
 - Move question timer to DB/setting rather than hardcoded 10secs

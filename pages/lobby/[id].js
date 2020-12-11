@@ -11,7 +11,7 @@ import ErrorPage from 'next/error'
 
 export default function LobbyPage({ quiz, lobby, statusCode }) {
 
-    if(statusCode === 404)
+    if(statusCode !== 200)
         return (<ErrorPage statusCode={statusCode} />)
 
     const [status, setStatus] = useState(lobby.status)
@@ -78,29 +78,24 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
 }
 
 export async function getServerSideProps(context) {
-    
-    const lobby = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`)
-                        .then(res => res.json())
-                        .catch(err => console.log(err))
-
-    // Throw 404 if lobby not found
-    if(typeof lobby === 'undefined'){
+    const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`)
+    if(lobbyRequest.status !== 200){
         return {
             props: {
-                statusCode: 404
+                statusCode: lobbyRequest.status
             }
         }
     }
 
+    const lobby = await lobbyRequest.json()
     const quiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${lobby.currentQuizId}`)
                             .then(res => res.json())
                             .catch(err => console.log(err))
-
     return {
         props: {
             quiz,
-            lobby
+            lobby,
+            statusCode: 200
         }
     }
-
 }
