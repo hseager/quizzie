@@ -97,13 +97,11 @@ module.exports = class Lobby {
             console.log(`Error with updating lobby. lobbyId: ${this.id}. Error: ${err}`)
         })
     }
-    load(){
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${this.id}`)
+    async load(){
+        return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${this.id}`)
             .then(res => res.json())
             .then(res => {
-                // This is to stop the players getting overwritten with a blank array on construction...
-                if(res.players.length > 0)
-                    this.players = res.players
+                this.players = res.players
                 this.currentQuiz = res.currentQuiz
             })
             .catch(err => { console.log(`Error loading lobby from db: ${err}`) })

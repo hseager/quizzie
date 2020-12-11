@@ -5,12 +5,12 @@ module.exports = (server) => {
     const disconnectionTimer = 30 * 1000
 
     io.on('connection', socket => {
-        socket.on('connectToLobby', ({lobbyId, playerId}) => {
+        socket.on('connectToLobby', async ({lobbyId, playerId}) => {
             // Get or create a new lobby
             let lobby = lobbies.find(l => l.id === lobbyId)
             if(typeof lobby === 'undefined'){
                 lobby = new Lobby(lobbyId, io)
-                lobby.load()
+                await lobby.load()
                 lobbies.push(lobby)
             }
             lobby.connect(socket, playerId)
