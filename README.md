@@ -20,7 +20,6 @@
 
 ### Notes
 - Block unjoined players from answering/ show page to users who aren't playing when quiz is in progress
-- Fix issue with rejoining
 - Change quiz lightbox
 
 ### *Extra Features*

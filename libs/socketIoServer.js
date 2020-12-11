@@ -2,7 +2,6 @@ module.exports = (server) => {
     const io = require('socket.io')(server)
     const Lobby = require('../libs/classes/lobby')
     const lobbies = []
-    const disconnectionTimer = 30 * 1000
 
     io.on('connection', socket => {
         socket.on('connectToLobby', async ({lobbyId, playerId}) => {
@@ -30,15 +29,9 @@ module.exports = (server) => {
 
         socket.on('disconnect', () => {
             lobbies.map(lobby => {
-                const player = lobby.players.find(p => p.socketId === socket.id)
-                if(typeof player !== 'undefined'){
-                    player.connected = false
-                    setTimeout(() => {
-                        // If player hasn't reconnected
-                        if(!player.connected)
-                            lobby.disconnect(socket.id)
-                    }, disconnectionTimer)
-                }
+                let player = lobby.players.find(p => p.socketIds.some(s => s === socket.id))
+                if(typeof player !== 'undefined')
+                    lobby.disconnect(player, socket.id)
             })
         })
     })

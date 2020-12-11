@@ -6,6 +6,7 @@ module.exports = class Lobby {
         this.io = io
         this.questionTimer = 10 * 1000
         this.questionInterval
+        this.disconnectionTimer = 30 * 1000
 
         this.currentQuiz = 0
         this.currentQuestion = 0
@@ -16,12 +17,13 @@ module.exports = class Lobby {
         let player = this.players.find(p => p.id === playerId)
         if(typeof player === 'undefined'){
             // Create a new player if not connected
-            player = new Player(playerId, socket.id)
+            player = new Player(playerId)
+            player.socketIds.push(socket.id)
             player.connected = true
             this.players.push(player)
         } else {
             // Update player socketid on reconnection
-            player.socketId = socket.id
+            player.socketIds.push(socket.id)
             player.connected = true
         }
         socket.join(this.id)
@@ -35,13 +37,21 @@ module.exports = class Lobby {
             this.io.to(this.id).emit('updatePlayers', this.players)
         }
     }
-    disconnect(socketId){
-        let player = this.players.find(p => p.socketId === socketId)
-        if(typeof player !== 'undefined'){
+    disconnect(player, socketId){
+        console.log('disconnecting')
+        if(player.socketIds.length <= 1)
             player.connected = false
-            this.save()
-            this.io.to(this.id).emit('updatePlayers', this.players)
-        }
+        setTimeout(() => {
+            // If player hasn't reconnected
+            if(!player.connected || player.socketIds.length > 0){
+                let socketIndex = player.socketIds.findIndex(s => s === socketId)
+                console.log(socketIndex)
+                if(socketIndex > -1) player.socketIds.splice(socketIndex, 1)
+                this.save()
+                this.io.to(this.id).emit('updatePlayers', this.players)
+                console.log('disconnected')
+            }
+        }, this.disconnectionTimer)
     }
     startQuiz(questionCount){
         this.currentQuestion = 0

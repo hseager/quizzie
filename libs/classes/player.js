@@ -1,7 +1,7 @@
 module.exports = class Player {
-    constructor(id, socketId){
+    constructor(id){
         this.id = id
-        this.socketId = socketId
+        this.socketIds = []
         this.name
         this.connected = false
         this.joined = false
