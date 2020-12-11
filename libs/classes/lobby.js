@@ -38,18 +38,14 @@ module.exports = class Lobby {
         }
     }
     disconnect(player, socketId){
-        console.log('disconnecting')
-        if(player.socketIds.length <= 1)
-            player.connected = false
+        if(player.socketIds.length <= 1) player.connected = false
         setTimeout(() => {
             // If player hasn't reconnected
             if(!player.connected || player.socketIds.length > 0){
                 let socketIndex = player.socketIds.findIndex(s => s === socketId)
-                console.log(socketIndex)
                 if(socketIndex > -1) player.socketIds.splice(socketIndex, 1)
                 this.save()
                 this.io.to(this.id).emit('updatePlayers', this.players)
-                console.log('disconnected')
             }
         }, this.disconnectionTimer)
     }
