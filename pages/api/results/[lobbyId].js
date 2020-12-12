@@ -1,27 +1,31 @@
 import nextConnect from 'next-connect'
 import middleware from '../../../middleware/database'
-import { ObjectId } from 'mongodb'
 
 const handler = nextConnect()
 
 handler.use(middleware)
 
 handler.get(async (req, res) => {
-
-    const { lobbyId } = req.query;
-    const resultsCollection = req.db.collection('results');
-
-    const lobby = await req.db.collection('lobbies').findOne({ _id: ObjectId(lobbyId) })
-
-    let results = await resultsCollection.findOne(
-        { 
-            lobbyId, 
-            quizCount: lobby.quizCount - 1
-        }
-    )
-
-    res.status(200).json(results)
-
+    try{
+        const { lobbyId } = req.query;
+        const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${lobbyId}`)
+        const lobby = await lobbyRequest.json()
+        if(lobbyRequest.status !== 200)
+            throw lobby.message
+    
+        let results = await req.db.collection('results').findOne(
+            { 
+                lobbyId, 
+                quizCount: lobby.quizCount - 1
+            }
+        )
+        if(!results)
+            throw 'Results not found'
+    
+        res.status(200).json(results)
+    } catch(err){
+        res.status(500).json({ message: err })
+    }
 })
 
 export default handler

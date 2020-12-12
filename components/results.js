@@ -10,9 +10,14 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/${lobbyId}`)
             .then(res => res.json())
-            .then(data => setResults(formatResults(data.results, quiz)))
+            .then(data => {
+                if(data.results)
+                    setResults(formatResults(data.results, quiz))
+                else 
+                    throw data
+            })
             .catch(err => {
-                console.log(err)
+                setResults({ error: true, title: 'There was a problem retrieving the results', message: err.message })
             })
     }, [])
 
@@ -40,6 +45,12 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
 
     if(!results)
         return <p>Loading the results!</p>
+
+    if(results.error)
+        return <>
+            <h3>{results.title}</h3>
+            <p>{results.message}</p>
+        </>
 
     return (
         <>

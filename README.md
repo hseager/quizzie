@@ -19,8 +19,8 @@
 - Create Quiz
 
 ### Notes
-- Block unjoined players from answering/ show page to users who aren't playing when quiz is in progress
 - Change quiz lightbox + change how changing quiz works
+- recheck isomorphic-unfetch
 
 ### *Extra Features*
 - QR Code for joining lobby

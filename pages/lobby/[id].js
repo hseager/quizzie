@@ -17,6 +17,8 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
     const [status, setStatus] = useState(lobby.status)
     const [players, setPlayers] = useState(lobby.players)
     const [quizCount, setQuizCount] = useState(lobby.quizCount)
+    const [playerId, setPlayerId] = useState()
+    const [playerJoined, setPlayerJoined] = useState(false)
     const socket = useSocket()
 
     useSocket('startQuiz', () => {
@@ -39,6 +41,14 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
         })
     }, [])
 
+    useEffect(() => {
+        setPlayerId(getPlayerId())
+    }, [playerId])
+
+    useEffect(() => {
+        setPlayerJoined(players.some(p => p.id == playerId && p.joined))
+    }, [players, playerId])
+
     return (
         <Layout>
             <div className={pageStyles.fullHeightPage}>
@@ -49,10 +59,13 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
                         lobbyOwner={lobby.owner}
                         quiz={quiz}
                         players={players}
+                        playerId={playerId}
+                        playerJoined={playerJoined}
                     />
                 }
                 {
                     status == 'started' &&
+                    playerJoined &&
                     <Questions 
                         lobbyId={lobby._id}
                         lobbyCurrentQuestion={lobby.currentQuestion}
@@ -62,12 +75,21 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
                 }
                 {
                     status == 'finished' &&
+                    playerJoined &&
                     <Results 
                         lobbyId={lobby._id}
                         quiz={quiz}
                         players={players}
                         setStatus={setStatus}
                     />
+                }
+                {
+                    status !== 'lobby' &&
+                    !playerJoined &&
+                    <>
+                        <h3>Sorry, the quiz has already started</h3>
+                        <p>Please try to join again once the quiz has finished.</p>
+                    </>
                 }
             </div>
         </Layout>

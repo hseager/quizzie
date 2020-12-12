@@ -1,35 +1,20 @@
 import useSocket from '../hooks/useSocket'
 import buttonStyles from '../styles/buttons.module.css'
-import { useState, useEffect } from 'react'
-import { getPlayerId } from '../libs/localStorage'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import pageStyles from '../styles/page.module.css'
 import styles from '../styles/lobby.module.css'
 import Link from 'next/link'
 
-export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
+export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, playerJoined }) {
 
     const [name, setName] = useState('')
-    const [playerId, setPlayerId] = useState()
-    const [inLobby, setInLobby] = useState(true)
 
     const router = useRouter()
     const socket = useSocket()
 
-    useEffect(() => {
-        setPlayerId(getPlayerId())
-    }, [playerId])
-
-    useEffect(() => {
-        if(players){
-            const isInLobby = players.some(p => p.id == playerId && p.joined)
-            setInLobby(isInLobby)
-        }
-    }, [players, playerId])
-
     const joinLobby = () => {
         if(name == '') return
-        setInLobby(true)
         socket.emit('joinLobby', { 
             lobbyId,
             playerId,
@@ -38,7 +23,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
     }
 
     const startQuiz = () => {
-        socket.emit('startQuiz', {lobbyId})
+        socket.emit('startQuiz', lobbyId)
     }
 
     const getLobbyPlayerClass = (pId) => {
@@ -95,14 +80,14 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
                 </div>
             }
             {
-                !inLobby &&
+                !playerJoined &&
                 <>
                     <input placeholder="Enter your name" type="text" name="first-name" className={styles.nameField} onChange={e => setName(e.target.value)} />
                     <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
                 </>
             }
             {
-                inLobby && 
+                playerJoined && 
                 playerId === lobbyOwner &&
                 <>
                     <div className={styles.invitePanel}>
@@ -124,7 +109,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
                 </>
             }
             {
-                inLobby && 
+                playerJoined && 
                 playerId !== lobbyOwner &&
                 <>
                     <p>Waiting for the Quiz leader to start...</p>
