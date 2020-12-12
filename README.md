@@ -20,9 +20,10 @@
 
 ### Notes
 - Block unjoined players from answering/ show page to users who aren't playing when quiz is in progress
-- Change quiz lightbox
+- Change quiz lightbox + change how changing quiz works
 
 ### *Extra Features*
+- QR Code for joining lobby
 - Move question timer to DB/setting rather than hardcoded 10secs
 - Admin panel to manage quizzes easier
 - Sort/Filter quizzes by rating/plays/type

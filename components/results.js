@@ -3,7 +3,7 @@ import { formatResults } from '../libs/formatResults.js'
 import Link from 'next/link'
 import buttonStyles from '../styles/buttons.module.css'
 
-export default function Results({ lobbyId, quiz, currentQuiz, players, setStatus }) {
+export default function Results({ lobbyId, quiz, players, setStatus }) {
 
     const [results, setResults] = useState(null)
 

@@ -6,7 +6,6 @@ const handler = nextConnect()
 
 handler.use(middleware)
 
-//TODO: create an ORM to save lobby class
 handler.post(async (req, res) => {
 
     const { playerId, quizId } = req.body
@@ -21,8 +20,8 @@ handler.post(async (req, res) => {
             players: [],
             status: 'lobby',
             currentQuestion: 0,
-            currentQuiz: 0,
-            currentQuizId: quizId,
+            quizCount: 0,
+            quizId: quizId,
             created: new Date()
         }
 

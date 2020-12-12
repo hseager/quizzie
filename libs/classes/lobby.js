@@ -8,7 +8,8 @@ module.exports = class Lobby {
         this.questionInterval
         this.disconnectionTimer = 30 * 1000
 
-        this.currentQuiz = 0
+        this.quizId
+        this.quizCount = 0
         this.currentQuestion = 0
         this.status = 'lobby'
         this.players = []
@@ -49,7 +50,9 @@ module.exports = class Lobby {
             }
         }, this.disconnectionTimer)
     }
-    startQuiz(questionCount){
+    async startQuiz(){
+        const quiz = await this.getQuiz()
+        const questionCount = quiz.questions.length
         this.currentQuestion = 0
         this.status = "started"
         this.save()
@@ -77,14 +80,19 @@ module.exports = class Lobby {
         } else {
             // Finish the quiz and show results
             this.status = 'finished'
-            this.currentQuiz++
+            this.quizCount++
             this.currentQuestion = 0
             this.save()
-            this.io.to(this.id).emit('finishedQuiz', this.currentQuiz)
+            this.io.to(this.id).emit('finishedQuiz', this.quizCount)
             clearInterval(this.questionInterval)
             clearInterval(clientCountdown)
         }
         this.currentQuestion++
+    }
+    async getQuiz(){
+        return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${this.quizId}`)
+            .then(res => res.json())
+            .catch(err => { console.log(`Error loading quiz from db: ${err}`) })
     }
     save(){
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
@@ -93,7 +101,7 @@ module.exports = class Lobby {
                 id: this.id,
                 data: {
                     status: this.status,
-                    currentQuiz: this.currentQuiz,
+                    quizCount: this.quizCount,
                     currentQuestion: this.currentQuestion,
                     players: this.players
                 }
@@ -108,7 +116,8 @@ module.exports = class Lobby {
             .then(res => res.json())
             .then(res => {
                 this.players = res.players
-                this.currentQuiz = res.currentQuiz
+                this.quizId = res.quizId
+                this.quizCount = res.quizCount
             })
             .catch(err => { console.log(`Error loading lobby from db: ${err}`) })
     }

@@ -20,7 +20,7 @@ handler.get(async (req, res) => {
             res.status(404).json({ message: 'Lobby not found' })
         }
     } catch(err){
-        res.status(500).json({ message: 'Error getting lobby:' + err })
+        res.status(500).json({ message: `Error getting lobby: ${err}` })
     }
 })
 

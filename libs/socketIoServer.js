@@ -21,10 +21,10 @@ module.exports = (server) => {
                 lobby.join(playerId, name)
         })
     
-        socket.on('startQuiz', ({lobbyId, questionCount}) => {
+        socket.on('startQuiz', ({lobbyId}) => {
             let lobby = lobbies.find(l => l.id === lobbyId)
             if(typeof lobby !== 'undefined')
-                lobby.startQuiz(questionCount)
+                lobby.startQuiz()
         })
 
         socket.on('disconnect', () => {

@@ -7,7 +7,7 @@ handler.use(middleware)
 
 handler.post(async (req, res) => {
 
-    const { lobbyId, quizId, currentQuiz, playerId, question, answer } = req.body
+    const { lobbyId, quizId, quizCount, playerId, question, answer } = req.body
 
     try{
         const results = req.db.collection('results')
@@ -15,7 +15,7 @@ handler.post(async (req, res) => {
         const result = await results.findOne(
             { 
                 lobbyId,
-                currentQuiz,
+                quizCount,
                 'results.playerId': playerId
             }
         )
@@ -25,7 +25,7 @@ handler.post(async (req, res) => {
                 { 
                     lobbyId,
                     quizId,
-                    currentQuiz
+                    quizCount
                 }, 
                 {
                     $addToSet: { 
@@ -46,7 +46,7 @@ handler.post(async (req, res) => {
         const alreadyAnswered = await results.findOne(
             { 
                 lobbyId,
-                currentQuiz,
+                quizCount,
                 'results.playerId': playerId,
                 'results.answers.question': question
             }
@@ -56,7 +56,7 @@ handler.post(async (req, res) => {
             results.updateOne(
                 {
                     lobbyId,
-                    currentQuiz,
+                    quizCount,
                     'results.playerId': playerId,
                 },
                 {

@@ -16,15 +16,15 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
 
     const [status, setStatus] = useState(lobby.status)
     const [players, setPlayers] = useState(lobby.players)
-    const [currentQuiz, setCurrentQuiz] = useState(lobby.currentQuiz)
+    const [quizCount, setQuizCount] = useState(lobby.quizCount)
     const socket = useSocket()
 
     useSocket('startQuiz', () => {
         setStatus('started')
     })
 
-    useSocket('finishedQuiz', currentQuiz => {
-        setCurrentQuiz(currentQuiz)
+    useSocket('finishedQuiz', quizCount => {
+        setQuizCount(quizCount)
         setStatus('finished')
     })
 
@@ -33,7 +33,6 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
     })
 
     useEffect(() => {
-        // Connect to lobby when player loads page
         socket.emit('connectToLobby', {
             lobbyId: lobby._id,
             playerId: getPlayerId()
@@ -57,8 +56,7 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
                     <Questions 
                         lobbyId={lobby._id}
                         lobbyCurrentQuestion={lobby.currentQuestion}
-                        currentQuiz={currentQuiz}
-                        players={players}
+                        quizCount={quizCount}
                         quiz={quiz}
                     />
                 }
@@ -67,7 +65,6 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
                     <Results 
                         lobbyId={lobby._id}
                         quiz={quiz}
-                        currentQuiz={currentQuiz}
                         players={players}
                         setStatus={setStatus}
                     />
@@ -88,7 +85,7 @@ export async function getServerSideProps(context) {
     }
 
     const lobby = await lobbyRequest.json()
-    const quiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${lobby.currentQuizId}`)
+    const quiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${lobby.quizId}`)
                             .then(res => res.json())
                             .catch(err => console.log(err))
     return {

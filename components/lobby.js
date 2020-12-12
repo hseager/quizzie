@@ -38,11 +38,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players }) {
     }
 
     const startQuiz = () => {
-        socket.emit('startQuiz', { 
-            lobbyId,
-            quizId: quiz._id,
-            questionCount: quiz.questions.length
-        })
+        socket.emit('startQuiz', {lobbyId})
     }
 
     const getLobbyPlayerClass = (pId) => {
