@@ -53,10 +53,12 @@ module.exports = class Lobby {
     async startQuiz(){
         const quiz = await this.getQuiz()
         const questionCount = quiz.questions.length
+
+        this.quizCount++
         this.currentQuestion = 0
-        this.status = "started"
+        this.status = 'started'
         this.save()
-        this.io.to(this.id).emit('startQuiz')
+        this.io.to(this.id).emit('startQuiz', this.quizCount)
         // Start counting down until the next question
         this.changeQuestion(questionCount)
         this.questionInterval = setInterval(() => this.changeQuestion(questionCount), this.questionTimer)
@@ -80,10 +82,9 @@ module.exports = class Lobby {
         } else {
             // Finish the quiz and show results
             this.status = 'finished'
-            this.quizCount++
             this.currentQuestion = 0
             this.save()
-            this.io.to(this.id).emit('finishedQuiz', this.quizCount)
+            this.io.to(this.id).emit('finishQuiz')
             clearInterval(this.questionInterval)
             clearInterval(clientCountdown)
         }

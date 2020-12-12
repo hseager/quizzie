@@ -21,12 +21,12 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
     const [playerJoined, setPlayerJoined] = useState(false)
     const socket = useSocket()
 
-    useSocket('startQuiz', () => {
+    useSocket('startQuiz', quizCount => {
+        setQuizCount(quizCount)
         setStatus('started')
     })
 
-    useSocket('finishedQuiz', quizCount => {
-        setQuizCount(quizCount)
+    useSocket('finishQuiz', () => {
         setStatus('finished')
     })
 

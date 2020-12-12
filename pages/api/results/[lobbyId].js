@@ -15,8 +15,8 @@ handler.get(async (req, res) => {
     
         let results = await req.db.collection('results').findOne(
             { 
-                lobbyId, 
-                quizCount: lobby.quizCount - 1
+                lobbyId,
+                quizCount: lobby.quizCount
             }
         )
         if(!results)

@@ -1,6 +1,5 @@
 import nextConnect from 'next-connect'
 import middleware from '../../../middleware/database'
-import fetch from 'isomorphic-unfetch'
 
 const handler = nextConnect()
 

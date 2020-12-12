@@ -20,7 +20,6 @@
 
 ### Notes
 - Change quiz lightbox + change how changing quiz works
-- recheck isomorphic-unfetch
 
 ### *Extra Features*
 - QR Code for joining lobby
