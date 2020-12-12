@@ -6,73 +6,85 @@ const handler = nextConnect()
 handler.use(middleware)
 
 handler.post(async (req, res) => {
-
-    const { lobbyId, quizId, quizCount, playerId, question, answer } = req.body
-
     try{
+        const { lobbyId, quizId, quizCount, playerId, question, answer } = req.body
         const results = req.db.collection('results')
-        // See if player has answered before
-        const result = await results.findOne(
+
+        // Check if a record has been created
+        const recordCreated = await results.findOne(
             { 
                 lobbyId,
-                quizCount,
-                'results.playerId': playerId
+                quizCount
             }
         )
-        // Add player to results
-        if(!result){
-            await results.updateOne(
-                { 
+        if(!recordCreated){
+            await results.insertOne(
+                {
                     lobbyId,
                     quizId,
-                    quizCount
-                }, 
-                {
-                    $addToSet: { 
-                        results: {
-                            playerId,
-                            answers: []
-                        }
-                    }
-                },
-                {
-                    upsert: true
+                    quizCount,
+                    results: []
                 }
             )
         }
         
-        // Check if player has already answered
-
-        const alreadyAnswered = await results.findOne(
+        // Check if player has already answered this question
+        const alreadyAnsweredQuestion = await results.findOne(
             { 
                 lobbyId,
                 quizCount,
-                'results.playerId': playerId,
-                'results.answers.question': question
+                'results.playerId' : playerId,
+                'results.$.answers.question': question
             }
         )
 
-        if(!alreadyAnswered){
-            results.updateOne(
+        if(alreadyAnsweredQuestion) throw 'Player has already answered this question'
+
+        // Check if player has previously answered a question
+        const answeredBefore = await results.findOne(
+            { 
+                lobbyId,
+                quizCount,
+                'results.playerId' : playerId,
+            }
+        )
+        if(!answeredBefore){
+            // Create a new player record with answer
+            await results.updateOne(
                 {
                     lobbyId,
                     quizCount,
-                    'results.playerId': playerId,
                 },
                 {
-                    $push: {
-                        'results.$.answers': {
-                            question,
-                            answer
+                    $push:{
+                        results: {
+                            playerId,
+                            answers: [
+                                { question, answer }
+                            ]
                         }
                     }
                 }
             )
         } else {
-            throw 'Player has already answered'
+            // Add the latest answer
+            await results.updateOne(
+                {
+                    lobbyId,
+                    quizCount,
+                    'results.playerId' : playerId,
+                },
+                {
+                    $push:{
+                        'results.$.answers': { question, answer }
+                    }
+                }
+            )
         }
+
         res.status(200).json({ message: 'ok' })
     } catch(err){
+        console.log(err)
         res.status(500).json(err)
     }
 })

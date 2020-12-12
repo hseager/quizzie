@@ -22,6 +22,7 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
     }, [])
 
     const startAgain = () => {
+        // TODO: need to update the Lobby class in memory for status: lobby cause it's out of sync with the DB here
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
             method: 'post',
             body: JSON.stringify({
