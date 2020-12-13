@@ -20,7 +20,6 @@
 
 ### Notes
 - Change quiz lightbox + change how changing quiz works
-- Created 2 results at the same time
 
 ### *Extra Features*
 - QR Code for joining lobby

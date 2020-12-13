@@ -18,12 +18,19 @@ handler.post(async (req, res) => {
             }
         )
         if(!recordCreated){
-            await results.insertOne(
+            await results.updateOne(
                 {
                     lobbyId,
-                    quizId,
                     quizCount,
-                    results: []
+                },
+                {
+                    $set: { 
+                        quizId,
+                        results: []
+                    }
+                },
+                {
+                    upsert: true,
                 }
             )
         }
