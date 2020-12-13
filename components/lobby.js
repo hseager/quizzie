@@ -9,7 +9,6 @@ import Link from 'next/link'
 export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, playerJoined }) {
 
     const [name, setName] = useState('')
-
     const router = useRouter()
     const socket = useSocket()
 

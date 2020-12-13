@@ -21,6 +21,10 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
     const [playerJoined, setPlayerJoined] = useState(false)
     const socket = useSocket()
 
+    useEffect(() => {
+        setPlayerId(getPlayerId())
+    }, [playerId])
+
     useSocket('startQuiz', quizCount => {
         setQuizCount(quizCount)
         setStatus('started')
@@ -40,10 +44,6 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
             playerId: getPlayerId()
         })
     }, [])
-
-    useEffect(() => {
-        setPlayerId(getPlayerId())
-    }, [playerId])
 
     useEffect(() => {
         setPlayerJoined(players.some(p => p.id == playerId && p.joined))

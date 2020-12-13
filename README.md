@@ -21,7 +21,6 @@
 ### Notes
 - Change quiz lightbox + change how changing quiz works
 - Created 2 results at the same time
-- 2nd player can't join without refreshing page
 
 ### *Extra Features*
 - QR Code for joining lobby
