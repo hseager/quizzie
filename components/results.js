@@ -1,3 +1,4 @@
+import useSocket from '../hooks/useSocket'
 import { useState, useEffect } from 'react'
 import { formatResults } from '../libs/formatResults.js'
 import Link from 'next/link'
@@ -6,6 +7,7 @@ import buttonStyles from '../styles/buttons.module.css'
 export default function Results({ lobbyId, quiz, players, setStatus }) {
 
     const [results, setResults] = useState(null)
+    const socket = useSocket()
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results/${lobbyId}`)
@@ -22,18 +24,8 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
     }, [])
 
     const startAgain = () => {
-        // TODO: need to update the Lobby class in memory for status: lobby cause it's out of sync with the DB here
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
-            method: 'post',
-            body: JSON.stringify({
-                id: lobbyId,
-                data: {
-                    status: 'lobby'
-                }
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        })
         setStatus('lobby')
+        socket.emit('startAgain', lobbyId)
     }
 
     const getPlayerName = (playerId) => {

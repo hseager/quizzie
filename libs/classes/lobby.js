@@ -63,6 +63,10 @@ module.exports = class Lobby {
         this.changeQuestion(questionCount)
         this.questionInterval = setInterval(() => this.changeQuestion(questionCount), this.questionTimer)
     }
+    startAgain(){
+        this.status = 'lobby'
+        this.save()
+    }
     changeQuestion(questionCount){
         // Start the client side countdown and emit 
         let currentClientCountdown = this.questionTimer / 1000

@@ -20,7 +20,8 @@
 
 ### Notes
 - Change quiz lightbox + change how changing quiz works
-- There's an issue where a disconnecting user will trigger a save on the DB and status will be wrong. need to update status when finishing I think
+- Created 2 results at the same time
+- 2nd player can't join without refreshing page
 
 ### *Extra Features*
 - QR Code for joining lobby
