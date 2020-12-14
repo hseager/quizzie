@@ -12,7 +12,7 @@ export default function Quiz({ quiz }) {
 
     const createLobby = () => {
         setLoading(true)
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/createOrUpdate`, {
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies`, {
             method: 'post',
             body: JSON.stringify({ 
                 playerId: getPlayerId(),
