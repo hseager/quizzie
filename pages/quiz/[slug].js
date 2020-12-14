@@ -5,8 +5,12 @@ import fetch from 'isomorphic-unfetch'
 import Router from 'next/router'
 import { useState } from 'react'
 import pageStyles from '../../styles/page.module.css'
+import ErrorPage from 'next/error'
 
-export default function Quiz({ quiz }) {
+export default function Quiz({ quiz, statusCode }) {
+
+    if(statusCode !== 200)
+        return (<ErrorPage statusCode={statusCode} />)
 
     const [loading, setLoading] = useState(false)
 
@@ -22,7 +26,7 @@ export default function Quiz({ quiz }) {
         })
         .then(res => res.json())
         .then(res => Router.push(`/lobby/${res.lobbyId}`))
-        .catch(err => { console.log(`Error creating lobby: ${err}`) })
+        .catch(err => console.log(`Error creating lobby: ${err}`))
     }
 
     return (
@@ -50,18 +54,21 @@ export default function Quiz({ quiz }) {
             </div>
         </Layout>
     )
-
 }
 
 export async function getServerSideProps(context) {
 
-    const getQuiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${context.params.slug}`)
-                        .catch(err => { console.log(err) })
-    const quiz = await getQuiz.json()
+    const quizRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/slug/${context.params.slug}`)
+                            .then(res => res.json())
+                            .catch(err => console.log(err))
+    
+    if(quizRequest.status !== 200)
+        return { props: { statusCode: quizRequest.status } }
 
     return {
         props: {
-            quiz
+            quiz: quizRequest.data,
+            statusCode: 200
         }
     }
 }

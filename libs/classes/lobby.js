@@ -95,13 +95,13 @@ module.exports = class Lobby {
         this.currentQuestion++
     }
     async getQuiz(){
-        return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${this.quizId}`)
+        return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${this.quizId}`)
             .then(res => res.json())
             .then(res => { 
                 if(res.status !== 200) throw res.message
                 return res.data
             })
-            .catch(err => { console.log(`Error loading quiz: ${err}`) })
+            .catch(err => console.log(`Error loading quiz: ${err}`))
     }
     save(){
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${this.id}`, {
@@ -134,6 +134,6 @@ module.exports = class Lobby {
                 this.quizId = data.quizId
                 this.quizCount = data.quizCount
             })
-            .catch(err => { console.log(`Error loading lobby: ${err}`) })
+            .catch(err => console.log(`Error loading lobby: ${err}`))
     }
 }

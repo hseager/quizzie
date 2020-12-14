@@ -101,27 +101,17 @@ export async function getServerSideProps(context) {
                                 .then(res => res.json())
                                 .catch(err => console.log(err))
 
-    if(lobbyRequest.status !== 200){
-        return {
-            props: {
-                statusCode: lobbyRequest.status
-            }
-        }
-    }
+    if(lobbyRequest.status !== 200)
+        return { props: { statusCode: lobbyRequest.status } }
 
     const lobby = lobbyRequest.data;
 
-    const quizRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${lobby.quizId}`)
+    const quizRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${lobby.quizId}`)
                             .then(res => res.json())
                             .catch(err => console.log(err))
     
-    if(quizRequest.status !== 200){
-        return {
-            props: {
-                statusCode: quizRequest.status
-            }
-        }
-    }
+    if(quizRequest.status !== 200)
+        return { props: { statusCode: quizRequest.status } }
     
     const quiz = quizRequest.data
 
