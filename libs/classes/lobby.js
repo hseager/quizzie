@@ -97,6 +97,10 @@ module.exports = class Lobby {
     async getQuiz(){
         return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${this.quizId}`)
             .then(res => res.json())
+            .then(res => { 
+                if(res.status !== 200) throw res.message
+                return res.data
+            })
             .catch(err => { console.log(`Error loading quiz: ${err}`) })
     }
     save(){
