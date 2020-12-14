@@ -57,18 +57,25 @@ export default function Quiz({ quiz, statusCode }) {
 }
 
 export async function getServerSideProps(context) {
+    try{
+        const quizRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/slug/${context.params.slug}`)
+        .then(res => res.json())
+        .catch(err => { throw err })
 
-    const quizRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/slug/${context.params.slug}`)
-                            .then(res => res.json())
-                            .catch(err => console.log(err))
-    
-    if(quizRequest.status !== 200)
-        return { props: { statusCode: quizRequest.status } }
+        if(!quizRequest)
+            throw 'Error getting quiz'
 
-    return {
-        props: {
-            quiz: quizRequest.data,
-            statusCode: 200
+        if(quizRequest.status !== 200)
+            return { props: { statusCode: quizRequest.status } }
+
+        return {
+            props: {
+                quiz: quizRequest.data,
+                statusCode: 200
+            }
         }
+    } catch(err) {
+        console.log(err)
+        return { props: { statusCode: 500 } }
     }
 }

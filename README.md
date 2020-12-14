@@ -21,6 +21,7 @@
 ### Notes
 - Change quiz lightbox + change how changing quiz works
 - Improve API endpoints, Patch for update and error reporting on create etc
+- Create a new ApiCallError() obj with custom error page
 
 ### *Extra Features*
 - QR Code for joining lobby

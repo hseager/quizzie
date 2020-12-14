@@ -97,29 +97,36 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
 }
 
 export async function getServerSideProps(context) {
-    const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`)
-                                .then(res => res.json())
-                                .catch(err => console.log(err))
+    try{
+        const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`)
+        .then(res => res.json())
+        .catch(err => { throw err })
 
-    if(lobbyRequest.status !== 200)
-        return { props: { statusCode: lobbyRequest.status } }
+        if(!lobbyRequest)
+            throw 'Error with lobby request'
 
-    const lobby = lobbyRequest.data;
+        if(lobbyRequest.status !== 200)
+            return { props: { statusCode: lobbyRequest.status } }
 
-    const quizRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${lobby.quizId}`)
-                            .then(res => res.json())
-                            .catch(err => console.log(err))
-    
-    if(quizRequest.status !== 200)
-        return { props: { statusCode: quizRequest.status } }
-    
-    const quiz = quizRequest.data
+        const quizRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${lobbyRequest.data.quizId}`)
+        .then(res => res.json())
+        .catch(err => { throw err })
 
-    return {
-        props: {
-            quiz,
-            lobby,
-            statusCode: 200
+        if(!quizRequest)
+            throw 'Error with quiz request'
+
+        if(quizRequest.status !== 200)
+            return { props: { statusCode: quizRequest.status } }
+
+        return {
+            props: {
+                quiz: quizRequest.data,
+                lobby: lobbyRequest.data,
+                statusCode: 200
+            }
         }
+    } catch(err){
+        console.log(err)
+        return { props: { statusCode: 500 } }
     }
 }

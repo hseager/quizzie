@@ -2,8 +2,13 @@ import Layout from '../components/layout'
 import Link from 'next/link'
 import styles from '../styles/page.module.css'
 import fetch from 'isomorphic-unfetch'
+import ErrorPage from 'next/error'
 
-const ChooseAQuiz = function({ data }) {
+const ChooseAQuiz = function({ data, statusCode }) {
+
+    if(statusCode !== 200)
+        return (<ErrorPage statusCode={statusCode} />)
+
     return (
         <Layout>
             <div className={styles.section}>
@@ -34,14 +39,23 @@ const ChooseAQuiz = function({ data }) {
 }
 
 export async function getStaticProps() {
+    try{
+        const quizRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes`)
+        .then(res => res.json())
+        .catch(err => { throw err })
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes`)
-    const json = await res.json()
+        if(!quizRequest)
+            throw 'Error retrieving quizzes'
 
-    return {
-        props: {
-            data: json
+        return {
+            props: {
+                data: quizRequest.data ? quizRequest.data : null,
+                statusCode: 200
+            }
         }
+    } catch(err){
+        console.log(err)
+        return { props: { statusCode: 500 } }
     }
 }
 
