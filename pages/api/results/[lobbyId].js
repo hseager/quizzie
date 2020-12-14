@@ -11,14 +11,16 @@ handler.get(async (req, res) => {
         const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${lobbyId}`)
                                     .then(res => res.json())
                                     .catch(err => { throw err} )
+        if(!lobbyRequest)
+            throw 'Error retrieving lobby'
+        
         if(lobbyRequest.status !== 200)
             throw lobbyRequest.message
-
-        const lobby = lobbyRequest.data
+        
         let results = await req.db.collection('results').findOne(
             { 
                 lobbyId,
-                quizCount: lobby.quizCount
+                quizCount: lobbyRequest.data.quizCount
             }
         )
         if(!results)
@@ -26,6 +28,7 @@ handler.get(async (req, res) => {
     
         res.status(200).json(results)
     } catch(err){
+        console.log(err)
         res.status(500).json({ message: err })
     }
 })

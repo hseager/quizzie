@@ -46,6 +46,7 @@ handler.post(async (req, res) => {
             res.status(200).json({ lobbyId: lobby._id })
         }
     } catch(err){
+        console.log(err)
         res.status(500).json({ status: 500, message: err })
     }
 })
