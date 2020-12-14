@@ -9,10 +9,12 @@ handler.get(async (req, res) => {
     try{
         const { lobbyId } = req.query;
         const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${lobbyId}`)
-        const lobby = await lobbyRequest.json()
+                                    .then(res => res.json())
+                                    .catch(err => { throw err} )
         if(lobbyRequest.status !== 200)
-            throw lobby.message
-    
+            throw lobbyRequest.message
+
+        const lobby = lobbyRequest.data
         let results = await req.db.collection('results').findOne(
             { 
                 lobbyId,

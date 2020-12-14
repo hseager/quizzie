@@ -20,6 +20,7 @@
 
 ### Notes
 - Change quiz lightbox + change how changing quiz works
+- Improve API endpoints, Patch for update and error reporting on create etc
 
 ### *Extra Features*
 - QR Code for joining lobby

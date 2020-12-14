@@ -11,16 +11,12 @@ const nextHandler = nextApp.getRequestHandler()
 socketIoServer(server)
 
 nextApp.prepare().then(() => {
-    app.get('*', (req, res) => {
+    app.all('*', (req, res) => {
         return nextHandler(req, res)
     })
 
-    app.post('*', (req, res) => {
-        return nextHandler(req, res)
-    })    
-
     server.listen(port, err => {
         if(err) throw err
-        console.log(`> Next.js Server Ready on ${process.env.NEXT_PUBLIC_HOST}`)
+        console.log(`> Server Ready on ${process.env.NEXT_PUBLIC_HOST}`)
     })
 })

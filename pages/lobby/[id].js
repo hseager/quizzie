@@ -97,7 +97,10 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
 }
 
 export async function getServerSideProps(context) {
-    const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`).catch(err => console.log(err))
+    const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`)
+                                .then(res => res.json())
+                                .catch(err => console.log(err))
+
     if(lobbyRequest.status !== 200){
         return {
             props: {
@@ -106,7 +109,7 @@ export async function getServerSideProps(context) {
         }
     }
 
-    const lobby = await lobbyRequest.json()
+    const lobby = lobbyRequest.data
     const quiz = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${lobby.quizId}`)
                             .then(res => res.json())
                             .catch(err => console.log(err))

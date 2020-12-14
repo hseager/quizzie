@@ -97,13 +97,12 @@ module.exports = class Lobby {
     async getQuiz(){
         return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/id/${this.quizId}`)
             .then(res => res.json())
-            .catch(err => { console.log(`Error loading quiz from db: ${err}`) })
+            .catch(err => { console.log(`Error loading quiz: ${err}`) })
     }
     save(){
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/update`, {
-            method: 'post',
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${this.id}`, {
+            method: 'patch',
             body: JSON.stringify({
-                id: this.id,
                 data: {
                     status: this.status,
                     quizCount: this.quizCount,
@@ -112,18 +111,25 @@ module.exports = class Lobby {
                 }
             }),
             headers: { 'Content-Type': 'application/json' }
-        }).catch(err => {
-            console.log(`Error with updating lobby. lobbyId: ${this.id}. Error: ${err}`)
         })
+        .then(res => res.json())
+        .then(res => { 
+            if(res.status !== 200) throw res.message
+        })
+        .catch(err => console.log(`Error patching lobby: ${err}`))
     }
     async load(){
         return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${this.id}`)
             .then(res => res.json())
-            .then(res => {
-                this.players = res.players
-                this.quizId = res.quizId
-                this.quizCount = res.quizCount
+            .then(res => { 
+                if(res.status !== 200) throw res.message
+                return res.data
             })
-            .catch(err => { console.log(`Error loading lobby from db: ${err}`) })
+            .then(data => {
+                if(data.players) this.players = data.players
+                this.quizId = data.quizId
+                this.quizCount = data.quizCount
+            })
+            .catch(err => { console.log(`Error loading lobby: ${err}`) })
     }
 }
