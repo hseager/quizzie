@@ -33,6 +33,13 @@ module.exports = (server) => {
                 lobby.startAgain()
         })
 
+        socket.on('changeQuiz', ({lobbyId, quizId}) => {
+            let lobby = lobbies.find(l => l.id === lobbyId)
+            if(typeof lobby !== 'undefined'){
+                lobby.changeQuiz(quizId)
+            }
+        })
+
         socket.on('disconnect', () => {
             lobbies.map(lobby => {
                 let player = lobby.players.find(p => p.socketIds.some(s => s === socket.id))

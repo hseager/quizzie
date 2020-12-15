@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import pageStyles from '../styles/page.module.css'
 import styles from '../styles/lobby.module.css'
-import Modal from '../components/modal'
+import ChangeQuizModal from '../components/changeQuizModal'
 
 export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, playerJoined }) {
 
@@ -25,6 +25,10 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
 
     const startQuiz = () => {
         socket.emit('startQuiz', lobbyId)
+    }
+
+    const changeQuiz = (quizId) => {
+        socket.emit('changeQuiz', { lobbyId, quizId })
     }
 
     const getLobbyPlayerClass = (pId) => {
@@ -55,7 +59,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
             {
                 quiz && 
                 <>
-                    <p>You are playing the quiz: <strong>{quiz.name}</strong></p>
+                    <p>You are about to play the quiz: <strong>{quiz.name}</strong></p>
                     <p><strong>{quiz.questions.length}</strong> Questions</p>
                 </>
             }
@@ -94,11 +98,6 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                     <div className={styles.invitePanel}>
                         <h2>Invite players</h2>
                         <p>Share this link: <br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
-                        { /* }
-                        <p>Or</p>
-                        <p>Type in this code at: <br/><strong>http://localhost:3000/join</strong></p>
-                        <p>Code: <strong>3</strong></p>
-                        {*/}
                     </div>
                     <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
                     <button className={buttonStyles.button} onClick={() => { setShowChangeQuizModal(true)}}>Change Quiz</button>
@@ -111,9 +110,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                     <p>Waiting for the Quiz leader to start...</p>
                 </>
             }
-            <Modal showModal={showChangeQuizModal} setShowModal={setShowChangeQuizModal}>
-                <h2>Change Quiz</h2>
-            </Modal>
+            <ChangeQuizModal showModal={showChangeQuizModal} setShowModal={setShowChangeQuizModal} changeQuiz={changeQuiz} />
         </>
     )
 }

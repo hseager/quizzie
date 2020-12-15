@@ -51,7 +51,7 @@ module.exports = class Lobby {
         }, this.disconnectionTimer)
     }
     async startQuiz(){
-        const quiz = await this.getQuiz()
+        const quiz = await this.getQuiz(this.quizId)
         const questionCount = quiz.questions.length
 
         this.quizCount++
@@ -66,6 +66,13 @@ module.exports = class Lobby {
     startAgain(){
         this.status = 'lobby'
         this.save()
+    }
+    async changeQuiz(quizId){
+        this.quizId = quizId
+        this.save()
+
+        const quiz = await this.getQuiz(quizId)
+        this.io.to(this.id).emit('changedQuiz', quiz)
     }
     changeQuestion(questionCount){
         // Start the client side countdown and emit 
@@ -94,8 +101,8 @@ module.exports = class Lobby {
         }
         this.currentQuestion++
     }
-    async getQuiz(){
-        return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${this.quizId}`)
+    async getQuiz(id){
+        return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${id}`)
             .then(res => res.json())
             .then(res => { 
                 if(res.status !== 200) throw res.message
@@ -109,6 +116,7 @@ module.exports = class Lobby {
             body: JSON.stringify({
                 data: {
                     status: this.status,
+                    quizId: this.quizId,
                     quizCount: this.quizCount,
                     currentQuestion: this.currentQuestion,
                     players: this.players

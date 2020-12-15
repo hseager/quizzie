@@ -19,7 +19,7 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
                     throw data
             })
             .catch(err => {
-                setResults({ error: true, title: 'There was a problem retrieving the results', message: err.message })
+                setResults({ error: true, title: 'There was a problem with the request', message: err.message })
             })
     }, [])
 

@@ -10,11 +10,12 @@ import { getPlayerId } from '../../libs/localStorage'
 import ErrorPage from 'next/error'
 import { HttpRequestError } from '../../libs/HttpRequestError'
 
-export default function LobbyPage({ quiz, lobby, statusCode }) {
+export default function LobbyPage({ quizData, lobby, statusCode }) {
 
     if(statusCode !== 200)
         return (<ErrorPage statusCode={statusCode} />)
 
+    const [quiz, setQuiz] = useState(quizData)
     const [status, setStatus] = useState(lobby.status)
     const [players, setPlayers] = useState(lobby.players)
     const [quizCount, setQuizCount] = useState(lobby.quizCount)
@@ -37,6 +38,10 @@ export default function LobbyPage({ quiz, lobby, statusCode }) {
 
     useSocket('updatePlayers', players => {
         setPlayers(players)
+    })
+
+    useSocket('changedQuiz', quiz => {
+        setQuiz(quiz)
     })
 
     useEffect(() => {
@@ -121,7 +126,7 @@ export async function getServerSideProps(context) {
 
         return {
             props: {
-                quiz: quizRequest.data ? quizRequest.data : null,
+                quizData: quizRequest.data ? quizRequest.data : null,
                 lobby: lobbyRequest.data ? lobbyRequest.data : null,
                 statusCode: 200
             }
