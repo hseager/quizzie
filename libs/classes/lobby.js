@@ -6,7 +6,7 @@ module.exports = class Lobby {
         this.io = io
         this.questionTimer = 10 * 1000
         this.questionInterval
-        this.disconnectionTimer = 30 * 1000
+        this.disconnectionTimer = 20 * 1000
 
         this.quizId
         this.quizCount = 0

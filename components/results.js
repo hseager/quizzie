@@ -1,7 +1,6 @@
 import useSocket from '../hooks/useSocket'
 import { useState, useEffect } from 'react'
 import { formatResults } from '../libs/formatResults.js'
-import Link from 'next/link'
 import buttonStyles from '../styles/buttons.module.css'
 
 export default function Results({ lobbyId, quiz, players, setStatus }) {
@@ -56,11 +55,7 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
                 ))
             }
 
-            <a className={buttonStyles.button} onClick={startAgain}>Play another Quiz</a>
-            <br/><br/>
-            <Link href={`/`}>
-                <a className={buttonStyles.button}>Leave</a>
-            </Link>
+            <a className={buttonStyles.button} onClick={startAgain}>Continue</a>
         </>
     )
 }

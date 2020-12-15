@@ -33,7 +33,7 @@ handler.post(async (req, res) => {
             res.status(200).json({ lobbyId: lobby._id })
         } else {
             // Update Lobby if already exists
-            await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${lobby._id}`, {
+            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${lobby._id}`, {
                 method: 'patch',
                 body: JSON.stringify({ 
                     data: {

@@ -34,7 +34,7 @@ export default function Quiz({ quiz, statusCode }) {
         <Layout>
             <div className={pageStyles.fullHeightPage}>
                 {   loading &&
-                    <h2>Creating a new lobby...</h2>
+                    <h2>Loading...</h2>
                 }
                 {
                     !loading &&

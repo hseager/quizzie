@@ -19,7 +19,7 @@
 - Create Quiz
 
 ### Notes
-- Change quiz lightbox + change how changing quiz works
+
 
 ### *Extra Features*
 - QR Code for joining lobby

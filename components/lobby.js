@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import pageStyles from '../styles/page.module.css'
 import styles from '../styles/lobby.module.css'
 import ChangeQuizModal from '../components/changeQuizModal'
+import Link from 'next/link'
 
 export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, playerJoined }) {
 
@@ -109,6 +110,12 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                 <>
                     <p>Waiting for the Quiz leader to start...</p>
                 </>
+            }
+            {
+                playerJoined &&
+                <Link href={`/`}>
+                    <a className={buttonStyles.button}>Leave</a>
+                </Link>
             }
             <ChangeQuizModal showModal={showChangeQuizModal} setShowModal={setShowChangeQuizModal} changeQuiz={changeQuiz} />
         </>
