@@ -7,7 +7,7 @@ export default function Layout({children}) {
             <Head>
                 <meta
                     name="description"
-                    content="Quizzie - Realtime Quiz with your friends"
+                    content="Quizzie - Play a real-time Quiz with your friends"
                 />
                 <title>Quizzie - Realtime Quiz with your friends</title>
                 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" /> 

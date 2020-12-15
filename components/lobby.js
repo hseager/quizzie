@@ -4,13 +4,15 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import pageStyles from '../styles/page.module.css'
 import styles from '../styles/lobby.module.css'
-import Link from 'next/link'
+import Modal from '../components/modal'
 
 export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, playerJoined }) {
 
-    const [name, setName] = useState('')
     const router = useRouter()
     const socket = useSocket()
+
+    const [name, setName] = useState('')
+    const [showChangeQuizModal, setShowChangeQuizModal] = useState(false)
 
     const joinLobby = () => {
         if(name == '') return
@@ -98,13 +100,8 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                         <p>Code: <strong>3</strong></p>
                         {*/}
                     </div>
-                    {
-                        quiz &&
-                        <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
-                    }
-                    <Link href={`/choose-a-quiz`}>
-                        <a className={buttonStyles.button}>Change Quiz</a>
-                    </Link>
+                    <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
+                    <button className={buttonStyles.button} onClick={() => { setShowChangeQuizModal(true)}}>Change Quiz</button>
                 </>
             }
             {
@@ -114,6 +111,9 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                     <p>Waiting for the Quiz leader to start...</p>
                 </>
             }
+            <Modal showModal={showChangeQuizModal} setShowModal={setShowChangeQuizModal}>
+                <h2>Change Quiz</h2>
+            </Modal>
         </>
     )
 }
