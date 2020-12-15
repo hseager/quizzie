@@ -3,6 +3,7 @@ import Link from 'next/link'
 import styles from '../styles/page.module.css'
 import fetch from 'isomorphic-unfetch'
 import ErrorPage from 'next/error'
+import { HttpRequestError } from '../libs/HttpRequestError'
 
 const ChooseAQuiz = function({ data, statusCode }) {
 
@@ -42,10 +43,10 @@ export async function getStaticProps() {
     try{
         const quizRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes`)
         .then(res => res.json())
-        .catch(err => { throw err })
+        .catch(err => { throw new HttpRequestError(500, err) })
 
         if(!quizRequest)
-            throw 'Error retrieving quizzes'
+            throw new HttpRequestError(500, 'Error retrieving quizzes')
 
         return {
             props: {
@@ -54,8 +55,8 @@ export async function getStaticProps() {
             }
         }
     } catch(err){
-        console.log(err)
-        return { props: { statusCode: 500 } }
+        console.log(`HttpRequestError: ${err.status} - ${err.message}`)
+        return { props: { statusCode: err.status } }
     }
 }
 

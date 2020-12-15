@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 import pageStyles from '../../styles/page.module.css'
 import { getPlayerId } from '../../libs/localStorage'
 import ErrorPage from 'next/error'
+import { HttpRequestError } from '../../libs/HttpRequestError'
 
 export default function LobbyPage({ quiz, lobby, statusCode }) {
 
@@ -100,33 +101,33 @@ export async function getServerSideProps(context) {
     try{
         const lobbyRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${context.params.id}`)
         .then(res => res.json())
-        .catch(err => { throw err })
+        .catch(err => { throw new HttpRequestError(500, err) })
 
         if(!lobbyRequest)
-            throw 'Error with lobby request'
+            throw new HttpRequestError(500, 'Error retrieving lobby')
 
         if(lobbyRequest.status !== 200)
-            return { props: { statusCode: lobbyRequest.status } }
+            throw new HttpRequestError(lobbyRequest.status, lobbyRequest.message)
 
         const quizRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${lobbyRequest.data.quizId}`)
         .then(res => res.json())
-        .catch(err => { throw err })
+        .catch(err => { throw new HttpRequestError(500, err) })
 
         if(!quizRequest)
-            throw 'Error with quiz request'
+            throw new HttpRequestError(500, 'Error retrieving quiz')
 
         if(quizRequest.status !== 200)
-            return { props: { statusCode: quizRequest.status } }
+            throw new HttpRequestError(quizRequest.status, quizRequest.message)
 
         return {
             props: {
-                quiz: quizRequest.data,
-                lobby: lobbyRequest.data,
+                quiz: quizRequest.data ? quizRequest.data : null,
+                lobby: lobbyRequest.data ? lobbyRequest.data : null,
                 statusCode: 200
             }
         }
     } catch(err){
-        console.log(err)
-        return { props: { statusCode: 500 } }
+        console.log(`HttpRequestError: ${err.status} - ${err.message}`)
+        return { props: { statusCode: err.status } }
     }
 }
