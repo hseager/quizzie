@@ -7,10 +7,8 @@
 - Improve Results Page
 - Quiz images for questions
 - Move to actual hosting
-- Check need for cookie popup/gdpr
 - Logo
 - Style 404 page
-- Error testing (DB disconnection)
 
 ### V1.1
 - Styling/Redesign/Layout change
