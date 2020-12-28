@@ -1,0 +1,22 @@
+.formRow{
+    margin: 0 0 var(--spacing-medium);
+}
+
+.formRow label{
+    display: block;
+    margin: 0 0 var(--spacing-smallest);
+}
+
+.longField {
+    width: 100%;
+    margin: 0 0 var(--spacing-medium) 0 !important;
+}
+
+.shortField{
+    width: 49%;
+    margin: 0 2% var(--spacing-medium) 0 !important;
+}
+
+.shortField:nth-child(2n -1){
+    margin: 0 0 var(--spacing-medium) 0 !important;
+}
