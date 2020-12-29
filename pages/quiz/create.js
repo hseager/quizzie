@@ -6,7 +6,10 @@ import ErrorPage from 'next/error'
 import { HttpRequestError } from '../../libs/HttpRequestError'
 import { useState } from 'react'
 
-const CreateQuiz = function() {
+const CreateQuiz = function({ tags, statusCode }) {
+
+    if(statusCode !== 200)
+        return (<ErrorPage statusCode={statusCode} />)
 
     const [questionCount, setQuestionCount] = useState(5)
     const maxQuestions = 10
@@ -24,11 +27,11 @@ const CreateQuiz = function() {
     const questions = () => {
         return Array.from({ length: questionCount }, (item, index) =>
             {
-                let questionNumber = index + 1
+                const questionNumber = index + 1
                 {
-                    return <>
+                    return <div key={index}>
                         <hr />
-                        <div className={formStyles.formRow} key={index}>
+                        <div className={formStyles.formRow}>
                             <label>Question {questionNumber}</label>
                             <input type="text" name={`question-${questionNumber}`} placeholder="Question" className={formStyles.longField} />
                             <br/>
@@ -37,7 +40,7 @@ const CreateQuiz = function() {
                             <input type="text" name={`question-${questionNumber}-answer-3`} placeholder="Answer 3" className={formStyles.shortField} />
                             <input type="text" name={`question-${questionNumber}-answer-4`} placeholder="Answer 4" className={formStyles.shortField} />
                         </div>
-                    </>
+                    </div>
                 }
             }
         )
@@ -56,25 +59,29 @@ const CreateQuiz = function() {
                 <div className={formStyles.formRow}>
                     <label>Type</label>
                     <select name="category">
-                        <option selected default>Multi-choice (4 answers)</option>
-                    </select>
-                </div>
-                <div className={formStyles.formRow}>
-                    <label>Category</label>
-                    <select name="category">
-                        <option>General Knowledge</option>
-                        <option>History</option>
-                        <option>Entertainment</option>
+                        <option default>Multi-choice (4 answers)</option>
                     </select>
                 </div>
                 <div className={formStyles.formRow}>
                     <label>Difficulty</label>
                     <input type="number" name="difficulty" min="1" max="5" />
                 </div>
-                
                 {
-                    questions()
+                    tags &&
+                    <div className={formStyles.formRow}>
+                        <label>Category Tags</label>
+                        <div className={formStyles.tags}>
+                            {
+                                tags.map((tag, index) => (
+                                    <div className={formStyles.tag} key={index}>
+                                        <input type="checkbox" id={tag.name} name="tags" value={tag.name} /><label htmlFor={tag.name}>{tag.name}</label>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
                 }
+                { questions() }
                 <button className={buttonStyles.button} onClick={addQuestion}>Add Question</button>
                 <button className={buttonStyles.button} onClick={removeQuestion}>Remove Question</button>
                 <hr />
@@ -84,5 +91,25 @@ const CreateQuiz = function() {
     )
 }
 
+export async function getStaticProps() {
+    try{
+        const tagRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/tags`)
+        .then(res => res.json())
+        .catch(err => { throw new HttpRequestError(500, err) })
+
+        if(!tagRequest)
+            throw new HttpRequestError(500, 'Error retrieving tags')
+
+        return {
+            props: {
+                tags: tagRequest.data ? tagRequest.data : null,
+                statusCode: 200
+            }
+        }
+    } catch(err){
+        console.log(`HttpRequestError: ${err.status} - ${err.message}`)
+        return { props: { statusCode: err.status } }
+    }
+}
 
 export default CreateQuiz
