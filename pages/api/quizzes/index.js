@@ -17,4 +17,30 @@ handler.get(async (req, res) => {
     }
 })
 
+handler.post(async (req, res) => {
+    try{
+        const {title, author, type, difficulty, tags} = req.body
+
+        const newQuiz = {
+            title,
+            author,
+            type,
+            difficulty,
+            tags,
+            created: new Date()
+        }
+
+        const quizCollection = req.db.collection('quizzes');
+        // quizCollection.insertOne(newQuiz)
+
+        console.log(req.body)
+
+        res.status(200)
+    } catch(err){
+        console.log(err)
+        res.status(500).json({ status: 500, message: err })
+    }
+
+ })
+
 export default handler

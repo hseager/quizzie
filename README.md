@@ -17,7 +17,7 @@
 - Create Quiz
 
 ### Notes
-
+Randomize answers so 1st isn't always correct
 
 ### *Extra Features*
 - QR Code for joining lobby
