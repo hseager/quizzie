@@ -29,11 +29,11 @@
 - Ratings
 - Comments
 - Lobby Chat room
-- Public Quizzes
+- Public/Private Quiz option on create 
 - Quiz types - Standard/Text type/Fastest finger/Order answers
 - Rewards(Trophies)
 - Microtransactions - Cosmetics, Avatars, Winning animations, quiz packs
-- Music round
+- Music round maybe with youtube videos
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
