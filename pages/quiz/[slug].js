@@ -39,7 +39,7 @@ export default function Quiz({ quiz, statusCode }) {
                 {
                     !loading &&
                     <>
-                        <h2>{ quiz.name } Quiz</h2>
+                        <h2>{ quiz.title }</h2>
                         <p>
                             <span>Category: </span>
                         {
@@ -49,6 +49,8 @@ export default function Quiz({ quiz, statusCode }) {
                         }
                         </p>
                         <p><strong>{quiz.questions.length}</strong> Questions</p>
+                        <p>Difficulty: {quiz.difficulty}</p>
+                        <p><strong>Created by {quiz.author}</strong></p>
                         <button className={buttonStyles.button} onClick={createLobby}>Play Quiz</button>
                     </>
                 }

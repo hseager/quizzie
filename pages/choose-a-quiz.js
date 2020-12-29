@@ -27,10 +27,12 @@ const ChooseAQuiz = function({ data, statusCode }) {
                             </h6>
                             <h4 className={styles.quizName}>
                                 <Link href={`/quiz/[slug]`} as={`/quiz/${quiz.slug}`}>
-                                    <a>{quiz.name}</a>
+                                    <a>{quiz.title}</a>
                                 </Link>
                             </h4>
                             <p>{quiz.questions.length} Questions</p>
+                            <p>Difficulty: {quiz.difficulty}</p>
+                            <strong><small>By {quiz.author}</small></strong>
                         </div>
                     ))}
                 </div>

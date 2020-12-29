@@ -60,7 +60,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
             {
                 quiz && 
                 <>
-                    <p>You are about to play the quiz: <strong>{quiz.name}</strong></p>
+                    <p>You are about to play the quiz: <strong>{quiz.title}</strong></p>
                     <p><strong>{quiz.questions.length}</strong> Questions</p>
                 </>
             }

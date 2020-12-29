@@ -33,7 +33,7 @@ const CreateQuiz = function({ tags, statusCode }) {
 						<hr />
 						<div className={formStyles.formRow}>
 							<label>Question {questionNumber}</label>
-							<input type="text" name={`question`} placeholder="Question" className={formStyles.longField} />
+							<input type="text" name={`question-${questionNumber}`} placeholder="Question" className={formStyles.longField} />
 							<br/>
 							<input type="text" name={`question-${questionNumber}-answer-1`} placeholder="Correct Answer" className={formStyles.shortField} />
 							<input type="text" name={`question-${questionNumber}-answer-2`} placeholder="Other Answer 1" className={formStyles.shortField} />
@@ -46,79 +46,77 @@ const CreateQuiz = function({ tags, statusCode }) {
 		)
 	}
 
-
-    function formDataToJSON( formData ) {
-        let output = {};
-        formData.forEach(
-            ( value, key ) => {
-                // Check if property already exist
-                if ( Object.prototype.hasOwnProperty.call( output, key ) ) {
-                    let current = output[ key ];
-                    if ( !Array.isArray( current ) ) {
-                        // If it's not an array, convert it to an array.
-                        current = output[ key ] = [ current ];
-                    }
-                    current.push( value ); // Add the new value to the array.
-                } else {
-                    output[ key ] = value;
+    function formatQuizData(formData){
+        let quizData = {}
+        formData.forEach((value, key) => {
+            // If key already exists
+            if(Object.prototype.hasOwnProperty.call(quizData, key)) {
+                let multiField = quizData[key]
+                if(!Array.isArray(multiField)){
+                    multiField = quizData[key] = [multiField]
                 }
+                multiField.push(value)
+            } else {
+                quizData[key] = value
             }
-        );
-        return JSON.stringify( output );
+        })
+        return JSON.stringify(quizData)
     }
 
 	const createQuiz = () => {
 		const form = document.getElementById("createQuizForm")
-		const formData = new FormData(form)
-
+        const formData = new FormData(form)
+        
 		fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes`, {
 			method: 'post',
-			body: formDataToJSON(formData),
+			body: formatQuizData(formData),
 			headers: { 'Content-Type': 'application/json' }
 		})
-		.catch(err => console.log(`Error creating quiz: ${err}`))
+        .catch(err => console.log(`Error creating quiz: ${err}`))
 	}
 
 	return (
 		<Layout>
 			<div className={styles.section}>
 				<h1>Create a Quiz</h1>
-				<div className={formStyles.formRow}>
-					<input type="text" name="title" placeholder="Title" />
-				</div>
-				<div className={formStyles.formRow}>
-					<input type="text" name="author" placeholder="Author" />
-				</div>
-				<div className={formStyles.formRow}>
-					<label>Type</label>
-					<select name="type">
-						<option default>Multi-choice (4 answers)</option>
-					</select>
-				</div>
-				<div className={formStyles.formRow}>
-					<label>Difficulty</label>
-					<input type="number" name="difficulty" min="1" max="5" />
-				</div>
-				{
-					tags &&
-					<div className={formStyles.formRow}>
-						<label>Category Tags</label>
-						<div className={formStyles.tags}>
-							{
-								tags.map((tag, index) => (
-									<div className={formStyles.tag} key={index}>
-										<input type="checkbox" id={tag.name} name="tags" value={tag.name} /><label htmlFor={tag.name}>{tag.name}</label>
-									</div>
-								))
-							}
-						</div>
-					</div>
-				}
-				{ questions() }
-				<button className={buttonStyles.button} onClick={addQuestion} type="button">Add Question</button>
-				<button className={buttonStyles.button} onClick={removeQuestion} type="button">Remove Question</button>
-				<hr />
-				<button className={buttonStyles.button} onClick={createQuiz} type="button">Create Quiz</button>
+                <form id="createQuizForm">
+                    <div className={formStyles.formRow}>
+                        <input type="text" name="title" placeholder="Title" />
+                    </div>
+                    <div className={formStyles.formRow}>
+                        <input type="text" name="author" placeholder="Author" />
+                    </div>
+                    <div className={formStyles.formRow}>
+                        <label>Type</label>
+                        <select name="type">
+                            <option default>Multi-choice (4 answers)</option>
+                        </select>
+                    </div>
+                    <div className={formStyles.formRow}>
+                        <label>Difficulty</label>
+                        <input type="number" name="difficulty" min="1" max="5" />
+                    </div>
+                    {
+                        tags &&
+                        <div className={formStyles.formRow}>
+                            <label>Category Tags</label>
+                            <div className={formStyles.tags}>
+                                {
+                                    tags.map((tag, index) => (
+                                        <div className={formStyles.tag} key={index}>
+                                            <input type="checkbox" id={tag.name} name="tags" value={tag.name} /><label htmlFor={tag.name}>{tag.name}</label>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    }
+                    { questions() }
+                    <button className={buttonStyles.button} onClick={addQuestion} type="button">Add Question</button>
+                    <button className={buttonStyles.button} onClick={removeQuestion} type="button">Remove Question</button>
+                    <hr />
+                    <button className={buttonStyles.button} onClick={createQuiz} type="button">Create Quiz</button>                    
+                </form>
 			</div>
 		</Layout>
 	)

@@ -56,9 +56,11 @@ export default function ChangeQuizModal({showModal, setShowModal, changeQuiz}) {
                             ))}
                         </h6>
                         <h4 className={styles.quizName}>
-                            {quiz.name}
+                            {quiz.title}
                         </h4>
                         <p>{quiz.questions.length} Questions</p>
+                        <p>Difficulty: {quiz.difficulty}</p>
+                        <strong><small>By {quiz.author}</small></strong>
                     </div>
                 ))}
             </div>
