@@ -4,7 +4,7 @@ import styles from '../styles/page.module.css'
 import fetch from 'isomorphic-unfetch'
 import ErrorPage from 'next/error'
 import { HttpRequestError } from '../libs/HttpRequestError'
-import Image from 'next/image'
+import QuizImage from '../components/quizImage'
 
 const ChooseAQuiz = function({ data, statusCode }) {
 
@@ -21,10 +21,7 @@ const ChooseAQuiz = function({ data, statusCode }) {
                 <div className={styles.quizList}>
                     {data.map((quiz) => (
                         <div className={styles.quizListItem} key={quiz._id}>
-                            {
-                                quiz.image &&
-                                <Image src={quiz.image} width={350} height={220} />
-                            }
+                            <QuizImage src={quiz.image} width={350} height={220} />
                             <h6 className={styles.quizCategory}>
                                 {quiz.tags.map((tag, i) => (
                                     <span key={i}>{tag}{(i + 1 < quiz.tags.length ? ', ' : '')}</span>

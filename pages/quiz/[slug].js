@@ -7,6 +7,7 @@ import { useState } from 'react'
 import pageStyles from '../../styles/page.module.css'
 import ErrorPage from 'next/error'
 import { HttpRequestError } from '../../libs/HttpRequestError'
+import QuizImage from '../../components/quizImage'
 
 export default function Quiz({ quiz, statusCode }) {
 
@@ -40,6 +41,7 @@ export default function Quiz({ quiz, statusCode }) {
                     !loading &&
                     <>
                         <h2>{ quiz.title }</h2>
+                        <QuizImage src={quiz.image} width={350} height={220} />
                         <p>
                             <span>Category: </span>
                         {
