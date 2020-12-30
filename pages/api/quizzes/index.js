@@ -2,6 +2,8 @@ import nextConnect from 'next-connect'
 import middleware from '../../../middleware/middleware'
 import slugs from 'slugs'
 import randomize from 'randomize-array'
+import path from 'path'
+import fs from 'fs'
 
 const handler = nextConnect()
 handler.use(middleware)
@@ -25,10 +27,6 @@ handler.post(async (req, res) => {
         const {title, author, type, difficulty, tags} = formData
         const questions = []
         let slug = slugs(title)
-
-
-        console.log(req.body)
-        console.log(req.files)
 
         const quizCollection = req.db.collection('quizzes')
         const quizzesWithSameTitle = await quizCollection.countDocuments({ title })
@@ -66,6 +64,19 @@ handler.post(async (req, res) => {
         }
 
         quizCollection.insertOne(newQuiz)
+
+
+        const image = req.files.image
+        const tempPath = image.path
+        const newPath = path.join(__dirname, 'img/quizzes') + '/' + image.name
+
+        console.log(newPath)
+
+        const rawData = fs.readFileSync(tempPath)
+
+        fs.writeFile(newPath, rawData, (err) => {
+            if(err) throw err
+        })
 
         res.status(200)
     } catch(err){
