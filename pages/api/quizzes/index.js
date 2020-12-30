@@ -52,6 +52,27 @@ handler.post(async (req, res) => {
             i++
         }
 
+        const image = req.files.image
+        let webImagePath = ''
+        if(image){
+            let imageName = ''
+            if(image.type === 'image/jpeg')
+                imageName = `${slug}.jpg`
+            else if(image.type === 'image/png')
+                imageName = `${slug}.png`
+            else if(image.type === 'image/gif')
+                imageName = `${slug}.gif`
+            else throw `File type not supported ${image.type}`
+
+            webImagePath = `/img/quiz/${imageName}`
+            const newPath = `${process.env.FILEPATH}\\public\\img\\quiz\\${imageName}`
+            const rawData = fs.readFileSync(image.path)
+    
+            fs.writeFile(newPath, rawData, (err) => {
+                if(err) throw err
+            })
+        }
+
         const newQuiz = {
             title,
             author,
@@ -60,23 +81,11 @@ handler.post(async (req, res) => {
             tags: (Array.isArray(tags) ? tags : [tags]),
             created: new Date(),
             questions,
-            slug
+            slug,
+            image: webImagePath
         }
 
         quizCollection.insertOne(newQuiz)
-
-
-        const image = req.files.image
-        const tempPath = image.path
-        const newPath = path.join(__dirname, 'img/quizzes') + '/' + image.name
-
-        console.log(newPath)
-
-        const rawData = fs.readFileSync(tempPath)
-
-        fs.writeFile(newPath, rawData, (err) => {
-            if(err) throw err
-        })
 
         res.status(200)
     } catch(err){
