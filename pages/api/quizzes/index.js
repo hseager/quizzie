@@ -23,6 +23,11 @@ handler.post(async (req, res) => {
         const formData = req.body
         const {title, author, type, difficulty, tags} = formData
         const questions = []
+        let slug = slugs(title)
+
+        const quizCollection = req.db.collection('quizzes')
+        const quizzesWithSameTitle = await quizCollection.countDocuments({ title })
+        if(quizzesWithSameTitle > 0) slug = slugs(`${title}-${quizzesWithSameTitle + 1}`)
 
         let i = 1
         while(formData[`question-${i}`]){
@@ -47,10 +52,9 @@ handler.post(async (req, res) => {
             tags: (Array.isArray(tags) ? tags : [tags]),
             created: new Date(),
             questions,
-            slug: slugs(title)
+            slug
         }
 
-        const quizCollection = req.db.collection('quizzes');
         quizCollection.insertOne(newQuiz)
 
         res.status(200)
