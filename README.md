@@ -16,6 +16,8 @@
 - Email signup & accounts
 
 ### Notes
+- Create form validation
+- Change hardcoded http status codes to: import HttpStatus from 'http-status-codes': HttpStatus.OK
 
 ### *Extra Features*
 - QR Code for joining lobby

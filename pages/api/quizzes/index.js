@@ -1,5 +1,5 @@
 import nextConnect from 'next-connect'
-import middleware from '../../../middleware/database'
+import middleware from '../../../middleware/middleware'
 import slugs from 'slugs'
 import randomize from 'randomize-array'
 
@@ -25,6 +25,10 @@ handler.post(async (req, res) => {
         const {title, author, type, difficulty, tags} = formData
         const questions = []
         let slug = slugs(title)
+
+
+        console.log(req.body)
+        console.log(req.files)
 
         const quizCollection = req.db.collection('quizzes')
         const quizzesWithSameTitle = await quizCollection.countDocuments({ title })
@@ -69,6 +73,12 @@ handler.post(async (req, res) => {
         res.status(500).json({ status: 500, message: err })
     }
 
- })
+})
+
+export const config = {
+    api: {
+        bodyParser: false
+    }
+}
 
 export default handler

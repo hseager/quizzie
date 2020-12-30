@@ -8,43 +8,43 @@ import { useState } from 'react'
 
 const CreateQuiz = function({ tags, statusCode }) {
 
-	if(statusCode !== 200)
-		return (<ErrorPage statusCode={statusCode} />)
+    if(statusCode !== 200)
+        return (<ErrorPage statusCode={statusCode} />)
 
-	const [questionCount, setQuestionCount] = useState(5)
-	const maxQuestions = 50
+    const [questionCount, setQuestionCount] = useState(5)
+    const maxQuestions = 50
 
-	const addQuestion = () => {
-		if(questionCount >= maxQuestions) return
-		setQuestionCount(questionCount + 1)
-	}
+    const addQuestion = () => {
+        if(questionCount >= maxQuestions) return
+        setQuestionCount(questionCount + 1)
+    }
 
-	const removeQuestion = () => {
-		if(questionCount <= 1) return
-		setQuestionCount(questionCount - 1)
-	}
+    const removeQuestion = () => {
+        if(questionCount <= 1) return
+        setQuestionCount(questionCount - 1)
+    }
 
-	const questions = () => {
-		return Array.from({ length: questionCount }, (item, index) =>
-			{
-				const questionNumber = index + 1
-				{
-					return <div key={index}>
-						<hr />
-						<div className={formStyles.formRow}>
-							<label>Question {questionNumber}</label>
-							<input type="text" name={`question-${questionNumber}`} placeholder="Question" className={formStyles.longField} />
-							<br/>
-							<input type="text" name={`question-${questionNumber}-answer-1`} placeholder="Correct Answer" className={formStyles.shortField} />
-							<input type="text" name={`question-${questionNumber}-answer-2`} placeholder="Other Answer 1" className={formStyles.shortField} />
-							<input type="text" name={`question-${questionNumber}-answer-3`} placeholder="Other Answer 2" className={formStyles.shortField} />
-							<input type="text" name={`question-${questionNumber}-answer-4`} placeholder="Other Answer 3" className={formStyles.shortField} />
-						</div>
-					</div>
-				}
-			}
-		)
-	}
+    const questions = () => {
+        return Array.from({ length: questionCount }, (item, index) =>
+            {
+                const questionNumber = index + 1
+                {
+                    return <div key={index}>
+                        <hr />
+                        <div className={formStyles.formRow}>
+                            <label>Question {questionNumber}</label>
+                            <input type="text" name={`question-${questionNumber}`} placeholder="Question" className={formStyles.longField} />
+                            <br/>
+                            <input type="text" name={`question-${questionNumber}-answer-1`} placeholder="Correct Answer" className={formStyles.shortField} />
+                            <input type="text" name={`question-${questionNumber}-answer-2`} placeholder="Other Answer 1" className={formStyles.shortField} />
+                            <input type="text" name={`question-${questionNumber}-answer-3`} placeholder="Other Answer 2" className={formStyles.shortField} />
+                            <input type="text" name={`question-${questionNumber}-answer-4`} placeholder="Other Answer 3" className={formStyles.shortField} />
+                        </div>
+                    </div>
+                }
+            }
+        )
+    }
 
     function formatQuizData(formData){
         let quizData = {}
@@ -60,25 +60,25 @@ const CreateQuiz = function({ tags, statusCode }) {
                 quizData[key] = value
             }
         })
+
         return JSON.stringify(quizData)
     }
 
-	const createQuiz = () => {
-		const form = document.getElementById("createQuizForm")
+    const createQuiz = () => {
+        const form = document.getElementById("createQuizForm")
         const formData = new FormData(form)
-        
-		fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes`, {
-			method: 'post',
-			body: formatQuizData(formData),
-			headers: { 'Content-Type': 'application/json' }
-		})
-        .catch(err => console.log(`Error creating quiz: ${err}`))
-	}
 
-	return (
-		<Layout>
-			<div className={styles.section}>
-				<h1>Create a Quiz</h1>
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes`, {
+            method: 'post',
+            body: formData,
+        })
+        .catch(err => console.log(`Error creating quiz: ${err}`))
+    }
+
+    return (
+        <Layout>
+            <div className={styles.section}>
+                <h1>Create a Quiz</h1>
                 <form id="createQuizForm">
                     <div className={formStyles.formRow}>
                         <input type="text" name="title" placeholder="Title" />
@@ -95,6 +95,10 @@ const CreateQuiz = function({ tags, statusCode }) {
                     <div className={formStyles.formRow}>
                         <label>Difficulty</label>
                         <input type="number" name="difficulty" min="1" max="5" />
+                    </div>
+                    <div className={formStyles.formRow}>
+                        <label>Image</label>
+                        <input type="file" name="image" />
                     </div>
                     {
                         tags &&
@@ -117,30 +121,30 @@ const CreateQuiz = function({ tags, statusCode }) {
                     <hr />
                     <button className={buttonStyles.button} onClick={createQuiz} type="button">Create Quiz</button>                    
                 </form>
-			</div>
-		</Layout>
-	)
+            </div>
+        </Layout>
+    )
 }
 
 export async function getStaticProps() {
-	try{
-		const tagRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/tags`)
-		.then(res => res.json())
-		.catch(err => { throw new HttpRequestError(500, err) })
+    try{
+        const tagRequest = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/tags`)
+        .then(res => res.json())
+        .catch(err => { throw new HttpRequestError(500, err) })
 
-		if(!tagRequest)
-			throw new HttpRequestError(500, 'Error retrieving tags')
+        if(!tagRequest)
+            throw new HttpRequestError(500, 'Error retrieving tags')
 
-		return {
-			props: {
-				tags: tagRequest.data ? tagRequest.data : null,
-				statusCode: 200
-			}
-		}
-	} catch(err){
-		console.log(`HttpRequestError: ${err.status} - ${err.message}`)
-		return { props: { statusCode: err.status } }
-	}
+        return {
+            props: {
+                tags: tagRequest.data ? tagRequest.data : null,
+                statusCode: 200
+            }
+        }
+    } catch(err){
+        console.log(`HttpRequestError: ${err.status} - ${err.message}`)
+        return { props: { statusCode: err.status } }
+    }
 }
 
 export default CreateQuiz

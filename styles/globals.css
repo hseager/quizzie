@@ -66,6 +66,7 @@ hr{
 
 input[type=text],
 input[type=number],
+input[type=file],
 select {
     padding: var(--spacing-small);
     font-family: var(--font);
@@ -73,4 +74,5 @@ select {
     font-size: 14px;
     outline: none;
     min-width: 240px;
+    background: #fff;
 }

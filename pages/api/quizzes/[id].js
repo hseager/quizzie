@@ -1,5 +1,5 @@
 import nextConnect from 'next-connect'
-import middleware from '../../../middleware/database'
+import middleware from '../../../middleware/middleware'
 import { ObjectId } from 'mongodb'
 
 const handler = nextConnect()
