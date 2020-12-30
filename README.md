@@ -3,21 +3,19 @@
 ## To Do
 ### V1.0
 - Styling/Redesign/Layout change
-- Thumbnail images for quizzes
 - Add more quizzes
 - Improve Results Page
-- Quiz images for questions
 - Move to actual hosting
 - Logo
-- Style 404 page
+- Style 404/500 page
+- Hide create quiz form when launched
 
 ### V1.1
-- Join Code/Password
+- Join QR Code/Password
 - Email signup & accounts
+- Picture quiz type
 
 ### Notes
-- Create form validation
-- Change hardcoded http status codes to: import HttpStatus from 'http-status-codes': HttpStatus.OK
 
 ### *Extra Features*
 - QR Code for joining lobby

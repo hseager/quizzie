@@ -54,7 +54,8 @@ handler.post(async (req, res) => {
 
         const image = req.files.image
         let webImagePath = ''
-        if(image){
+
+        if(image.size > 0){
             let imageName = ''
             if(image.type === 'image/jpeg')
                 imageName = `${slug}.jpg`

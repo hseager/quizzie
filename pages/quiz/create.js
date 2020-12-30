@@ -12,7 +12,7 @@ const CreateQuiz = function({ tags, statusCode }) {
     if(statusCode !== 200)
         return (<ErrorPage statusCode={statusCode} />)
 
-    const [questionCount, setQuestionCount] = useState(5)
+    const [questionCount, setQuestionCount] = useState(2)
     const maxQuestions = 50
 
     const addQuestion = () => {
@@ -34,12 +34,12 @@ const CreateQuiz = function({ tags, statusCode }) {
                         <hr />
                         <div className={formStyles.formRow}>
                             <label>Question {questionNumber}</label>
-                            <input type="text" name={`question-${questionNumber}`} placeholder="Question" className={formStyles.longField} />
+                            <input type="text" name={`question-${questionNumber}`} placeholder="Question" className={formStyles.longField} required />
                             <br/>
-                            <input type="text" name={`question-${questionNumber}-answer-1`} placeholder="Correct Answer" className={formStyles.shortField} />
-                            <input type="text" name={`question-${questionNumber}-answer-2`} placeholder="Other Answer 1" className={formStyles.shortField} />
-                            <input type="text" name={`question-${questionNumber}-answer-3`} placeholder="Other Answer 2" className={formStyles.shortField} />
-                            <input type="text" name={`question-${questionNumber}-answer-4`} placeholder="Other Answer 3" className={formStyles.shortField} />
+                            <input type="text" name={`question-${questionNumber}-answer-1`} placeholder="Correct Answer" className={formStyles.shortField} required />
+                            <input type="text" name={`question-${questionNumber}-answer-2`} placeholder="Other Answer 1" className={formStyles.shortField} required />
+                            <input type="text" name={`question-${questionNumber}-answer-3`} placeholder="Other Answer 2" className={formStyles.shortField} required />
+                            <input type="text" name={`question-${questionNumber}-answer-4`} placeholder="Other Answer 3" className={formStyles.shortField} required />
                         </div>
                     </div>
                 }
@@ -47,8 +47,9 @@ const CreateQuiz = function({ tags, statusCode }) {
         )
     }
 
-    const createQuiz = () => {
-        const form = document.getElementById("createQuizForm")
+    const createQuiz = (e) => {
+
+        const form = e.target
         const formData = new FormData(form)
 
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes`, {
@@ -63,18 +64,20 @@ const CreateQuiz = function({ tags, statusCode }) {
                 throw `${res.status}: ${res.message}`
         })
         .catch(err => console.log(`Error creating quiz: ${err}`))
+
+        e.preventDefault()
     }
 
     return (
         <Layout>
             <div className={styles.section}>
                 <h1>Create a Quiz</h1>
-                <form id="createQuizForm">
+                <form id="createQuizForm" onSubmit={(e) => createQuiz(e)}>
                     <div className={formStyles.formRow}>
-                        <input type="text" name="title" placeholder="Title" />
+                        <input type="text" name="title" placeholder="Title" required />
                     </div>
                     <div className={formStyles.formRow}>
-                        <input type="text" name="author" placeholder="Author" />
+                        <input type="text" name="author" placeholder="Author" required />
                     </div>
                     <div className={formStyles.formRow}>
                         <label>Type</label>
@@ -84,7 +87,7 @@ const CreateQuiz = function({ tags, statusCode }) {
                     </div>
                     <div className={formStyles.formRow}>
                         <label>Difficulty</label>
-                        <input type="number" name="difficulty" min="1" max="5" />
+                        <input type="number" name="difficulty" min="1" max="5" required />
                     </div>
                     <div className={formStyles.formRow}>
                         <label>Image</label>
@@ -109,7 +112,7 @@ const CreateQuiz = function({ tags, statusCode }) {
                     <button className={buttonStyles.button} onClick={addQuestion} type="button">Add Question</button>
                     <button className={buttonStyles.button} onClick={removeQuestion} type="button">Remove Question</button>
                     <hr />
-                    <button className={buttonStyles.button} onClick={createQuiz} type="button">Create Quiz</button>                    
+                    <button className={buttonStyles.button} type="submit">Create Quiz</button>                    
                 </form>
             </div>
         </Layout>
