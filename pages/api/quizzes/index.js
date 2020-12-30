@@ -1,6 +1,7 @@
 import nextConnect from 'next-connect'
 import middleware from '../../../middleware/database'
 import slugs from 'slugs'
+import randomize from 'randomize-array'
 
 const handler = nextConnect()
 handler.use(middleware)
@@ -31,15 +32,20 @@ handler.post(async (req, res) => {
 
         let i = 1
         while(formData[`question-${i}`]){
+            let answers = [
+                formData[`question-${i}-answer-1`],
+                formData[`question-${i}-answer-2`],
+                formData[`question-${i}-answer-3`],
+                formData[`question-${i}-answer-4`],
+            ]
+            answers = randomize(answers)
+
+            const answer = answers.findIndex(a => a === formData[`question-${i}-answer-1`])
+
             questions.push({
                 question: formData[`question-${i}`],
-                answers: [
-                    formData[`question-${i}-answer-1`],
-                    formData[`question-${i}-answer-2`],
-                    formData[`question-${i}-answer-3`],
-                    formData[`question-${i}-answer-4`],
-                ],
-                answer: 0
+                answers,
+                answer
             })
             i++
         }

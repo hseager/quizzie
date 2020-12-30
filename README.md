@@ -2,6 +2,7 @@
 
 ## To Do
 ### V1.0
+- Styling/Redesign/Layout change
 - Thumbnail images for quizzes
 - Add more quizzes
 - Improve Results Page
@@ -11,18 +12,14 @@
 - Style 404 page
 
 ### V1.1
-- Styling/Redesign/Layout change
 - Join Code/Password
 - Email signup & accounts
-- Create Quiz
 
 ### Notes
-Randomize answers so 1st isn't always correct
 
 ### *Extra Features*
 - QR Code for joining lobby
 - Move question timer to DB/setting rather than hardcoded 10secs
-- Admin panel to manage quizzes easier
 - Sort/Filter quizzes by rating/plays/type
 - Estimated time to complete quiz
 - Track Quiz plays
@@ -30,10 +27,11 @@ Randomize answers so 1st isn't always correct
 - Comments
 - Lobby Chat room
 - Public/Private Quiz option on create 
-- Quiz types - Standard/Text type/Fastest finger/Order answers
+- Quiz types - Standard/Text type/Fastest finger/Order answers/Freetext
 - Rewards(Trophies)
-- Microtransactions - Cosmetics, Avatars, Winning animations, quiz packs
+- Microtransactions - Cosmetics, Avatars, Winning animations, quiz packs OR supporter packs
 - Music round maybe with youtube videos
+- Admin panel to manage quizzes easier
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
