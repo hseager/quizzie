@@ -5,6 +5,7 @@ import buttonStyles from '../../styles/buttons.module.css'
 import ErrorPage from 'next/error'
 import { HttpRequestError } from '../../libs/HttpRequestError'
 import { useState } from 'react'
+import Router from 'next/router'
 
 const CreateQuiz = function({ tags, statusCode }) {
 
@@ -46,24 +47,6 @@ const CreateQuiz = function({ tags, statusCode }) {
         )
     }
 
-    function formatQuizData(formData){
-        let quizData = {}
-        formData.forEach((value, key) => {
-            // If key already exists
-            if(Object.prototype.hasOwnProperty.call(quizData, key)) {
-                let multiField = quizData[key]
-                if(!Array.isArray(multiField)){
-                    multiField = quizData[key] = [multiField]
-                }
-                multiField.push(value)
-            } else {
-                quizData[key] = value
-            }
-        })
-
-        return JSON.stringify(quizData)
-    }
-
     const createQuiz = () => {
         const form = document.getElementById("createQuizForm")
         const formData = new FormData(form)
@@ -71,6 +54,13 @@ const CreateQuiz = function({ tags, statusCode }) {
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes`, {
             method: 'post',
             body: formData,
+        })
+        .then(res => res.json())
+        .then(res => {
+            if(res.status === 200)
+                Router.push('/choose-a-quiz')
+            else 
+                throw `${res.status}: ${res.message}`
         })
         .catch(err => console.log(`Error creating quiz: ${err}`))
     }

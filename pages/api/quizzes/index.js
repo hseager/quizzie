@@ -67,7 +67,7 @@ handler.post(async (req, res) => {
             webImagePath = `/img/quiz/${imageName}`
             const newPath = `${process.env.FILEPATH}\\public\\img\\quiz\\${imageName}`
             const rawData = fs.readFileSync(image.path)
-    
+            
             fs.writeFile(newPath, rawData, (err) => {
                 if(err) throw err
             })
@@ -87,7 +87,7 @@ handler.post(async (req, res) => {
 
         quizCollection.insertOne(newQuiz)
 
-        res.status(200)
+        res.status(200).json({ status: 200 })
     } catch(err){
         console.log(err)
         res.status(500).json({ status: 500, message: err })
