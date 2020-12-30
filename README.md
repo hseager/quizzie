@@ -16,6 +16,7 @@
 - Picture quiz type
 
 ### Notes
+- Change difficulty to Easy, Medium, Hard
 
 ### *Extra Features*
 - QR Code for joining lobby
