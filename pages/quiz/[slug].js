@@ -41,7 +41,7 @@ export default function Quiz({ quiz, statusCode }) {
                     !loading &&
                     <>
                         <h2>{ quiz.title }</h2>
-                        <QuizImage src={quiz.image} width={350} height={220} />
+                        <QuizImage src={quiz.image} width={600} height={345} />
                         <p>
                             <span>Category: </span>
                         {
