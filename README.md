@@ -17,6 +17,7 @@
 
 ### Notes
 - Change difficulty to Easy, Medium, Hard
+- Record times played to quizzes
 
 ### *Extra Features*
 - QR Code for joining lobby

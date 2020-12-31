@@ -33,7 +33,7 @@ export default function Quiz({ quiz, statusCode }) {
 
     return (
         <Layout>
-            <div className={pageStyles.fullHeightPage}>
+            <div className={pageStyles.main}>
                 {   loading &&
                     <h2>Loading...</h2>
                 }

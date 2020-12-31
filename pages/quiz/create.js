@@ -70,7 +70,7 @@ const CreateQuiz = function({ tags, statusCode }) {
 
     return (
         <Layout>
-            <div className={styles.section}>
+            <div className={styles.main}>
                 <h1>Create a Quiz</h1>
                 <form id="createQuizForm" onSubmit={(e) => createQuiz(e)}>
                     <div className={formStyles.formRow}>
