@@ -1,0 +1,56 @@
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.listItem {
+    border: 1px solid var(--color4);
+    width: 47%;
+    margin: 0 var(--spacing-small) var(--spacing-small) 0;
+    cursor: pointer;
+    background: var(--color6);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.listItemContent {
+    padding: var(--spacing-smallest);
+}
+
+.title {
+    margin: 0;
+    font-size: 16px;
+}
+
+.tags {
+    margin: var(--spacing-smallest) 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tag{
+    padding: 3px 5px;
+    background: var(--color3);
+    display: block;
+    margin: 0 2px 2px 0;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.questions{
+    font-size: 13px;
+    margin: var(--spacing-smallest) 0;
+}
+
+.info{
+    font-size: 13px;
+    margin: var(--spacing-smallest) 0 0;
+}
+
+.author{
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0;
+}

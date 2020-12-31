@@ -1,6 +1,7 @@
 import Layout from '../components/layout'
 import Link from 'next/link'
 import styles from '../styles/page.module.css'
+import quizStyles from '../styles/quiz.module.css'
 import fetch from 'isomorphic-unfetch'
 import ErrorPage from 'next/error'
 import { HttpRequestError } from '../libs/HttpRequestError'
@@ -14,30 +15,24 @@ const ChooseAQuiz = function({ data, statusCode }) {
     return (
         <Layout>
             <div className={styles.main}>
-                <Link href={'/'}>
-                    <a>Back</a>
-                </Link>
                 <h1 className={styles.title}>Choose a Quiz</h1>
-                <div className={styles.quizList}>
+                <h4>Recently Added</h4>
+                <div className={quizStyles.list}>
                     {data.map((quiz) => (
-                        <div className={styles.quizListItem} key={quiz._id}>
+                    <Link href={`/quiz/[slug]`} as={`/quiz/${quiz.slug}`}>
+                        <div className={quizStyles.listItem} key={quiz._id}>
                             <QuizImage src={quiz.image} width={350} height={220} />
-                            <div className={styles.quizListItemContent}>
-                                <h6 className={styles.quizCategory}>
+                            <div className={quizStyles.listItemContent}>
+                                <h4 className={quizStyles.title}>{quiz.title}</h4>
+                                <div className={quizStyles.tags}>
                                     {quiz.tags.map((tag, i) => (
-                                        <span key={i}>{tag}{(i + 1 < quiz.tags.length ? ', ' : '')}</span>
+                                        <span key={i} className={quizStyles.tag}>{tag}</span>
                                     ))}
-                                </h6>
-                                <h4 className={styles.quizName}>
-                                    <Link href={`/quiz/[slug]`} as={`/quiz/${quiz.slug}`}>
-                                        <a>{quiz.title}</a>
-                                    </Link>
-                                </h4>
-                                <p>{quiz.questions.length} Questions</p>
-                                <p>Difficulty: {quiz.difficulty}</p>
-                                <strong><small>By {quiz.author}</small></strong>
+                                </div>
+                                <p className={quizStyles.info}><strong>{quiz.difficulty}</strong>, {quiz.questions.length} Questions</p>
                             </div>
                         </div>
+                    </Link>
                     ))}
                 </div>
             </div>
