@@ -87,10 +87,14 @@ const CreateQuiz = function({ tags, statusCode }) {
                     </div>
                     <div className={formStyles.formRow}>
                         <label>Difficulty</label>
-                        <input type="number" name="difficulty" min="1" max="5" required />
+                        <select name="difficulty">
+                            <option value="Easy">Easy</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Hard">Hard</option>
+                        </select>
                     </div>
                     <div className={formStyles.formRow}>
-                        <label>Image</label>
+                        <label>Thumbnail Image</label>
                         <input type="file" name="image" />
                     </div>
                     {
