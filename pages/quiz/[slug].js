@@ -36,29 +36,31 @@ export default function Quiz({ quiz, statusCode }) {
     return (
         <Layout>
             <div className={styles.main}>
-                {   loading &&
-                    <h2>Loading...</h2>
+                { loading &&
+                    <h2>Creating a new lobby...</h2>
                 }
                 { !loading &&
-                    <div className={quizStyles.panel}>
-                        <QuizImage src={quiz.image} width={600} height={345} />
-                        <div className={quizStyles.content}>
-                            <h2>{ quiz.title }</h2>
-                            <div className={quizStyles.tags}>
-                                {quiz.tags.map((tag, i) => (
-                                    <span key={i} className={quizStyles.tag}>{tag}</span>
-                                ))}
+                    <>
+                        <div className={quizStyles.panel}>
+                            <QuizImage src={quiz.image} width={600} height={345} />
+                            <div className={quizStyles.content}>
+                                <h2>{ quiz.title }</h2>
+                                <div className={quizStyles.tags}>
+                                    {quiz.tags.map((tag, i) => (
+                                        <span key={i} className={quizStyles.tag}>{tag}</span>
+                                    ))}
+                                </div>
+                                <p className={quizStyles.details}><strong>{quiz.questions.length}</strong> Questions</p>
+                                <p className={quizStyles.details}>Difficulty: <strong>{quiz.difficulty}</strong></p>
+                                <p className={quizStyles.details}>Created by <strong>{quiz.author}</strong></p>
+                                <button className={buttonStyles.button} onClick={createLobby}>Play Quiz</button>
                             </div>
-                            <p className={quizStyles.details}><strong>{quiz.questions.length}</strong> Questions</p>
-                            <p className={quizStyles.details}>Difficulty: <strong>{quiz.difficulty}</strong></p>
-                            <p className={quizStyles.details}>Created by <strong>{quiz.author}</strong></p>
-                            <button className={buttonStyles.button} onClick={createLobby}>Play Quiz</button>
                         </div>
-                    </div>
+                        <Link href="/choose-a-quiz">
+                            <a className={buttonStyles.button2}>Back</a>
+                        </Link>
+                    </>
                 }
-                <Link href="/choose-a-quiz">
-                    <a className={buttonStyles.button2}>Back</a>
-                </Link>
             </div>
         </Layout>
     )

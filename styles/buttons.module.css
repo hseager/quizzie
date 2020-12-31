@@ -9,6 +9,7 @@
     outline: none;
     background: var(--color3);
     color: var(--text-dark);
+    border: 1px solid transparent;
 }
 
 .button2{

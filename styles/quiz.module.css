@@ -67,6 +67,12 @@
     padding: var(--spacing-small);
 }
 
+.card {
+    composes: listItem;
+    max-width: 250px;
+    margin: 0 0 var(--spacing-medium);
+}
+
 @media only screen and (min-width: 768px){
     .list{
         grid: auto auto / 1fr 1fr 1fr;
@@ -78,6 +84,10 @@
     .listItem .tag {
         font-size: 12px;
         margin-right: var(--spacing-smallest);
+    }
+
+    .content{
+        padding: var(--spacing-medium);
     }
 }
 

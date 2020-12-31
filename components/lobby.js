@@ -6,6 +6,8 @@ import pageStyles from '../styles/page.module.css'
 import styles from '../styles/lobby.module.css'
 import ChangeQuizModal from '../components/changeQuizModal'
 import Link from 'next/link'
+import quizStyles from '../styles/quiz.module.css'
+import QuizImage from '../components/quizImage'
 
 export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, playerJoined }) {
 
@@ -49,21 +51,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
 
     return (
         <>
-            {
-                playerId === lobbyOwner &&
-                <h1 className={pageStyles.title}>Invite your friends</h1>
-            }
-            {
-                playerId !== lobbyOwner &&
-                <h1 className={pageStyles.title}>Get ready to play a Quiz</h1>
-            }
-            {
-                quiz && 
-                <>
-                    <p>You are about to play the quiz: <strong>{quiz.title}</strong></p>
-                    <p><strong>{quiz.questions.length}</strong> Questions</p>
-                </>
-            }
+            <h1 className={pageStyles.title}>Lobby</h1>
             {
                 players &&
                 players.some(p => p.joined) &&
@@ -95,11 +83,35 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
             {
                 playerJoined && 
                 playerId === lobbyOwner &&
+                <div className={styles.invitePanel}>
+                    <h2>Invite players</h2>
+                    <p>Share this link: <br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
+                </div>
+            }
+            {
+                quiz && 
                 <>
-                    <div className={styles.invitePanel}>
-                        <h2>Invite players</h2>
-                        <p>Share this link: <br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
+                    <h3>Selected Quiz</h3>
+                    <div className={quizStyles.card}>
+                        <QuizImage src={quiz.image} width={365} height={210} />
+                        <div className={quizStyles.listItemContent}>
+                            <h4 className={quizStyles.title}>{quiz.title}</h4>
+                            <div className={quizStyles.tags}>
+                                {quiz.tags.map((tag, i) => (
+                                    <span key={i} className={quizStyles.tag}>{tag}</span>
+                                ))}
+                            </div>
+                            <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
+                            <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
+                        </div>
                     </div>
+
+                </>
+            }  
+            {
+                playerJoined && 
+                playerId === lobbyOwner &&
+                <>
                     <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
                     <button className={buttonStyles.button} onClick={() => { setShowChangeQuizModal(true)}}>Change Quiz</button>
                 </>
@@ -107,16 +119,14 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
             {
                 playerJoined && 
                 playerId !== lobbyOwner &&
-                <>
-                    <p>Waiting for the Quiz leader to start...</p>
-                </>
+                <p>Waiting for the Quiz leader to start...</p>
             }
             {
                 playerJoined &&
                 <Link href={`/`}>
-                    <a className={buttonStyles.button}>Leave</a>
+                    <a className={buttonStyles.button2}>Leave</a>
                 </Link>
-            }
+            } 
             <ChangeQuizModal showModal={showChangeQuizModal} setShowModal={setShowChangeQuizModal} changeQuiz={changeQuiz} />
         </>
     )

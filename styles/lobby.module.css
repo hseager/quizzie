@@ -17,6 +17,7 @@
     color: var(--color5);
     margin: var(--spacing-medium) 0;
     word-wrap: break-word;
+    max-width: 600px;
 }
 
 .invitePanel a {
@@ -28,6 +29,7 @@
     padding: var(--spacing-small);
     margin: 0 0 var(--spacing-medium);
     color: var(--color5);
+    max-width: 600px;
 }
 
 .lobbyPanel ul {

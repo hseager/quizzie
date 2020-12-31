@@ -93,7 +93,7 @@ export default function LobbyPage({ quizData, lobby, statusCode }) {
                     status !== 'lobby' &&
                     !playerJoined &&
                     <>
-                        <h3>Sorry, the quiz has already started</h3>
+                        <h3>The quiz has already started</h3>
                         <p>Please try to join again once the quiz has finished.</p>
                     </>
                 }

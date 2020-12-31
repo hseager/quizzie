@@ -16,7 +16,8 @@
 - Picture quiz type
 
 ### Notes
-- Record times played to quizzes
+- Record times played for quizzes
+- Show similar quizzes under quiz info
 
 ### *Extra Features*
 - QR Code for joining lobby
