@@ -21,7 +21,7 @@ const ChooseAQuiz = function({ data, statusCode }) {
                     {data.map((quiz) => (
                     <Link href={`/quiz/[slug]`} as={`/quiz/${quiz.slug}`}>
                         <div className={quizStyles.listItem} key={quiz._id}>
-                            <QuizImage src={quiz.image} width={350} height={220} />
+                            <QuizImage src={quiz.image} width={365} height={210} />
                             <div className={quizStyles.listItemContent}>
                                 <h4 className={quizStyles.title}>{quiz.title}</h4>
                                 <div className={quizStyles.tags}>

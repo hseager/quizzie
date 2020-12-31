@@ -4,7 +4,7 @@
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: auto;
 }
 
@@ -59,4 +59,10 @@
 .featureTitle{
     font-weight: normal;
     margin: 0;
+}
+
+@media only screen and (min-width: 768px){
+    .main {
+        padding: 0 var(--spacing-medium);
+    }
 }
