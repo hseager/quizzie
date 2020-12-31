@@ -2,6 +2,7 @@
     display: grid;
     grid: auto auto / 1fr 1fr;
     gap: var(--spacing-small);
+    margin: 0 0 var(--spacing-large);
 }
 
 .listItem {
@@ -28,23 +29,42 @@
 }
 
 .tag {
-    padding: 3px 5px;
+    padding: 4px 6px;
     background: var(--color3);
     display: block;
-    margin: 0 2px 2px 0;
+    margin: 0 4px 4px 0;
     border-radius: 4px;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: bold;
 }
 
-.questions{
+.listItem .tag{
+    font-size: 11px;
+    margin: 0 2px 2px 0;
+    padding: 3px 5px;
+}
+
+.questions {
     font-size: 13px;
     margin: var(--spacing-smallest) 0;
 }
 
-.info{
+.info {
     font-size: 14px;
     margin: var(--spacing-smallest) 0 0;
+}
+
+.panel {
+    background: var(--color6);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--color4);
+    margin: 0 0 var(--spacing-large);
+    max-width: 600px;
+}
+
+.content {
+    padding: var(--spacing-small);
 }
 
 @media only screen and (min-width: 768px){
@@ -55,7 +75,7 @@
     .title{
         font-size: 18px;
     }
-    .tag {
+    .listItem .tag {
         font-size: 12px;
         margin-right: var(--spacing-smallest);
     }

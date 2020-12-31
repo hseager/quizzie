@@ -1,4 +1,4 @@
-.button{
+.button {
     font-family: var(--font);
     padding: 12px 25px;
     border-radius: 4px;
@@ -11,7 +11,13 @@
     color: var(--text-dark);
 }
 
-.button:active:not(:disabled){
+.button2{
+    composes: button;
+    background: var(--color6);
+    border: 1px solid var(--color4);
+}
+
+.button:active:not(:disabled) {
     transform: translate(0, 2px);
 }
 
