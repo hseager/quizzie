@@ -18,6 +18,7 @@
 ### Notes
 - Record times played for quizzes
 - Show similar quizzes under quiz info
+- Make changeQuiz instant for lobby owner
 
 ### *Extra Features*
 - QR Code for joining lobby

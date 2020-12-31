@@ -1,7 +1,8 @@
-import styles from '../styles/page.module.css'
+import quizStyles from '../styles/quiz.module.css'
 import Modal from '../components/modal'
 import { useState, useEffect } from 'react'
 import { HttpRequestError } from '../libs/HttpRequestError'
+import QuizImage from '../components/quizImage'
 
 export default function ChangeQuizModal({showModal, setShowModal, changeQuiz}) {
 
@@ -47,20 +48,20 @@ export default function ChangeQuizModal({showModal, setShowModal, changeQuiz}) {
     return (
         <Modal showModal={showModal} setShowModal={setShowModal}>
             <h2>Change Quiz</h2>
-            <div className={styles.quizList}>
+            <div className={quizStyles.list}>
                 {quizzes.map(quiz => (
-                    <div className={styles.quizListItem} key={quiz._id} onClick={() => { onChangeQuiz(quiz._id) }}>
-                        <h6 className={styles.quizCategory}>
-                            {quiz.tags.map((tag, i) => (
-                                <span key={i}>{tag}{(i + 1 < quiz.tags.length ? ', ' : '')}</span>
-                            ))}
-                        </h6>
-                        <h4 className={styles.quizName}>
-                            {quiz.title}
-                        </h4>
-                        <p>{quiz.questions.length} Questions</p>
-                        <p>Difficulty: {quiz.difficulty}</p>
-                        <strong><small>By {quiz.author}</small></strong>
+                    <div className={quizStyles.listItem} key={quiz._id} onClick={() => { onChangeQuiz(quiz._id) }}>
+                        <QuizImage src={quiz.image} width={365} height={210} />
+                        <div className={quizStyles.listItemContent}>
+                            <h4 className={quizStyles.title}>{quiz.title}</h4>
+                            <div className={quizStyles.tags}>
+                                {quiz.tags.map((tag, i) => (
+                                    <span key={i} className={quizStyles.tag}>{tag}</span>
+                                ))}
+                            </div>
+                            <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
+                            <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
+                        </div>
                     </div>
                 ))}
             </div>
