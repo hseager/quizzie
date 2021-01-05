@@ -19,6 +19,7 @@
 - Record times played for quizzes
 - Show similar quizzes under quiz info
 - Make changeQuiz instant for lobby owner
+- Create flag lobby as obselete when everyone has left? (Duplicate socketIds for lobbyOwner: 80f96d31-29c8-4e95-9777-196178b3030c )
 
 ### *Extra Features*
 - QR Code for joining lobby
