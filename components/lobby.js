@@ -3,7 +3,7 @@ import buttonStyles from '../styles/buttons.module.css'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import pageStyles from '../styles/page.module.css'
-import styles from '../styles/lobby.module.css'
+import lobbyStyles from '../styles/lobby.module.css'
 import ChangeQuizModal from '../components/changeQuizModal'
 import Link from 'next/link'
 import quizStyles from '../styles/quiz.module.css'
@@ -39,10 +39,10 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
         let playerClass = '';
         
         if(pId === lobbyOwner)
-            playerClass = styles.playerOwner
+            playerClass = lobbyStyles.playerOwner
 
         if(pId === playerId)
-            playerClass += ' ' + styles.playerCurrent
+            playerClass += ' ' + lobbyStyles.playerCurrent
         
         return playerClass
     }
@@ -53,11 +53,12 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
     return (
         <>
             <h1 className={pageStyles.title}>Lobby</h1>
+            <div className={lobbyStyles.main}></div>
             {
                 players &&
                 players.some(p => p.joined) &&
-                <div className={styles.lobbyPanel}>
-                    <h2 className={styles.lobbyTitle}>Players</h2>
+                <div className={lobbyStyles.panel}>
+                    <h2 className={lobbyStyles.title}>Players</h2>
                     <ul>
                         {
                             players.map(player => {
@@ -77,14 +78,14 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
             {
                 !playerJoined &&
                 <>
-                    <input placeholder="Enter your name" type="text" name="first-name" className={styles.nameField} onChange={e => setName(e.target.value)} />
+                    <input placeholder="Enter your name" type="text" name="first-name" className={lobbyStyles.nameField} onChange={e => setName(e.target.value)} />
                     <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
                 </>
             }
             {
                 playerJoined && 
                 playerId === lobbyOwner &&
-                <div className={styles.invitePanel}>
+                <div className={lobbyStyles.invitePanel}>
                     <h2>Invite players</h2>
                     <p>Share this link: <br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
                 </div>
