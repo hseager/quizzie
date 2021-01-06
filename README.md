@@ -19,7 +19,6 @@
 - Record times played for quizzes
 - Show similar quizzes under quiz info
 - Create flag lobby as obselete when everyone has left? (Duplicate socketIds for lobbyOwner: 80f96d31-29c8-4e95-9777-196178b3030c )
-- Resave default image to correct aspect
 
 ### *Extra Features*
 - QR Code for joining lobby
