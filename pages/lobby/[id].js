@@ -67,6 +67,7 @@ export default function LobbyPage({ quizData, lobby, statusCode }) {
                         players={players}
                         playerId={playerId}
                         playerJoined={playerJoined}
+                        setQuiz={setQuiz}
                     />
                 }
                 {

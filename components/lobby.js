@@ -9,7 +9,7 @@ import Link from 'next/link'
 import quizStyles from '../styles/quiz.module.css'
 import QuizImage from '../components/quizImage'
 
-export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, playerJoined }) {
+export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, playerJoined, setQuiz }) {
 
     const router = useRouter()
     const socket = useSocket()
@@ -30,8 +30,9 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
         socket.emit('startQuiz', lobbyId)
     }
 
-    const changeQuiz = (quizId) => {
-        socket.emit('changeQuiz', { lobbyId, quizId })
+    const changeQuiz = (quiz) => {
+        setQuiz(quiz)
+        socket.emit('changeQuiz', { lobbyId, quizId: quiz._id })
     }
 
     const getLobbyPlayerClass = (pId) => {
@@ -127,7 +128,10 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                     <a className={buttonStyles.button2}>Leave</a>
                 </Link>
             } 
-            <ChangeQuizModal showModal={showChangeQuizModal} setShowModal={setShowChangeQuizModal} changeQuiz={changeQuiz} />
+            <ChangeQuizModal 
+                showModal={showChangeQuizModal} 
+                setShowModal={setShowChangeQuizModal} 
+                changeQuiz={changeQuiz} />
         </>
     )
 }

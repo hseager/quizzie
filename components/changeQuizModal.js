@@ -23,8 +23,8 @@ export default function ChangeQuizModal({showModal, setShowModal, changeQuiz}) {
             })
     }, [])
 
-    const onChangeQuiz = (id) => {
-        changeQuiz(id)
+    const onChangeQuiz = (quiz) => {
+        changeQuiz(quiz)
         setShowModal(false)
     }
 
@@ -50,7 +50,7 @@ export default function ChangeQuizModal({showModal, setShowModal, changeQuiz}) {
             <h2>Change Quiz</h2>
             <div className={quizStyles.list}>
                 {quizzes.map(quiz => (
-                    <div className={quizStyles.listItem} key={quiz._id} onClick={() => { onChangeQuiz(quiz._id) }}>
+                    <div className={quizStyles.listItem} key={quiz._id} onClick={() => { onChangeQuiz(quiz) }}>
                         <QuizImage src={quiz.image} width={365} height={210} />
                         <div className={quizStyles.listItemContent}>
                             <h4 className={quizStyles.title}>{quiz.title}</h4>
