@@ -3,7 +3,7 @@ import { getPlayerId } from '../../libs/localStorage'
 import fetch from 'isomorphic-unfetch'
 import Router from 'next/router'
 import { useState } from 'react'
-import styles from '../../styles/page.module.css'
+import pageStyles from '../../styles/page.module.css'
 import quizStyles from '../../styles/quiz.module.css'
 import buttonStyles from '../../styles/buttons.module.css'
 import ErrorPage from 'next/error'
@@ -35,7 +35,7 @@ export default function Quiz({ quiz, statusCode }) {
 
     return (
         <Layout>
-            <div className={styles.main}>
+            <div className={pageStyles.main}>
                 { loading &&
                     <h2>Creating a new lobby...</h2>
                 }
@@ -53,12 +53,15 @@ export default function Quiz({ quiz, statusCode }) {
                                 <p className={quizStyles.details}><strong>{quiz.questions.length}</strong> Questions</p>
                                 <p className={quizStyles.details}>Difficulty: <strong>{quiz.difficulty}</strong></p>
                                 <p className={quizStyles.details}>Created by <strong>{quiz.author}</strong></p>
-                                <button className={buttonStyles.button} onClick={createLobby}>Play Quiz</button>
+                                
                             </div>
                         </div>
-                        <Link href="/choose-a-quiz">
-                            <a className={buttonStyles.button2}>Back</a>
-                        </Link>
+                        <div className={pageStyles.buttonPanel}>
+                            <button className={buttonStyles.button} onClick={createLobby}>Play Quiz</button>
+                            <Link href="/choose-a-quiz">
+                                <a className={buttonStyles.button2}>Back</a>
+                            </Link>
+                        </div>
                     </>
                 }
             </div>
