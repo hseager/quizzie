@@ -56,6 +56,17 @@
     margin: 0;
 }
 
+.panel {
+    background: var(--color6);
+    padding: var(--spacing-small);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color4);
+}
+
+.buttonPanel{
+    margin: var(--spacing-medium) 0;
+}
+
 @media only screen and (min-width: 768px){
     .main {
         margin: var(--spacing-medium) 0;

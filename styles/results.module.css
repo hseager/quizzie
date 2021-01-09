@@ -1,0 +1,12 @@
+.resultRow{
+    border-bottom: 1px solid var(--color4);
+    padding: var(--spacing-small);
+}
+
+.resultRow:nth-child(2n){
+    background: var(--color5);
+}
+
+.resultRow:last-child{
+    border: 0;
+}
