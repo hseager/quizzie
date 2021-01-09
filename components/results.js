@@ -52,18 +52,6 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
     return (
         <div className={pageStyles.main}>
             {
-                !results &&
-                <p>Loading the results!</p>
-            }
-            {
-                results && results.error &&
-                <>
-                    <h3>{results.title}</h3>
-                    <p>{results.message}</p>
-                </>
-            }
-            {
-                results && !results.error &&
                 <>
                     <h2>The Results</h2>
                     {
@@ -86,6 +74,21 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
                             }
                             <div className={resultStyles.resultsTable}>
                                 {
+                                    !results &&
+                                    <div className={pageStyles.loading}>
+                                        <div className={pageStyles.loadingAnimation}><div></div><div></div><div></div></div>
+                                        <div className={pageStyles.loadingText}>Loading</div>
+                                    </div>
+                                }
+                                {
+                                    results && results.error &&
+                                    <>
+                                        <h3>{results.title}</h3>
+                                        <p>{results.message}</p>
+                                    </>
+                                }
+                                {
+                                    results && !results.error &&
                                     results.map((result, i) => (
                                         <div key={i} className={getRowStyle(result.place)}>
                                             <div>

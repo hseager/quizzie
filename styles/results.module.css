@@ -22,6 +22,7 @@
 .resultRow1 {
     composes: resultRow;
     background: var(--color3);
+    border: 0;
 }
 
 .resultRow2 {
