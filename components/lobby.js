@@ -55,6 +55,25 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
             <h1 className={pageStyles.title}>Lobby</h1>
             <div className={lobbyStyles.main}>
                 {
+                    quiz && 
+                    <div className={lobbyStyles.currentQuizPanel}>
+                        <div className={quizStyles.card}>
+                            <QuizImage src={quiz.image} width={365} height={210} />
+                            <div className={quizStyles.listItemContent}>
+                                <h4 className={quizStyles.title}>{quiz.title}</h4>
+                                <div className={quizStyles.tags}>
+                                    {quiz.tags.map((tag, i) => (
+                                        <span key={i} className={quizStyles.tag}>{tag}</span>
+                                    ))}
+                                </div>
+                                <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
+                                <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+                {
                     players &&
                     players.some(p => p.joined) &&
                     <div className={lobbyStyles.panel}>
@@ -81,26 +100,6 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                     <div className={lobbyStyles.invitePanel}>
                         <h2>Invite players</h2>
                         <p>Share this link: <br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
-                    </div>
-                }
-                {
-                    quiz && 
-                    <div className={lobbyStyles.currentQuizPanel}>
-                        <h3>Current Quiz</h3>
-                        <div className={quizStyles.card}>
-                            <QuizImage src={quiz.image} width={365} height={210} />
-                            <div className={quizStyles.listItemContent}>
-                                <h4 className={quizStyles.title}>{quiz.title}</h4>
-                                <div className={quizStyles.tags}>
-                                    {quiz.tags.map((tag, i) => (
-                                        <span key={i} className={quizStyles.tag}>{tag}</span>
-                                    ))}
-                                </div>
-                                <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
-                                <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
-                            </div>
-                        </div>
-
                     </div>
                 }
                 {
