@@ -2,9 +2,7 @@
 
 ## To Do
 ### V1.0
-- Styling/Redesign/Layout change
 - Add more quizzes
-- Improve Results Page
 - Move to actual hosting
 - Logo
 - Style 404/500 page
@@ -20,7 +18,6 @@
 - Record times played for quizzes
 - Create flag lobby as obselete when everyone has left? How to deal with rejoining an old lobby
 - Fix buttons CSS for mobile
-- Restyle Quiz & results
 
 ### *Extra Features*
 - QR Code for joining lobby

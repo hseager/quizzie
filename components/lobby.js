@@ -116,7 +116,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                     <p>Waiting for the Quiz leader to start...</p>
                 }
                 { playerJoined &&
-                    <div className={lobbyStyles.buttons}>
+                    <div className={pageStyles.buttonPanel}>
                         {
                             playerJoined && 
                             playerId === lobbyOwner &&
