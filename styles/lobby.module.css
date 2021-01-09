@@ -17,8 +17,8 @@
     color: var(--color5);
     margin: var(--spacing-medium) 0;
     word-wrap: break-word;
-    max-width: 600px;
-    border-radius: 4px;
+    max-width: 540px;
+    border-radius: var(--border-radius);
 }
 
 .invitePanel a {
@@ -30,8 +30,8 @@
     padding: var(--spacing-small);
     margin: 0 0 var(--spacing-medium);
     color: var(--color5);
-    max-width: 600px;
-    border-radius: 4px;
+    max-width: 540px;
+    border-radius: var(--border-radius);
 }
 
 .panel ul {
@@ -53,4 +53,15 @@
 
 .nameField {
     margin: 0 var(--spacing-medium) 0 0;
+}
+
+.joinPanel{
+    background: var(--color2);
+    padding: var(--spacing-small);
+    border-radius: var(--border-radius);
+    display: inline-block;
+}
+
+.currentQuizPanel{
+    margin: 0 0 var(--spacing-medium);
 }

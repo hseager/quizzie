@@ -21,6 +21,7 @@
     --spacing-small: 10px;
     --spacing-medium: 15px;
     --spacing-large: 40px;
+    --border-radius: 4px;
 }
 
 * {
@@ -81,4 +82,6 @@ select {
     outline: none;
     min-width: 240px;
     background: #fff;
+    vertical-align: middle;
+    border-radius: var(--border-radius);
 }

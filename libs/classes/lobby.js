@@ -24,7 +24,8 @@ module.exports = class Lobby {
             this.players.push(player)
         } else {
             // Update player socketid on reconnection
-            player.socketIds.push(socket.id)
+            if(!player.socketIds.some(s => s.id === socket.id))
+                player.socketIds.push(socket.id)
             player.connected = true
         }
         socket.join(this.id)

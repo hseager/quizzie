@@ -18,6 +18,7 @@
     min-height: 80%;
     padding: 20px;
     position: relative;
+    border-radius: var(--border-radius);
 }
 
 .close {
@@ -27,4 +28,5 @@
     cursor: pointer;
     font-weight: bold;
     padding: 8px 10px;
+    font-size: 20px;
 }

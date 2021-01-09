@@ -53,82 +53,85 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
     return (
         <>
             <h1 className={pageStyles.title}>Lobby</h1>
-            <div className={lobbyStyles.main}></div>
-            {
-                players &&
-                players.some(p => p.joined) &&
-                <div className={lobbyStyles.panel}>
-                    <h2 className={lobbyStyles.title}>Players</h2>
-                    <ul>
-                        {
-                            players.map(player => {
-                                if(player.connected && player.joined){
-                                    return <li 
-                                        key={player.id} 
-                                        className={getLobbyPlayerClass(player.id)}
-                                    >
-                                        {player.name}
-                                    </li>
-                                }
-                            })
-                        }
-                    </ul>
-                </div>
-            }
-            {
-                !playerJoined &&
-                <>
-                    <input placeholder="Enter your name" type="text" name="first-name" className={lobbyStyles.nameField} onChange={e => setName(e.target.value)} />
-                    <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
-                </>
-            }
-            {
-                playerJoined && 
-                playerId === lobbyOwner &&
-                <div className={lobbyStyles.invitePanel}>
-                    <h2>Invite players</h2>
-                    <p>Share this link: <br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
-                </div>
-            }
-            {
-                quiz && 
-                <>
-                    <h3>Selected Quiz</h3>
-                    <div className={quizStyles.card}>
-                        <QuizImage src={quiz.image} width={365} height={210} />
-                        <div className={quizStyles.listItemContent}>
-                            <h4 className={quizStyles.title}>{quiz.title}</h4>
-                            <div className={quizStyles.tags}>
-                                {quiz.tags.map((tag, i) => (
-                                    <span key={i} className={quizStyles.tag}>{tag}</span>
-                                ))}
-                            </div>
-                            <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
-                            <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
-                        </div>
+            <div className={lobbyStyles.main}>
+                {
+                    players &&
+                    players.some(p => p.joined) &&
+                    <div className={lobbyStyles.panel}>
+                        <h2 className={lobbyStyles.title}>Players</h2>
+                        <ul>
+                            {
+                                players.map(player => {
+                                    if(player.connected && player.joined){
+                                        return <li 
+                                            key={player.id} 
+                                            className={getLobbyPlayerClass(player.id)}
+                                        >
+                                            {player.name}
+                                        </li>
+                                    }
+                                })
+                            }
+                        </ul>
                     </div>
+                }
+                {
+                    playerJoined && 
+                    playerId === lobbyOwner &&
+                    <div className={lobbyStyles.invitePanel}>
+                        <h2>Invite players</h2>
+                        <p>Share this link: <br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
+                    </div>
+                }
+                {
+                    quiz && 
+                    <div className={lobbyStyles.currentQuizPanel}>
+                        <h3>Current Quiz</h3>
+                        <div className={quizStyles.card}>
+                            <QuizImage src={quiz.image} width={365} height={210} />
+                            <div className={quizStyles.listItemContent}>
+                                <h4 className={quizStyles.title}>{quiz.title}</h4>
+                                <div className={quizStyles.tags}>
+                                    {quiz.tags.map((tag, i) => (
+                                        <span key={i} className={quizStyles.tag}>{tag}</span>
+                                    ))}
+                                </div>
+                                <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
+                                <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
+                            </div>
+                        </div>
 
-                </>
-            }  
-            {
-                playerJoined && 
-                playerId === lobbyOwner &&
-                <>
-                    <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
-                    <button className={buttonStyles.button} onClick={() => { setShowChangeQuizModal(true)}}>Change Quiz</button>
-                </>
-            }
-            {
-                playerJoined && 
-                playerId !== lobbyOwner &&
-                <p>Waiting for the Quiz leader to start...</p>
-            }
-            {
-                playerJoined &&
-                <Link href={`/`}>
-                    <a className={buttonStyles.button2}>Leave</a>
-                </Link>
-            } 
+                    </div>
+                } 
+                {
+                    !playerJoined &&
+                    <div className={lobbyStyles.joinPanel}>
+                        <input placeholder="Enter your name to join" type="text" name="first-name" className={lobbyStyles.nameField} onChange={e => setName(e.target.value)} />
+                        <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
+                    </div>
+                }
+                { playerJoined &&
+                    <div className={lobbyStyles.buttons}>
+                        {
+                            playerJoined && 
+                            playerId === lobbyOwner &&
+                            <>
+                                <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
+                                <button className={buttonStyles.button} onClick={() => { setShowChangeQuizModal(true)}}>Change Quiz</button>
+                            </>
+                        }
+                        <Link href={`/`}>
+                            <a className={buttonStyles.button2}>Leave</a>
+                        </Link>
+                    </div>
+                }
+                {
+                    playerJoined && 
+                    playerId !== lobbyOwner &&
+                    <p>Waiting for the Quiz leader to start...</p>
+                }
+            </div>
+
             <ChangeQuizModal 
                 showModal={showChangeQuizModal} 
                 setShowModal={setShowChangeQuizModal} 
