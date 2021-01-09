@@ -1,6 +1,7 @@
 import useSocket from '../hooks/useSocket'
 import { useState, useEffect } from 'react'
 import { formatResults } from '../libs/formatResults.js'
+import pageStyles from '../styles/page.module.css'
 import buttonStyles from '../styles/buttons.module.css'
 
 export default function Results({ lobbyId, quiz, players, setStatus }) {
@@ -35,27 +36,36 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
         return 'Name'
     }
 
-    if(!results)
-        return <p>Loading the results!</p>
-
-    if(results.error)
-        return <>
-            <h3>{results.title}</h3>
-            <p>{results.message}</p>
-        </>
-
     return (
         <>
-            <h3>The Results for: {quiz.title}</h3>
-            {
-                results.overview.map((result, i) => (
-                    <div key={i}>
-                        <p>{getPlayerName(result.playerId)} scored <strong>{result.correctAnswers}</strong> out of <strong>{quiz.questions.length}</strong></p>
-                    </div>
-                ))
-            }
+            <div className={pageStyles.main}>
+                {
+                    !results &&
+                    <p>Loading the results!</p>
+                }
+                {
+                    results && results.error &&
+                    <>
+                        <h3>{results.title}</h3>
+                        <p>{results.message}</p>
+                    </>
+                }
+                {
+                    results && !results.error &&
+                    <>
+                        <h3>The Results for: {quiz.title}</h3>
+                        {
+                            results.overview.map((result, i) => (
+                                <div key={i}>
+                                    <p>{getPlayerName(result.playerId)} scored <strong>{result.correctAnswers}</strong> out of <strong>{quiz.questions.length}</strong></p>
+                                </div>
+                            ))
+                        }
+                        <a className={buttonStyles.button} onClick={startAgain}>Continue</a>
+                    </>
+                }
 
-            <a className={buttonStyles.button} onClick={startAgain}>Continue</a>
+            </div>
         </>
     )
 }

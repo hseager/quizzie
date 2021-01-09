@@ -57,48 +57,46 @@ export default function LobbyPage({ quizData, lobby, statusCode }) {
 
     return (
         <Layout>
-            <div className={pageStyles.fullHeightPage}>
-                {
-                    status == 'lobby' &&
-                    <Lobby 
-                        lobbyId={lobby._id} 
-                        lobbyOwner={lobby.owner}
-                        quiz={quiz}
-                        players={players}
-                        playerId={playerId}
-                        playerJoined={playerJoined}
-                        setQuiz={setQuiz}
-                    />
-                }
-                {
-                    status == 'started' &&
-                    playerJoined &&
-                    <Questions 
-                        lobbyId={lobby._id}
-                        lobbyCurrentQuestion={lobby.currentQuestion}
-                        quizCount={quizCount}
-                        quiz={quiz}
-                    />
-                }
-                {
-                    status == 'finished' &&
-                    playerJoined &&
-                    <Results 
-                        lobbyId={lobby._id}
-                        quiz={quiz}
-                        players={players}
-                        setStatus={setStatus}
-                    />
-                }
-                {
-                    status !== 'lobby' &&
-                    !playerJoined &&
-                    <>
-                        <h3>The quiz has already started</h3>
-                        <p>Please try to join again once the quiz has finished.</p>
-                    </>
-                }
-            </div>
+            {
+                status == 'lobby' &&
+                <Lobby 
+                    lobbyId={lobby._id} 
+                    lobbyOwner={lobby.owner}
+                    quiz={quiz}
+                    players={players}
+                    playerId={playerId}
+                    playerJoined={playerJoined}
+                    setQuiz={setQuiz}
+                />
+            }
+            {
+                status == 'started' &&
+                playerJoined &&
+                <Questions 
+                    lobbyId={lobby._id}
+                    lobbyCurrentQuestion={lobby.currentQuestion}
+                    quizCount={quizCount}
+                    quiz={quiz}
+                />
+            }
+            {
+                status == 'finished' &&
+                playerJoined &&
+                <Results 
+                    lobbyId={lobby._id}
+                    quiz={quiz}
+                    players={players}
+                    setStatus={setStatus}
+                />
+            }
+            {
+                status !== 'lobby' &&
+                !playerJoined &&
+                <>
+                    <h3>The quiz has already started</h3>
+                    <p>Please try to join again once the quiz has finished.</p>
+                </>
+            }
         </Layout>
     )
 }

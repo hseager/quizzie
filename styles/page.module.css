@@ -34,11 +34,6 @@
     margin: 0 0 var(--spacing-medium)
 }
 
-.fullHeightPage {
-    padding: 10px;
-    height: 100vh;
-}
-
 .features {
     display: flex;
     flex-direction: column;

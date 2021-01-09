@@ -14,12 +14,12 @@
 - Join QR Code/Password
 - Email signup & accounts
 - Picture quiz type
+- Show similar quizzes under quiz info
 
 ### Notes
 - Record times played for quizzes
-- Show similar quizzes under quiz info
-- Create flag lobby as obselete when everyone has left? (Duplicate socketIds for lobbyOwner: 80f96d31-29c8-4e95-9777-196178b3030c )
-- Fix buttons CSS
+- Create flag lobby as obselete when everyone has left? How to deal with rejoining an old lobby
+- Fix buttons CSS for mobile
 - Restyle Quiz & results
 
 ### *Extra Features*

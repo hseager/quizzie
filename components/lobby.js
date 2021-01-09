@@ -51,7 +51,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
         return <p>Loading lobby...</p>
 
     return (
-        <>
+        <div className={pageStyles.main}>
             <h1 className={pageStyles.title}>Lobby</h1>
             <div className={lobbyStyles.main}>
                 {
@@ -131,11 +131,10 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                     <p>Waiting for the Quiz leader to start...</p>
                 }
             </div>
-
             <ChangeQuizModal 
                 showModal={showChangeQuizModal} 
                 setShowModal={setShowChangeQuizModal} 
                 changeQuiz={changeQuiz} />
-        </>
+        </div>
     )
 }
