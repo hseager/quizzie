@@ -1,12 +1,50 @@
-.resultRow{
-    border-bottom: 1px solid var(--color4);
-    padding: var(--spacing-small);
+.resultsTable {
+    composes: panel from './page.module.css';
 }
 
-.resultRow:nth-child(2n){
+.resultRow {
+    border-bottom: 1px solid var(--color4);
+    padding: var(--spacing-small);
+    display: flex;
+    justify-content: space-between;
+}
+
+.resultRow:first-child {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+.resultRow:last-child {
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.resultRow1 {
+    composes: resultRow;
+    background: var(--color3);
+}
+
+.resultRow2 {
+    composes: resultRow;
     background: var(--color5);
 }
 
-.resultRow:last-child{
-    border: 0;
+.card {
+    composes: card from './quiz.module.css';
+}
+
+@media only screen and (min-width: 768px){
+    .layout {
+        display: flex;
+    }
+    .resultsTable {
+        margin: 0 var(--spacing-medium) 0 0;
+        width: 100%;
+        max-width: 540px;
+        order: 0;
+    }
+    .card {
+        margin: 0;
+        order: 1;
+    }
 }

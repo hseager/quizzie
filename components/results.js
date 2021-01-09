@@ -40,6 +40,15 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
         return 'Unknown'
     }
 
+    const getRowStyle = (place) => {
+        if(place === 1)
+            return resultStyles.resultRow1
+        else if(place === 2)
+            return resultStyles.resultRow2
+        else
+            return resultStyles.resultRow
+    }
+
     return (
         <div className={pageStyles.main}>
             {
@@ -58,31 +67,39 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
                 <>
                     <h2>The Results</h2>
                     {
-                        quiz && 
-                        <div className={quizStyles.card}>
-                            <QuizImage src={quiz.image} width={365} height={210} />
-                            <div className={quizStyles.listItemContent}>
-                                <h4 className={quizStyles.title}>{quiz.title}</h4>
-                                <div className={quizStyles.tags}>
-                                    {quiz.tags.map((tag, i) => (
-                                        <span key={i} className={quizStyles.tag}>{tag}</span>
-                                    ))}
+                        <div className={resultStyles.layout}>
+                            {
+                                quiz && 
+                                <div className={resultStyles.card}>
+                                    <QuizImage src={quiz.image} width={365} height={210} />
+                                    <div className={quizStyles.listItemContent}>
+                                        <h4 className={quizStyles.title}>{quiz.title}</h4>
+                                        <div className={quizStyles.tags}>
+                                            {quiz.tags.map((tag, i) => (
+                                                <span key={i} className={quizStyles.tag}>{tag}</span>
+                                            ))}
+                                        </div>
+                                        <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
+                                        <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
+                                    </div>
                                 </div>
-                                <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
-                                <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
+                            }
+                            <div className={resultStyles.resultsTable}>
+                                {
+                                    results.map((result, i) => (
+                                        <div key={i} className={getRowStyle(result.place)}>
+                                            <div>
+                                                {result.place}<sup>{result.suffix}</sup> <strong>{getPlayerName(result.playerId)}</strong>
+                                            </div>
+                                            <div>
+                                                <strong>{result.correctAnswers}</strong> / <strong>{quiz.questions.length}</strong>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
                             </div>
                         </div>
                     }
-                    <div className={pageStyles.panel}>
-                        {
-                            results.overview.map((result, i) => (
-                                <div key={i} className={resultStyles.resultRow}>
-                                    <strong>{getPlayerName(result.playerId)}</strong>  scored <strong>{result.correctAnswers}</strong> out of <strong>{quiz.questions.length}</strong>
-                                </div>
-                            ))
-                        }
-                        
-                    </div>
                     <div className={pageStyles.buttonPanel}>
                         <a className={buttonStyles.button} onClick={startAgain}>Continue</a>
                         <Link href={`/`}>
