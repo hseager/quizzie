@@ -65,6 +65,9 @@
 
 .buttonPanel{
     margin: var(--spacing-medium) 0 0;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 @media only screen and (min-width: 768px){

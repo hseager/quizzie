@@ -2,7 +2,6 @@
     display: grid;
     grid: auto auto / 1fr 1fr;
     gap: var(--spacing-small);
-    margin: 0 0 var(--spacing-large);
 }
 
 .cardContent {

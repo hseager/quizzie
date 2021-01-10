@@ -16,8 +16,6 @@
 
 ### Notes
 - Record times played for quizzes
-- Create flag lobby as obselete when everyone has left? How to deal with rejoining an old lobby
-- Fix buttons CSS for mobile
 
 ### *Extra Features*
 - QR Code for joining lobby
