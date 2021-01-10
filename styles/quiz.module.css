@@ -5,11 +5,7 @@
     margin: 0 0 var(--spacing-large);
 }
 
-.listItem {
-
-}
-
-.listItemContent {
+.cardContent {
     padding: var(--spacing-smallest);
 }
 
@@ -34,7 +30,7 @@
     font-weight: bold;
 }
 
-.listItem .tag{
+.card .tag{
     font-size: 11px;
     margin: 0 2px 2px 0;
     padding: 3px 5px;

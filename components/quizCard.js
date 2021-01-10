@@ -27,7 +27,7 @@ export default function QuizCard({quiz, click, showLoader}) {
                 !loading &&
                 <>
                     <QuizImage src={quiz.image} width={365} height={210} />
-                    <div className={styles.listItemContent}>
+                    <div className={styles.cardContent}>
                         <h4 className={styles.title}>{quiz.title}</h4>
                         <div className={styles.tags}>
                             {quiz.tags.map((tag, i) => (
