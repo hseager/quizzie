@@ -1,4 +1,5 @@
 import Layout from '../components/layout'
+import { getPlayerId } from '../libs/localStorage'
 import Link from 'next/link'
 import styles from '../styles/page.module.css'
 import quizStyles from '../styles/quiz.module.css'
@@ -7,11 +8,29 @@ import fetch from 'isomorphic-unfetch'
 import ErrorPage from 'next/error'
 import { HttpRequestError } from '../libs/HttpRequestError'
 import QuizCard from '../components/quizCard'
+import Router from 'next/router'
 
 const ChooseAQuiz = function({ data, statusCode }) {
 
     if(statusCode !== 200)
         return (<ErrorPage statusCode={statusCode} />)
+
+    const createLobby = (quizId, callback) => {
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies`, {
+            method: 'post',
+            body: JSON.stringify({ 
+                playerId: getPlayerId(),
+                quizId
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(res => res.json())
+        .then(res => Router.push(`/lobby/${res.lobbyId}`))
+        .catch(err => { 
+            callback()
+            console.log(`Error creating lobby: ${err}`)
+        })
+    }        
 
     return (
         <Layout>
@@ -20,9 +39,11 @@ const ChooseAQuiz = function({ data, statusCode }) {
                 <h4>Recently Added</h4>
                 <div className={quizStyles.list}>
                     {data.map((quiz) => (
-                    <Link href={`/quiz/${quiz.slug}`} key={quiz._id} passHref>
-                        <QuizCard quiz={quiz} clickable={true} />
-                    </Link>
+                        <QuizCard 
+                            key={quiz._id}
+                            quiz={quiz} 
+                            showLoader={true} 
+                            click={(callback) => createLobby(quiz._id, callback)} />
                     ))}
                 </div>
                 <Link href="/">

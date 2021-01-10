@@ -51,9 +51,10 @@ export default function ChangeQuizModal({showModal, setShowModal, changeQuiz}) {
             <h2>Change Quiz</h2>
             <div className={quizStyles.list}>
                 {quizzes.map(quiz => (
-                    <div key={quiz._id} onClick={() => { onChangeQuiz(quiz) }}>
-                        <QuizCard quiz={quiz} clickable={true} />
-                    </div>
+                    <QuizCard 
+                        key={quiz._id}
+                        quiz={quiz} 
+                        click={() => onChangeQuiz(quiz)} />
                 ))}
             </div>
         </Modal>

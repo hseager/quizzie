@@ -2,7 +2,7 @@ import useSocket from '../hooks/useSocket'
 import { useState, useEffect } from 'react'
 import { formatResults } from '../libs/formatResults.js'
 import pageStyles from '../styles/page.module.css'
-import quizStyles from '../styles/quiz.module.css'
+import LoadingAnimation from '../components/loadingAnimation'
 import buttonStyles from '../styles/buttons.module.css'
 import resultStyles from '../styles/results.module.css'
 import QuizCard from '../components/quizCard'
@@ -58,17 +58,14 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
                         <div className={resultStyles.layout}>
                             {
                                 quiz && 
-                               <div className={resultStyles.card}>
+                                <div className={resultStyles.card}>
                                     <QuizCard quiz={quiz} />
                                 </div>
                             }
                             <div className={resultStyles.resultsTable}>
                                 {
                                     !results &&
-                                    <div className={pageStyles.loading}>
-                                        <div className={pageStyles.loadingAnimation}><div></div><div></div><div></div></div>
-                                        <div className={pageStyles.loadingText}>Loading</div>
-                                    </div>
+                                    <LoadingAnimation />
                                 }
                                 {
                                     results && results.error &&
