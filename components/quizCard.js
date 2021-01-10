@@ -15,6 +15,7 @@ export default function QuizCard({quiz, click, showLoader}) {
     }
 
     const clickEvent = () => {
+        if(typeof click !== 'function') return
         let callBack = () => setLoading(false)
         if(showLoader) setLoading(true)
         click(callBack)
@@ -36,6 +37,7 @@ export default function QuizCard({quiz, click, showLoader}) {
                         </div>
                         <p className={styles.info}><strong>{quiz.difficulty}</strong></p>
                         <p className={styles.info}><strong>{quiz.questions.length}</strong> Questions</p>
+                        <p className={styles.info}><strong>{quiz.played}</strong> Plays</p>
                     </div>
                 </>
             }

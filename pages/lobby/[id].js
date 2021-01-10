@@ -5,7 +5,6 @@ import Results from '../../components/results'
 import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
 import { useState, useEffect } from 'react'
-import pageStyles from '../../styles/page.module.css'
 import { getPlayerId } from '../../libs/localStorage'
 import ErrorPage from 'next/error'
 import { HttpRequestError } from '../../libs/HttpRequestError'
@@ -40,7 +39,7 @@ export default function LobbyPage({ quizData, lobby, statusCode }) {
         setPlayers(players)
     })
 
-    useSocket('changedQuiz', quiz => {
+    useSocket('updateQuiz', quiz => {
         setQuiz(quiz)
     })
 

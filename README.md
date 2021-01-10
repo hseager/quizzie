@@ -16,6 +16,7 @@
 
 ### Notes
 - Record times played for quizzes
+- Fix issue with Changing Quiz from ChooseAQuiz not updating lobby
 
 ### *Extra Features*
 - QR Code for joining lobby
@@ -32,6 +33,7 @@
 - Microtransactions - Cosmetics, Avatars, Winning animations, quiz packs OR supporter packs
 - Music round maybe with youtube videos
 - Admin panel to manage quizzes easier
+- Countdown to quiz start
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

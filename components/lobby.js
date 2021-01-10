@@ -101,7 +101,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
             {
                 playerJoined && 
                 playerId !== lobbyOwner &&
-                <p>Waiting for the Quiz leader to start...</p>
+                <p>Waiting for the Quiz master to start...</p>
             }
             { playerJoined &&
                 <div className={pageStyles.buttonPanel}>

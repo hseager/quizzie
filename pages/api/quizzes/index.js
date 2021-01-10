@@ -2,7 +2,6 @@ import nextConnect from 'next-connect'
 import middleware from '../../../middleware/middleware'
 import slugs from 'slugs'
 import randomize from 'randomize-array'
-import path from 'path'
 import fs from 'fs'
 
 const handler = nextConnect()
@@ -83,7 +82,8 @@ handler.post(async (req, res) => {
             created: new Date(),
             questions,
             slug,
-            image: webImagePath
+            image: webImagePath,
+            played: 0
         }
 
         quizCollection.insertOne(newQuiz)

@@ -9,6 +9,7 @@ module.exports = class Lobby {
         this.disconnectionTimer = 20 * 1000
 
         this.quizId
+        this.quiz
         this.quizCount = 0
         this.currentQuestion = 0
         this.status = 'lobby'
@@ -52,8 +53,8 @@ module.exports = class Lobby {
         }, this.disconnectionTimer)
     }
     async startQuiz(){
-        const quiz = await this.getQuiz(this.quizId)
-        const questionCount = quiz.questions.length
+        this.quiz = await this.getQuiz(this.quizId)
+        const questionCount = this.quiz.questions.length
 
         this.quizCount++
         this.currentQuestion = 0
@@ -72,8 +73,8 @@ module.exports = class Lobby {
         this.quizId = quizId
         this.save()
 
-        const quiz = await this.getQuiz(quizId)
-        this.io.to(this.id).emit('changedQuiz', quiz)
+        this.quiz = await this.getQuiz(quizId)
+        this.io.to(this.id).emit('updateQuiz', this.quiz)
     }
     changeQuestion(questionCount){
         // Start the client side countdown and emit 
@@ -142,6 +143,7 @@ module.exports = class Lobby {
                 if(data.players) this.players = data.players
                 this.quizId = data.quizId
                 this.quizCount = data.quizCount
+                this.quiz = this.getQuiz(data.quizId)
             })
             .catch(err => console.log(`Error loading lobby: ${err}`))
     }
