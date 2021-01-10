@@ -56,10 +56,10 @@
 }
 
 .joinPanel{
-    background: var(--color2);
-    padding: var(--spacing-small);
-    border-radius: var(--border-radius);
+    composes: panel from 'page.module.css';
     display: inline-block;
+    background: var(--color2);
+    border: 0;
 }
 
 .currentQuizPanel{

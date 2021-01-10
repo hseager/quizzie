@@ -6,7 +6,7 @@ import buttonStyles from '../styles/buttons.module.css'
 import fetch from 'isomorphic-unfetch'
 import ErrorPage from 'next/error'
 import { HttpRequestError } from '../libs/HttpRequestError'
-import QuizImage from '../components/quizImage'
+import QuizCard from '../components/quizCard'
 
 const ChooseAQuiz = function({ data, statusCode }) {
 
@@ -20,20 +20,8 @@ const ChooseAQuiz = function({ data, statusCode }) {
                 <h4>Recently Added</h4>
                 <div className={quizStyles.list}>
                     {data.map((quiz) => (
-                    <Link href={`/quiz/${quiz.slug}`} key={quiz._id}>
-                        <div className={quizStyles.listItem}>
-                            <QuizImage src={quiz.image} width={365} height={210} />
-                            <div className={quizStyles.listItemContent}>
-                                <h4 className={quizStyles.title}>{quiz.title}</h4>
-                                <div className={quizStyles.tags}>
-                                    {quiz.tags.map((tag, i) => (
-                                        <span key={i} className={quizStyles.tag}>{tag}</span>
-                                    ))}
-                                </div>
-                                <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
-                                <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
-                            </div>
-                        </div>
+                    <Link href={`/quiz/${quiz.slug}`} key={quiz._id} passHref>
+                        <QuizCard quiz={quiz} clickable={true} />
                     </Link>
                     ))}
                 </div>

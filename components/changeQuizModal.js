@@ -3,6 +3,7 @@ import Modal from '../components/modal'
 import { useState, useEffect } from 'react'
 import { HttpRequestError } from '../libs/HttpRequestError'
 import QuizImage from '../components/quizImage'
+import QuizCard from '../components/quizCard'
 
 export default function ChangeQuizModal({showModal, setShowModal, changeQuiz}) {
 
@@ -50,18 +51,8 @@ export default function ChangeQuizModal({showModal, setShowModal, changeQuiz}) {
             <h2>Change Quiz</h2>
             <div className={quizStyles.list}>
                 {quizzes.map(quiz => (
-                    <div className={quizStyles.listItem} key={quiz._id} onClick={() => { onChangeQuiz(quiz) }}>
-                        <QuizImage src={quiz.image} width={365} height={210} />
-                        <div className={quizStyles.listItemContent}>
-                            <h4 className={quizStyles.title}>{quiz.title}</h4>
-                            <div className={quizStyles.tags}>
-                                {quiz.tags.map((tag, i) => (
-                                    <span key={i} className={quizStyles.tag}>{tag}</span>
-                                ))}
-                            </div>
-                            <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
-                            <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
-                        </div>
+                    <div key={quiz._id} onClick={() => { onChangeQuiz(quiz) }}>
+                        <QuizCard quiz={quiz} clickable={true} />
                     </div>
                 ))}
             </div>

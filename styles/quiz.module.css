@@ -6,11 +6,7 @@
 }
 
 .listItem {
-    border: 1px solid var(--color4);
-    cursor: pointer;
-    background: var(--color6);
-    border-radius: var(--border-radius);
-    overflow: hidden;
+
 }
 
 .listItemContent {
@@ -71,10 +67,17 @@
 }
 
 .card {
-    composes: listItem;
+    border: 1px solid var(--color4);
+    background: var(--color6);
+    border-radius: var(--border-radius);
+    overflow: hidden;
     max-width: 250px;
     margin: 0 0 var(--spacing-medium);
-    cursor: initial;
+}
+
+.clickableCard {
+    composes: card;
+    cursor: pointer;
 }
 
 @media only screen and (min-width: 768px){
@@ -85,7 +88,7 @@
     .title{
         font-size: 18px;
     }
-    .listItem .tag {
+    .card .tag {
         font-size: 12px;
         margin-right: var(--spacing-smallest);
     }

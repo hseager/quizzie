@@ -5,7 +5,7 @@ import pageStyles from '../styles/page.module.css'
 import quizStyles from '../styles/quiz.module.css'
 import buttonStyles from '../styles/buttons.module.css'
 import resultStyles from '../styles/results.module.css'
-import QuizImage from '../components/quizImage'
+import QuizCard from '../components/quizCard'
 import Link from 'next/link'
 
 export default function Results({ lobbyId, quiz, players, setStatus }) {
@@ -58,18 +58,8 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
                         <div className={resultStyles.layout}>
                             {
                                 quiz && 
-                                <div className={resultStyles.card}>
-                                    <QuizImage src={quiz.image} width={365} height={210} />
-                                    <div className={quizStyles.listItemContent}>
-                                        <h4 className={quizStyles.title}>{quiz.title}</h4>
-                                        <div className={quizStyles.tags}>
-                                            {quiz.tags.map((tag, i) => (
-                                                <span key={i} className={quizStyles.tag}>{tag}</span>
-                                            ))}
-                                        </div>
-                                        <p className={quizStyles.info}><strong>{quiz.difficulty}</strong></p>
-                                        <p className={quizStyles.info}><strong>{quiz.questions.length}</strong> Questions</p>
-                                    </div>
+                               <div className={resultStyles.card}>
+                                    <QuizCard quiz={quiz} />
                                 </div>
                             }
                             <div className={resultStyles.resultsTable}>
