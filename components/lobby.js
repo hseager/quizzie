@@ -88,36 +88,34 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                             <h2>Invite players</h2>
                             <p>Share this link: <br/><strong><a href={ process.env.NEXT_PUBLIC_HOST + router.asPath }>{ process.env.NEXT_PUBLIC_HOST + router.asPath }</a></strong></p>
                         </div>
-                    }                    
-                </div>
-            </div>    
-            {
-                !playerJoined &&
-                <div className={lobbyStyles.joinPanel}>
-                    <input placeholder="Enter your name to join" type="text" name="first-name" className={lobbyStyles.nameField} onChange={e => setName(e.target.value)} />
-                    <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
-                </div>
-            }
-            {
-                playerJoined && 
-                playerId !== lobbyOwner &&
-                <p>Waiting for the Quiz master to start...</p>
-            }
-            { playerJoined &&
-                <div className={pageStyles.buttonPanel}>
+                    }
+                    {
+                        !playerJoined &&
+                        <div className={lobbyStyles.joinPanel}>
+                            <input placeholder="Enter your name to join" type="text" name="first-name" className={lobbyStyles.nameField} onChange={e => setName(e.target.value)} />
+                            <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
+                        </div>
+                    }
                     {
                         playerJoined && 
-                        playerId === lobbyOwner &&
-                        <>
-                            <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
-                            <button className={buttonStyles.button} onClick={() => { setShowChangeQuizModal(true)}}>Change Quiz</button>
-                        </>
+                        playerId !== lobbyOwner &&
+                        <p>Waiting for the Quiz master to start...</p>
                     }
-                    <Link href={`/`}>
-                        <a className={buttonStyles.button2}>Leave</a>
-                    </Link>
+                    <div className={pageStyles.buttonPanel}>
+                        {
+                            playerJoined && 
+                            playerId === lobbyOwner &&
+                            <>
+                                <button className={buttonStyles.button} onClick={startQuiz}>Start Quiz</button>
+                                <button className={buttonStyles.button} onClick={() => { setShowChangeQuizModal(true)}}>Change Quiz</button>
+                            </>
+                        }
+                        <Link href={`/`}>
+                            <a className={buttonStyles.button2}>Leave</a>
+                        </Link>
+                    </div>
                 </div>
-            }
+            </div>
             <ChangeQuizModal 
                 showModal={showChangeQuizModal} 
                 setShowModal={setShowChangeQuizModal} 

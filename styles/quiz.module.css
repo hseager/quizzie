@@ -5,7 +5,7 @@
 }
 
 .cardContent {
-    padding: var(--spacing-smallest);
+    padding: var(--spacing-small);
 }
 
 .title {
@@ -87,7 +87,6 @@
         font-size: 12px;
         margin-right: var(--spacing-smallest);
     }
-
     .content{
         padding: var(--spacing-medium);
     }

@@ -31,7 +31,7 @@
 }
 
 .title {
-    margin: 0 0 var(--spacing-medium)
+    margin: 0 0 var(--spacing-medium);
 }
 
 .features {
@@ -74,8 +74,5 @@
     .main {
         margin: var(--spacing-medium) 0;
         padding: 0 var(--spacing-medium);
-    }
-    .buttonPanel{
-        margin: var(--spacing-large) 0 0;
     }
 }

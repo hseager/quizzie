@@ -70,6 +70,7 @@
             'left right' auto / auto;
         grid-gap: var(--spacing-medium);
     }
+
     .currentQuizPanel{
         grid-area: right;
     }
