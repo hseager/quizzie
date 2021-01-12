@@ -16,7 +16,6 @@
 
 ### Notes
 - Record times played for quizzes
-- Fix issue with Changing Quiz from ChooseAQuiz not updating lobby
 
 ### *Extra Features*
 - QR Code for joining lobby

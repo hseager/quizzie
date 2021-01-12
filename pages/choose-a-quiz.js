@@ -9,11 +9,14 @@ import ErrorPage from 'next/error'
 import { HttpRequestError } from '../libs/HttpRequestError'
 import QuizCard from '../components/quizCard'
 import Router from 'next/router'
+import useSocket from '../hooks/useSocket'
 
 const ChooseAQuiz = function({ data, statusCode }) {
 
     if(statusCode !== 200)
         return (<ErrorPage statusCode={statusCode} />)
+
+    const socket = useSocket()
 
     const createLobby = (quizId, callback) => {
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies`, {
@@ -25,7 +28,11 @@ const ChooseAQuiz = function({ data, statusCode }) {
             headers: { 'Content-Type': 'application/json' }
         })
         .then(res => res.json())
-        .then(res => Router.push(`/lobby/${res.lobbyId}`))
+        .then(res => {
+            if(res.status === 'updated')
+                socket.emit('changeQuiz', { lobbyId: res.lobbyId, quizId })
+            Router.push(`/lobby/${res.lobbyId}`)
+        })
         .catch(err => { 
             callback()
             console.log(`Error creating lobby: ${err}`)

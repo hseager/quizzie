@@ -29,21 +29,11 @@ handler.post(async (req, res) => {
             )
     
             lobby = await lobbiesCollection.findOne({ _id: newLobby.result.upserted[0]._id })
-    
-            res.status(200).json({ lobbyId: lobby._id })
+            
+            res.status(200).json({ lobbyId: lobby._id, status: 'created' })
         } else {
             // Update Lobby if already exists
-            fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${lobby._id}`, {
-                method: 'patch',
-                body: JSON.stringify({ 
-                    data: {
-                        quizId
-                    }
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            })
-    
-            res.status(200).json({ lobbyId: lobby._id })
+            res.status(200).json({ lobbyId: lobby._id, status: 'updated' })
         }
     } catch(err){
         console.log(err)
