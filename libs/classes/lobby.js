@@ -55,6 +55,7 @@ module.exports = class Lobby {
     async startQuiz(){
         this.quiz = await this.getQuiz(this.quizId)
         const questionCount = this.quiz.questions.length
+        this.saveQuiz(this.quiz._id, { plays: this.quiz.plays + 1 })
 
         this.quizCount++
         this.currentQuestion = 0
@@ -111,6 +112,20 @@ module.exports = class Lobby {
                 return res.data
             })
             .catch(err => console.log(`Error loading quiz: ${err}`))
+    }
+    saveQuiz(quizId, data){
+        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${quizId}`, {
+            method: 'patch',
+            body: JSON.stringify({
+                data
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(res => res.json())
+        .then(res => { 
+            if(res.status !== 200) throw res.message
+        })
+        .catch(err => console.log(`Error patching lobby: ${err}`))
     }
     save(){
         fetch(`${process.env.NEXT_PUBLIC_HOST}/api/lobbies/${this.id}`, {

@@ -15,7 +15,8 @@
 - Show similar quizzes under quiz info
 
 ### Notes
-- Record times played for quizzes
+- Instead of getting quiz when starting lobby, load quiz when initialising lobby or updating quiz in memory
+- Bug where not answering any questions shows error on results page
 
 ### *Extra Features*
 - QR Code for joining lobby
