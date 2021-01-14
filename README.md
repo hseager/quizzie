@@ -6,7 +6,7 @@
 - Move to actual hosting
 - Logo
 - Style 404/500 page
-- Hide create quiz form when launched
+- Style homepage
 
 ### V1.1
 - Join QR Code/Password
@@ -16,6 +16,7 @@
 
 ### Notes
 - Instead of getting quiz when starting lobby, load quiz when initialising lobby or updating quiz in memory
+    - Instead of using next api to create lobby, use socket to create lobby then save
 - Bug where not answering any questions shows error on results page
 
 ### *Extra Features*
