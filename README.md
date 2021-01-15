@@ -15,7 +15,6 @@
 - Show similar quizzes under quiz info
 
 ### Bugs
-- Fix questions mobile panel height styling
 
 ### Technical improvements
 - Instead of getting quiz when starting lobby, load quiz when initialising lobby or updating quiz in memory
