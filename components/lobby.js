@@ -16,6 +16,8 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
     const [name, setName] = useState('')
     const [showChangeQuizModal, setShowChangeQuizModal] = useState(false)
 
+    const joinedPlayers = players.filter(p => p.joined).length
+
     const joinLobby = () => {
         if(name == '') return
         socket.emit('joinLobby', { 
@@ -63,7 +65,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                 <div>
                     {
                         <div className={lobbyStyles.playersPanel}>
-                            <h2 className={lobbyStyles.title}>{players && players.filter(p => p.joined).length} Players</h2>
+                            <h2 className={lobbyStyles.title}>{players && joinedPlayers} Player{(joinedPlayers === 1 ? '' : 's')}</h2>
                             {
                                 players &&
                                 players.some(p => p.joined) &&
