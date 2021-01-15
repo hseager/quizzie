@@ -7,19 +7,21 @@
 - Logo
 - Style 404/500 page
 - Style homepage
+- Picture mode for questions
 
 ### V1.1
 - Join QR Code/Password
 - Email signup & accounts
-- Picture quiz type
 - Show similar quizzes under quiz info
 
-### Notes
-- Instead of getting quiz when starting lobby, load quiz when initialising lobby or updating quiz in memory
-    - Instead of using next api to create lobby, use socket to create lobby then save
+### Bugs
 - Bug where not answering any questions shows error on results page
 
-### *Extra Features*
+### Technical improvements
+- Instead of getting quiz when starting lobby, load quiz when initialising lobby or updating quiz in memory
+    - Instead of using next api to create lobby, use socket to create lobby then save
+
+### Extra Features for future versions
 - QR Code for joining lobby
 - Move question timer to DB/setting rather than hardcoded 10secs
 - Sort/Filter quizzes by rating/plays/type
