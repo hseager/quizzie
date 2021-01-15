@@ -82,6 +82,11 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                                     }
                                 </ul>
                             }
+                            {
+                                playerJoined && 
+                                playerId !== lobbyOwner &&
+                                <p className={lobbyStyles.lobbyMessage}>Waiting for the Quiz master to start...</p>
+                            }
                         </div>
                     }
                     {
@@ -98,11 +103,6 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                             <input placeholder="Enter your name to join" type="text" name="first-name" className={lobbyStyles.nameField} onChange={e => setName(e.target.value)} />
                             <button className={buttonStyles.button} onClick={joinLobby}>Join</button>
                         </div>
-                    }
-                    {
-                        playerJoined && 
-                        playerId !== lobbyOwner &&
-                        <p>Waiting for the Quiz master to start...</p>
                     }
                     <div className={pageStyles.buttonPanel}>
                         {

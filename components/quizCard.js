@@ -37,7 +37,6 @@ export default function QuizCard({quiz, click, showLoader}) {
                         </div>
                         <p className={styles.info}><strong>{quiz.difficulty}</strong></p>
                         <p className={styles.info}><strong>{quiz.questions.length}</strong> Questions</p>
-                        <p className={styles.info}><strong>{quiz.plays}</strong> Plays</p>
                     </div>
                 </>
             }

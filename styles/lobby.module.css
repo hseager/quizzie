@@ -55,11 +55,16 @@
     margin: 0 var(--spacing-medium) 0 0;
 }
 
-.joinPanel{
+.joinPanel {
     composes: panel from 'page.module.css';
     display: inline-block;
     background: var(--color2);
     border: 0;
+}
+
+.lobbyMessage {
+    margin: var(--spacing-small) 0 0;
+    font-size: 14px;
 }
 
 

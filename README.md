@@ -37,6 +37,7 @@
 - Music round maybe with youtube videos
 - Admin panel to manage quizzes easier
 - Countdown to quiz start
+- Show quiz plays on frontend
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
