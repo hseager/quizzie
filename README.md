@@ -15,6 +15,7 @@
 - Show similar quizzes under quiz info
 
 ### Bugs
+- Something strange going on with disconnections, player in lobby not in sync (can't replicate)
 
 ### Technical improvements
 - Instead of getting quiz when starting lobby, load quiz when initialising lobby or updating quiz in memory

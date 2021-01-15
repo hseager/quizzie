@@ -18,14 +18,14 @@ export function formatResults (results, quiz, players) {
         return place
     }
 
-    players.filter(p => p.joined).map(player => {
+    players.filter(p => p.connected && p.joined).map(player => {
         if(!formattedResults.some(p => p.playerId === player.id))
             formattedResults.push({ playerId: player.id, correctAnswers: 0, playerName: player.name })
 
-        results.map(result => {
+        results.filter(r => r.playerId === player.id).map(result => {
             result.answers.map(a => {
                 const correctAnswer = quiz.questions[a.question].answer === a.answer
-                if(correctAnswer) formattedResults.find(p => p.playerId === result.playerId).correctAnswers++
+                if(correctAnswer) formattedResults.find(p => p.playerId === player.id).correctAnswers++
             })
         })
     })

@@ -64,11 +64,11 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                 }
                 <div>
                     {
+                        players && 
                         <div className={lobbyStyles.playersPanel}>
                             <h2 className={lobbyStyles.title}>{players && joinedPlayers} Player{(joinedPlayers === 1 ? '' : 's')}</h2>
                             {
-                                players &&
-                                players.some(p => p.joined) &&
+                                joinedPlayers > 0 &&
                                 <ul className={lobbyStyles.playersPanelList}>
                                     {
                                         players.map(player => {

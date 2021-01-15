@@ -30,6 +30,7 @@ module.exports = class Lobby {
             player.connected = true
         }
         socket.join(this.id)
+        this.save()
     }
     join(playerId, name){
         let player = this.players.find(p => p.id == playerId)
@@ -57,8 +58,6 @@ module.exports = class Lobby {
         this.quiz = await this.getQuiz(this.quizId)
         const questionCount = this.quiz.questions.length
         this.saveQuiz(this.quiz._id, { plays: this.quiz.plays + 1 })
-
-        
 
         this.quizCount++
         this.currentQuestion = 0
