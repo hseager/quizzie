@@ -10,7 +10,8 @@ module.exports = (server) => {
             if(typeof lobby === 'undefined'){
                 lobby = new Lobby(lobbyId, io)
                 await lobby.load()
-                lobbies.push(lobby)
+                // Check lobby hasn't been created again to prevent duplication
+                if(!lobbies.some(l => l.id === lobbyId)) lobbies.push(lobby)
             }
             lobby.connect(socket, playerId)
         })

@@ -31,6 +31,7 @@ module.exports = class Lobby {
         }
         socket.join(this.id)
         this.save()
+        this.io.to(this.id).emit('updatePlayers', this.players)
     }
     join(playerId, name){
         let player = this.players.find(p => p.id == playerId)
@@ -176,10 +177,22 @@ module.exports = class Lobby {
                 return res.data
             })
             .then(data => {
-                if(data.players) this.players = data.players
+                if(data.players){
+                    // Clear socketIds and connected status after server restart
+                    this.players = data.players.map(p => {
+                        p.socketIds = []
+                        p.connected = false
+                        p.joined = false
+                        return p
+                    })
+                } 
                 this.quizId = data.quizId
                 this.quizCount = data.quizCount
                 this.quiz = this.getQuiz(data.quizId)
+
+                // Then save and update frontend
+                this.io.to(this.id).emit('updatePlayers', this.players)
+                this.save()
             })
             .catch(err => console.log(`Error loading lobby: ${err}`))
     }
