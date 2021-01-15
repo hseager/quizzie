@@ -51,34 +51,37 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
 
     return (
         <div className={pageStyles.main}>
-            <h1 className={pageStyles.title}>Lobby</h1>
+            <h1 className={pageStyles.title}>Quiz Lobby</h1>
             <div className={lobbyStyles.layout}>
                 {
                     quiz && 
                     <div className={lobbyStyles.currentQuizPanel}>
+                        <h3>Current Quiz</h3>
                         <QuizCard quiz={quiz} />
                     </div>
                 }
                 <div>
                     {
-                        players &&
-                        players.some(p => p.joined) &&
                         <div className={lobbyStyles.playersPanel}>
-                            <h2 className={lobbyStyles.title}>Players</h2>
-                            <ul>
-                                {
-                                    players.map(player => {
-                                        if(player.connected && player.joined){
-                                            return <li 
-                                                key={player.id} 
-                                                className={getLobbyPlayerClass(player.id)}
-                                            >
-                                                {player.name}
-                                            </li>
-                                        }
-                                    })
-                                }
-                            </ul>
+                            <h2 className={lobbyStyles.title}>{players && players.filter(p => p.joined).length} Players</h2>
+                            {
+                                players &&
+                                players.some(p => p.joined) &&
+                                <ul className={lobbyStyles.playersPanelList}>
+                                    {
+                                        players.map(player => {
+                                            if(player.connected && player.joined){
+                                                return <li 
+                                                    key={player.id} 
+                                                    className={getLobbyPlayerClass(player.id)}
+                                                >
+                                                    {player.name}
+                                                </li>
+                                            }
+                                        })
+                                    }
+                                </ul>
+                            }
                         </div>
                     }
                     {
