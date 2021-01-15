@@ -15,29 +15,38 @@
 - Show similar quizzes under quiz info
 
 ### Bugs
-- Bug where not answering any questions shows error on results page
+- Fix questions mobile panel height styling
 
 ### Technical improvements
 - Instead of getting quiz when starting lobby, load quiz when initialising lobby or updating quiz in memory
-    - Instead of using next api to create lobby, use socket to create lobby then save
+    - Merge this.quizId and this.quiz
+- Instead of using next api to create lobby, use socket to create lobby then save
+- Investigate creating lobby load times
+- Improve error logging (save to file, track API urls erroring etc)
+- Unify results + lobby API responses (message: 'ok' vs status: 'created')
+- Find a way to skip having to do status: 200 in API json response
+
+### UI Improvements
+- Show loading when starting quiz
+- The quiz has already started page
 
 ### Extra Features for future versions
 - QR Code for joining lobby
 - Move question timer to DB/setting rather than hardcoded 10secs
 - Sort/Filter quizzes by rating/plays/type
 - Estimated time to complete quiz
-- Track Quiz plays
 - Ratings
 - Comments
 - Lobby Chat room
 - Public/Private Quiz option on create 
 - Quiz types - Standard/Text type/Fastest finger/Order answers/Freetext
 - Rewards(Trophies)
-- Microtransactions - Cosmetics, Avatars, Winning animations, quiz packs OR supporter packs
+- Microtransactions - Cosmetics, Avatars, Winning animations, quiz packs OR supporter packs OR patrion
 - Music round maybe with youtube videos
-- Admin panel to manage quizzes easier
+- Admin panel to manage quizzes better
 - Countdown to quiz start
 - Show quiz plays on frontend
+- Unload quiz after playing to prevent people playing same quiz twice
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

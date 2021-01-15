@@ -53,15 +53,21 @@ module.exports = class Lobby {
         }, this.disconnectionTimer)
     }
     async startQuiz(){
+        // TODO: redo how quiz is retrived and saved
         this.quiz = await this.getQuiz(this.quizId)
         const questionCount = this.quiz.questions.length
         this.saveQuiz(this.quiz._id, { plays: this.quiz.plays + 1 })
 
+        
+
         this.quizCount++
         this.currentQuestion = 0
         this.status = 'started'
+
         this.save()
+        await this.createResults()
         this.io.to(this.id).emit('startQuiz', this.quizCount)
+
         // Start counting down until the next question
         this.changeQuestion(questionCount)
         this.questionInterval = setInterval(() => this.changeQuestion(questionCount), this.questionTimer)
@@ -103,6 +109,22 @@ module.exports = class Lobby {
             clearInterval(clientCountdown)
         }
         this.currentQuestion++
+    }
+    async createResults(){
+        return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/results`, {
+            method: 'post',
+            body: JSON.stringify({
+                lobbyId: this.id,
+                quizId: this.quizId,
+                quizCount: this.quizCount
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(res => res.json())
+        .then(res => { 
+            if(res.status !== 200) throw res.message
+        })
+        .catch(err => console.log(`Error creating results: ${err}`))
     }
     async getQuiz(id){
         return await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/quizzes/${id}`)

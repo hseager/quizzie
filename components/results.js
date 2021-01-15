@@ -18,26 +18,18 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
             .then(res => res.json())
             .then(data => {
                 if(data.results)
-                    setResults(formatResults(data.results, quiz))
+                    setResults(formatResults(data.results, quiz, players))
                 else 
                     throw data
             })
             .catch(err => {
-                setResults({ error: true, title: 'There was a problem with the request', message: err.message })
+                setResults({ error: true, title: 'There was a problem retrieving the results', message: err.message })
             })
     }, [])
 
     const startAgain = () => {
         setStatus('lobby')
         socket.emit('startAgain', lobbyId)
-    }
-
-    const getPlayerName = (playerId) => {
-        const player = players.find(p => p.id === playerId)
-        if(player)
-            return player.name
-
-        return 'Unknown'
     }
 
     const getRowStyle = (place) => {
@@ -79,7 +71,7 @@ export default function Results({ lobbyId, quiz, players, setStatus }) {
                                     results.map((result, i) => (
                                         <div key={i} className={getRowStyle(result.place)}>
                                             <div>
-                                                {result.place}<sup>{result.suffix}</sup> <strong>{getPlayerName(result.playerId)}</strong>
+                                                {result.place}<sup>{result.suffix}</sup> <strong>{result.playerName}</strong>
                                             </div>
                                             <div>
                                                 <strong>{result.correctAnswers}</strong> / <strong>{quiz.questions.length}</strong>

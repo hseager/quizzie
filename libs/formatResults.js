@@ -2,7 +2,7 @@ function getSuffix(place){
     return (place === 1 ? 'st' : (place === 2 ? 'nd' : 'th'))
 }
 
-export function formatResults (results, quiz) {
+export function formatResults (results, quiz, players) {
     
     let formattedResults = []
 
@@ -18,13 +18,15 @@ export function formatResults (results, quiz) {
         return place
     }
 
-    results.map(result => {
-        if(!formattedResults.some(p => p.playerId === result.playerId))
-            formattedResults.push({ playerId: result.playerId, correctAnswers: 0 })
+    players.filter(p => p.joined).map(player => {
+        if(!formattedResults.some(p => p.playerId === player.id))
+            formattedResults.push({ playerId: player.id, correctAnswers: 0, playerName: player.name })
 
-        result.answers.map(a => {
-            const correctAnswer = quiz.questions[a.question].answer === a.answer
-            if(correctAnswer) formattedResults.find(p => p.playerId === result.playerId).correctAnswers++
+        results.map(result => {
+            result.answers.map(a => {
+                const correctAnswer = quiz.questions[a.question].answer === a.answer
+                if(correctAnswer) formattedResults.find(p => p.playerId === result.playerId).correctAnswers++
+            })
         })
     })
 

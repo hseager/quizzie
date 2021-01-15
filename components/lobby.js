@@ -85,7 +85,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                             {
                                 playerJoined && 
                                 playerId !== lobbyOwner &&
-                                <p className={lobbyStyles.lobbyMessage}>Waiting for the Quiz master to start...</p>
+                                <p className={lobbyStyles.lobbyMessage}>Waiting for the quiz master to start...</p>
                             }
                         </div>
                     }
