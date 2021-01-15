@@ -16,7 +16,7 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
     const [name, setName] = useState('')
     const [showChangeQuizModal, setShowChangeQuizModal] = useState(false)
 
-    const joinedPlayers = players.filter(p => p.joined).length
+    const joinedPlayers = players.filter(p => p.connected && p.joined).length
 
     const joinLobby = () => {
         if(name == '') return
