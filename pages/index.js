@@ -30,7 +30,7 @@ export default function Home() {
             <div className={`${styles.section} ${utilityStyles.alignCenter}`}>
                 <h2>Quizzie is still under development</h2>
                 <p>We are still adding features and fixing bugs so please come back soon to see our progress.</p>
-                <p>Some of our planned features include <strong>User Accounts</strong>, <strong>Private Quizzes</strong> and <strong>New Quiz Modes</strong> so stay tuned!</p>
+                <p>Some of our planned features include <strong>User Accounts</strong>, <strong>Private Quizzes</strong>, <strong>New Quiz Modes</strong> and adding a <strong>Tonne of New Quizzes</strong> so stay tuned!</p>
             </div>
         </Layout>
     )
