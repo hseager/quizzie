@@ -5,16 +5,16 @@ import styles from '../styles/page.module.css'
 import quizStyles from '../styles/quiz.module.css'
 import buttonStyles from '../styles/buttons.module.css'
 import fetch from 'isomorphic-unfetch'
-import ErrorPage from 'next/error'
+import ErrorPage from '../pages/_error.js'
 import { HttpRequestError } from '../libs/HttpRequestError'
 import QuizCard from '../components/quizCard'
 import Router from 'next/router'
 import useSocket from '../hooks/useSocket'
 
-const ChooseAQuiz = function({ data, statusCode }) {
+const ChooseAQuiz = function({ data, statusCode, errorMessage }) {
 
     if(statusCode !== 200)
-        return (<ErrorPage statusCode={statusCode} />)
+        return (<ErrorPage statusCode={statusCode} errorMessage={errorMessage} />)
 
     const socket = useSocket()
 
@@ -78,7 +78,12 @@ export async function getStaticProps() {
         }
     } catch(err){
         console.log(`HttpRequestError: ${err.status} - ${err.message}`)
-        return { props: { statusCode: err.status } }
+        return {
+            props: {
+                statusCode: err.status,
+                errorMessage: err.message
+            }
+        }
     }
 }
 

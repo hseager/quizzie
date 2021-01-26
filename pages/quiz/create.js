@@ -2,15 +2,15 @@ import Layout from '../../components/layout'
 import styles from '../../styles/page.module.css'
 import formStyles from '../../styles/forms.module.css'
 import buttonStyles from '../../styles/buttons.module.css'
-import ErrorPage from 'next/error'
+import ErrorPage from '../../pages/_error.js'
 import { HttpRequestError } from '../../libs/HttpRequestError'
 import { useState } from 'react'
 import Router from 'next/router'
 
-const CreateQuiz = function({ tags, statusCode }) {
+const CreateQuiz = function({ tags, statusCode, errorMessage }) {
 
     if(statusCode !== 200)
-        return (<ErrorPage statusCode={statusCode} />)
+        return (<ErrorPage statusCode={statusCode} errorMessage={errorMessage} />)
 
     const [questionCount, setQuestionCount] = useState(2)
     const maxQuestions = 50
@@ -140,7 +140,12 @@ export async function getStaticProps() {
         }
     } catch(err){
         console.log(`HttpRequestError: ${err.status} - ${err.message}`)
-        return { props: { statusCode: err.status } }
+        return {
+            props: {
+                statusCode: err.status,
+                errorMessage: err.message
+            }
+        }
     }
 }
 

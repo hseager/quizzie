@@ -6,13 +6,13 @@ import fetch from 'isomorphic-unfetch'
 import useSocket from '../../hooks/useSocket'
 import { useState, useEffect } from 'react'
 import { getPlayerId } from '../../libs/localStorage'
-import ErrorPage from 'next/error'
+import ErrorPage from '../../pages/_error.js'
 import { HttpRequestError } from '../../libs/HttpRequestError'
 
-export default function LobbyPage({ quizData, lobby, statusCode }) {
+export default function LobbyPage({ quizData, lobby, statusCode, errorMessage }) {
 
     if(statusCode !== 200)
-        return (<ErrorPage statusCode={statusCode} />)
+        return (<ErrorPage statusCode={statusCode} errorMessage={errorMessage} />)
 
     const [quiz, setQuiz] = useState(quizData)
     const [status, setStatus] = useState(lobby.status)
@@ -131,6 +131,11 @@ export async function getServerSideProps(context) {
         }
     } catch(err){
         console.log(`HttpRequestError: ${err.status} - ${err.message}`)
-        return { props: { statusCode: err.status } }
+        return {
+            props: {
+                statusCode: err.status,
+                errorMessage: err.message
+            }
+        }
     }
 }
