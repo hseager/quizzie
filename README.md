@@ -2,11 +2,7 @@
 
 ## To Do
 ### V1.0
-- Add more quizzes
 - Move to actual hosting
-- Logo
-- Style 404/500 + quiz in progress page
-- Style homepage
 - Picture mode for questions
 
 ### V1.1

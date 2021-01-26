@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 import { getPlayerId } from '../../libs/localStorage'
 import ErrorPage from '../../pages/_error.js'
 import { HttpRequestError } from '../../libs/HttpRequestError'
+import emptyPageStyles from '../../styles/emptyPage.module.css'
 
 export default function LobbyPage({ quizData, lobby, statusCode, errorMessage }) {
 
@@ -91,10 +92,10 @@ export default function LobbyPage({ quizData, lobby, statusCode, errorMessage })
             {
                 status !== 'lobby' &&
                 !playerJoined &&
-                <>
-                    <h3>The quiz has already started</h3>
+                <div className={emptyPageStyles.main}>
+                    <h2>The quiz has already started</h2>
                     <p>Please try to join again once the quiz has finished.</p>
-                </>
+                </div>
             }
         </Layout>
     )
