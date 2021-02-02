@@ -13,7 +13,12 @@
 }
 
 .shortField{
-    width: 49%;
+    width: 100%;
+    margin: 0 2% var(--spacing-medium) 0 !important;
+}
+
+.field {
+    width: 100%;
     margin: 0 2% var(--spacing-medium) 0 !important;
 }
 
@@ -43,4 +48,17 @@
     cursor: pointer;
     text-align: center;
     outline: none;
+}
+
+@media only screen and (min-width: 768px){
+    .shortField{
+        width: 49%;
+        margin: 0 2% var(--spacing-medium) 0 !important;
+    }
+    
+    .field {
+        width: initial;
+        display: block;
+        margin: 0 0 var(--spacing-medium) 0 !important;
+    }
 }

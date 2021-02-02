@@ -36,6 +36,8 @@ const CreateQuiz = function({ tags, statusCode, errorMessage }) {
                             <label>Question {questionNumber}</label>
                             <input type="text" name={`question-${questionNumber}`} placeholder="Question" className={formStyles.longField} required />
                             <br/>
+                            <label>Image <small>(Optional)</small></label>
+                            <input type="file" name={`question-${questionNumber}-image`} className={formStyles.field} />
                             <input type="text" name={`question-${questionNumber}-answer-1`} placeholder="Correct Answer" className={formStyles.shortField} required />
                             <input type="text" name={`question-${questionNumber}-answer-2`} placeholder="Other Answer 1" className={formStyles.shortField} required />
                             <input type="text" name={`question-${questionNumber}-answer-3`} placeholder="Other Answer 2" className={formStyles.shortField} required />
@@ -48,7 +50,6 @@ const CreateQuiz = function({ tags, statusCode, errorMessage }) {
     }
 
     const createQuiz = (e) => {
-
         const form = e.target
         const formData = new FormData(form)
 
@@ -88,14 +89,14 @@ const CreateQuiz = function({ tags, statusCode, errorMessage }) {
                     <div className={formStyles.formRow}>
                         <label>Difficulty</label>
                         <select name="difficulty">
-                            <option value="Easy">Easy</option>
+                            <option value="Easy" default>Easy</option>
                             <option value="Moderate">Moderate</option>
                             <option value="Hard">Hard</option>
                         </select>
                     </div>
                     <div className={formStyles.formRow}>
                         <label>Thumbnail Image</label>
-                        <input type="file" name="image" />
+                        <input type="file" name="thumbnail" />
                     </div>
                     {
                         tags &&

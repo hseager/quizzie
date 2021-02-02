@@ -2,6 +2,7 @@ import useSocket from '../hooks/useSocket'
 import { useState } from 'react'
 import questionStyles from '../styles/questions.module.css'
 import { getPlayerId } from '../libs/localStorage'
+import Image from 'next/image'
 
 export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, quizCount }) {
 
@@ -50,6 +51,13 @@ export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, quizCou
                         }
                         <h2>{ quiz.questions[currentQuestion].question }</h2>
                     </div>
+                    {
+                        quiz.questions[currentQuestion].image &&
+                        <div className={questionStyles.image}>
+                            <Image src={quiz.questions[currentQuestion].image} layout="fill" objectFit="contain" />
+                        </div>
+                    }
+                    {/*
                     <ul className={questionStyles.answers}>
                         {
                             quiz.questions[currentQuestion].answers.map((answer, i) => (
@@ -63,6 +71,7 @@ export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, quizCou
                             ))
                         }
                     </ul>
+                    */}
                     <div className={questionStyles.answerButtons}>
                         {
                             quiz.questions[currentQuestion].answers.map((answer, i) => (
@@ -72,7 +81,7 @@ export default function Questions({ quiz, lobbyId, lobbyCurrentQuestion, quizCou
                                     onClick={() => answerQuestion(i)}
                                     disabled={disableAnswers}
                                 >
-                                    {answerLetters[i]}
+                                    {answer}
                                 </button>
                             ))
                         }

@@ -7,6 +7,29 @@ import fs from 'fs'
 const handler = nextConnect()
 handler.use(middleware)
 
+function uploadImage(image, name, savePath){
+    let webImagePath = ''
+    if(image.size > 0){
+        let imageName = ''
+        if(image.type === 'image/jpeg')
+            imageName = `${name}.jpg`
+        else if(image.type === 'image/png')
+            imageName = `${name}.png`
+        else if(image.type === 'image/gif')
+            imageName = `${name}.gif`
+        else throw `File type not supported ${image.type}`
+
+        webImagePath = `/img/quiz/${imageName}`
+        const newPath = `${savePath}\\${imageName}`
+        const rawData = fs.readFileSync(image.path)
+
+        fs.writeFile(newPath, rawData, (err) => {
+            if(err) throw err
+        })
+    }
+    return webImagePath
+}
+
 handler.get(async (req, res) => {
    try{
         const quizzes = await req.db.collection('quizzes').find({}).toArray()
@@ -31,6 +54,8 @@ handler.post(async (req, res) => {
         const quizzesWithSameTitle = await quizCollection.countDocuments({ title })
         if(quizzesWithSameTitle > 0) slug = slugs(`${title}-${quizzesWithSameTitle + 1}`)
 
+        const imageUploadPath = `${process.cwd()}\\public\\img\\quiz`
+
         let i = 1
         while(formData[`question-${i}`]){
             let answers = [
@@ -43,35 +68,23 @@ handler.post(async (req, res) => {
 
             const answer = answers.findIndex(a => a === formData[`question-${i}-answer-1`])
 
+            const image = req.files[`question-${i}-image`]
+            let imagePath = ''
+            if(typeof image !== 'undefined' && image.size > 0)
+                imagePath = uploadImage(image, `${slug}-q-${i}`, imageUploadPath)
+
             questions.push({
                 question: formData[`question-${i}`],
                 answers,
-                answer
+                answer,
+                image: imagePath
             })
             i++
         }
 
-        const image = req.files.image
-        let webImagePath = ''
-
-        if(image.size > 0){
-            let imageName = ''
-            if(image.type === 'image/jpeg')
-                imageName = `${slug}.jpg`
-            else if(image.type === 'image/png')
-                imageName = `${slug}.png`
-            else if(image.type === 'image/gif')
-                imageName = `${slug}.gif`
-            else throw `File type not supported ${image.type}`
-
-            webImagePath = `/img/quiz/${imageName}`
-            const newPath = `${process.env.FILEPATH}\\public\\img\\quiz\\${imageName}`
-            const rawData = fs.readFileSync(image.path)
-            
-            fs.writeFile(newPath, rawData, (err) => {
-                if(err) throw err
-            })
-        }
+        const thumbnail = req.files.thumbnail
+        const thumbnailName = `${slug}-thumbnail`
+        let thumbnailPath = uploadImage(thumbnail, thumbnailName, imageUploadPath)
 
         const newQuiz = {
             title,
@@ -82,7 +95,7 @@ handler.post(async (req, res) => {
             created: new Date(),
             questions,
             slug,
-            image: webImagePath,
+            image: thumbnailPath,
             played: 0
         }
 
@@ -93,7 +106,6 @@ handler.post(async (req, res) => {
         console.log(err)
         res.status(500).json({ status: 500, message: err })
     }
-
 })
 
 export const config = {
