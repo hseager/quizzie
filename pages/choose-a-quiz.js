@@ -44,7 +44,9 @@ const ChooseAQuiz = function({ data, statusCode, errorMessage }) {
             <div className={styles.main}>
                 <h1 className={styles.title}>Choose a Quiz</h1>
                 <h4>Recently Added</h4>
-                <div className={quizStyles.list}>
+                {
+                    data && 
+                    <div className={quizStyles.list}>
                     {data.map((quiz) => (
                         <QuizCard 
                             key={quiz._id}
@@ -52,7 +54,8 @@ const ChooseAQuiz = function({ data, statusCode, errorMessage }) {
                             showLoader={true} 
                             click={(callback) => createLobby(quiz._id, callback)} />
                     ))}
-                </div>
+                    </div>
+                }
                 <Link href="/">
                     <a className={buttonStyles.button2}>Back</a>
                 </Link>

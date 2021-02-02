@@ -22,6 +22,7 @@
 - Improve error logging (save to file, track API urls erroring etc)
 - Unify results + lobby API responses (message: 'ok' vs status: 'created')
 - Find a way to skip having to do status: 200 in API json response
+- Use promise.all on lobby/id instead of chaining awaits
 
 ### UI Improvements
 - Show loading when starting quiz
