@@ -21,6 +21,7 @@
     padding: 20px;
     position: relative;
     border-radius: var(--border-radius);
+    overflow-y: auto;
 }
 
 .close {

@@ -58,7 +58,6 @@ export default function Lobby({ lobbyId, lobbyOwner, quiz, players, playerId, pl
                 {
                     quiz && 
                     <div className={lobbyStyles.currentQuizPanel}>
-                        <h3>Current Quiz</h3>
                         <QuizCard quiz={quiz} />
                     </div>
                 }
