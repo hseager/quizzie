@@ -13,6 +13,8 @@
 
 ### Bugs
 - Race conditions saving lobby when restarting server + 2 people connect and same time, players get overwritten, maybe await .save()
+- Question timer freaking out and lobby saving from socket
+- Issue when closing server, going to choose-a-quiz, clicking different quiz, it doesn't get updated with new quiz
 
 ### Technical improvements
 - Instead of getting quiz when starting lobby, load quiz when initialising lobby or updating quiz in memory

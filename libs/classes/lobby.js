@@ -30,7 +30,6 @@ module.exports = class Lobby {
             player.connected = true
         }
         socket.join(this.id)
-        this.save()
         this.io.to(this.id).emit('updatePlayers', this.players)
     }
     join(playerId, name){
@@ -49,8 +48,10 @@ module.exports = class Lobby {
             if(!player.connected || player.socketIds.length > 0){
                 let socketIndex = player.socketIds.findIndex(s => s === socketId)
                 if(socketIndex > -1) player.socketIds.splice(socketIndex, 1)
-                this.save()
-                this.io.to(this.id).emit('updatePlayers', this.players)
+                if(player.joined){
+                    this.save()
+                    this.io.to(this.id).emit('updatePlayers', this.players)
+                }
             }
         }, this.disconnectionTimer)
     }
