@@ -112,7 +112,7 @@
     }
     .questionPanel{
         padding: var(--spacing-medium);
-        min-height: auto;
+        min-height: 500px;
     }
     .answerButton{
         margin: 0 0 var(--spacing-medium) !important;

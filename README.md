@@ -9,7 +9,7 @@
 - Join QR Code/Password
 - Email signup & accounts
 - Show similar quizzes under quiz info
-- Add tag on create quiz
+- Create tag option on create quiz
 
 ### Bugs
 - Race conditions saving lobby when restarting server + 2 people connect and same time, players get overwritten, maybe await .save()
@@ -25,7 +25,6 @@
 
 ### UI Improvements
 - Show loading when starting quiz
-- The quiz has already started page
 
 ### Extra Features for future versions
 - QR Code for joining lobby
