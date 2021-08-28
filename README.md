@@ -2,11 +2,6 @@
 
 A real-time multiplayer quiz app built with Next.js (node.js backend + react frontend) and SocketIO
 
-## Features
-- Player lobbies
-- Question timer countdown
-- Quiz results table
-
 ## Screenshots
 ![screenshot](screenshots/quizzie1.jpg)
 ![screenshot](screenshots/quizzie2.jpg)
