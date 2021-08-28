@@ -1,5 +1,18 @@
 # Quizzie
 
+A real-time multiplayer quiz app built with Next.js (node.js backend + react frontend) and SocketIO
+
+## Features
+- Player lobbies
+- Question timer countdown
+- Quiz results table
+
+## Screenshots
+![screenshot](screenshots/quizzie1.jpg)
+![screenshot](screenshots/quizzie2.jpg)
+![screenshot](screenshots/quizzie3.jpg)
+![screenshot](screenshots/quizzie4.jpg)
+
 ## To Do
 ### V1.0
 - Move to actual hosting
@@ -13,7 +26,7 @@
 
 ### Bugs
 - Race conditions saving lobby when restarting server + 2 people connect and same time, players get overwritten, maybe await .save()
-- Question timer freaking out and lobby saving from socket
+- Question timer incorrect and lobby saving from socket
 - Issue when closing server, going to choose-a-quiz, clicking different quiz, it doesn't get updated with new quiz
 
 ### Technical improvements
@@ -40,7 +53,6 @@
 - Public/Private Quiz option on create 
 - Quiz types - Standard/Text type/Fastest finger/Order answers/Freetext
 - Rewards(Trophies)
-- Microtransactions - Cosmetics, Avatars, Winning animations, quiz packs OR supporter packs OR patrion
 - Music round maybe with youtube videos
 - Admin panel to manage quizzes better
 - Countdown to quiz start
